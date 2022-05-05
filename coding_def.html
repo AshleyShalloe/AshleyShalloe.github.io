@@ -52,7 +52,7 @@ region_to_pos_dict = {
             "orf1ab": [266, 13468, 13468, 21555],
             "nsp1": [266, 805],
             "nsp2": [806, 2719],
-            "nsp3": [2720, 8854],
+            "nsp3": [2720, 8554],
             "nsp4": [8555, 10054],
             "nsp5": [10055, 10972],
             "nsp6": [10973, 11842],
@@ -358,7 +358,7 @@ function doThing(){
       codon = nc_045512_2.slice(codon_start, codon_end+1)
       translated_codon = codon_to_amino_acid_dict[codon]
       fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, region_position+nt_pos_correction_factor, "</div>")
-      fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat(translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ")</div>")
+      fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat(region_name, ":", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ")</div>")
       metadata_array.push([fancy_name, fancy_aa_position].join(""))
     }
   }
