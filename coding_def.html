@@ -32,13 +32,19 @@
       font-family: monospace;
       font-size: large;
     }
+    #slidey{
+        width: 100%;
+    }
   </style>
 </head>
 <body>
  
   <div id="input_container" class="card">
     <p>Nucleotide position</p>
-    <input id="position_input" oninput="doThing()" type="number" min="0" max="29903"></input>
+    <input id="position_input" oninput="doThing(); set_slide_position()" type="number" min="0" max="29903"></input>
+  </div>
+  <div class="card">
+    <input id="slidey" type="range" min="1" max="29903" value="1" oninput="slide_position(); doThing()"/>
   </div>
   <div class="card">
     <div id="metadata_output"></div>
@@ -367,6 +373,14 @@ function doThing(){
     metadata_array = ["Non-coding region"]
   }
   document.getElementById("metadata_output").innerHTML = metadata_array.join("<br>")
+}
+
+function slide_position(){
+    document.getElementById("position_input").value = document.getElementById("slidey").value
+}
+
+function set_slide_position(){
+    document.getElementById("slidey").value = document.getElementById("position_input").value
 }
 </script>
 </html>
