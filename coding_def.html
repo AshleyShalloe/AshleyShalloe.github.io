@@ -50,6 +50,9 @@
     <div class="card">
       <div id="metadata_output"></div>
     </div>
+    <div class="card">
+      <div id="genbank_metadata"></div>
+    </div>
   
   </body>
   <script>
@@ -80,6 +83,7 @@
               "M": [26523, 27191],
               "orf6": [27202, 27387],
               "orf7a": [27394, 27759],
+              "orf7b": [27756, 27887],
               "orf8": [27894, 28259],
               "N": [28274, 29533],
               "orf10": [29558, 29674]
@@ -376,6 +380,16 @@
       metadata_array = ["Non-coding region<br><span style='font-size:small'>(or not labelled)</span>"]
     }
     document.getElementById("metadata_output").innerHTML = metadata_array.join("<br>")
+    
+    // even more metadata
+    more_metadata = position_to_protein_info_deluge(position)
+    genbank_metadata_list = ["<b>Genbank</b>"]
+    for (i=0; i<more_metadata.length; i++){
+      if (more_metadata[i]["source"] == "Genbank"){
+        genbank_metadata_list.push(more_metadata[i]["protein_product_name"])
+      }
+    }
+    document.getElementById("genbank_metadata").innerHTML = [...new Set(genbank_metadata_list)].join("<br>") // using sets to just get the unique stuff
   }
   
   function slide_position(){
@@ -385,6 +399,26 @@
   function set_slide_position(){
       document.getElementById("slidey").value = document.getElementById("position_input").value
   }
+
+  // list of dicts
+  // or an array of objects, if you like
+  more_protein_data = [{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"2\'-O-ribose methyltransferase","vipr_locus_id":"SAR-16","start":20659,"end":21552},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"3\'-to-5\' exonuclease","vipr_locus_id":"SAR-15","start":18040,"end":19620},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"3C-like proteinase","vipr_locus_id":"SAR-7","start":10055,"end":10972},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"3C-like proteinase","vipr_locus_id":"SAR-8","start":10055,"end":10972},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"ORF1a polyprotein","vipr_locus_id":"ORF1ab","start":266,"end":13483},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"ORF1ab polyprotein","vipr_locus_id":"SAR-3","start":266,"end":21555},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"RNA-dependent RNA polymerase","vipr_locus_id":"SAR-14","start":13442,"end":16236},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"endoRNAse","vipr_locus_id":"endoRNAse","start":19621,"end":20658},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"helicase","vipr_locus_id":"helicase","start":16237,"end":18039},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"leader protein","vipr_locus_id":"SAR-1","start":266,"end":805},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"leader protein","vipr_locus_id":"SAR-2","start":266,"end":805},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp10","vipr_locus_id":"SAR-13","start":13025,"end":13441},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp10","vipr_locus_id":"nsp10","start":13025,"end":13441},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp11","vipr_locus_id":"nsp11","start":13442,"end":13480},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp2","vipr_locus_id":"SAR-4","start":806,"end":2719},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp2","vipr_locus_id":"nsp2","start":806,"end":2719},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp3","vipr_locus_id":"SAR-5","start":2720,"end":8554},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp3","vipr_locus_id":"nsp3","start":2720,"end":8554},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp4","vipr_locus_id":"SAR-6","start":8555,"end":10054},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp4","vipr_locus_id":"nsp4","start":8555,"end":10054},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp6","vipr_locus_id":"nsp6","start":10973,"end":11842},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp6","vipr_locus_id":"SAR-9","start":10973,"end":11842},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp7","vipr_locus_id":"nsp7","start":11843,"end":12091},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp7","vipr_locus_id":"SAR-10","start":11843,"end":12091},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp8","vipr_locus_id":"SAR-11","start":12092,"end":12685},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp8","vipr_locus_id":"nsp8","start":12092,"end":12685},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp9","vipr_locus_id":"nsp9","start":12686,"end":13024},{"source":"Genbank","gene_symbol":"ORF1ab","protein_product_name":"nsp9","vipr_locus_id":"SAR-12","start":12686,"end":13024},{"source":"Genbank","gene_symbol":"spike glycoprotein","protein_product_name":"surface glycoprotein","vipr_locus_id":"SAR-17","start":21563,"end":25384},{"source":"Genbank","gene_symbol":"ORF3a","protein_product_name":"ORF3a protein","vipr_locus_id":"ORF3a","start":25393,"end":26220},{"source":"Genbank","gene_symbol":"E","protein_product_name":"envelope protein","vipr_locus_id":"E","start":26245,"end":26472},{"source":"Genbank","gene_symbol":"M","protein_product_name":"membrane glycoprotein","vipr_locus_id":"M","start":26523,"end":27191},{"source":"Genbank","gene_symbol":"ORF6","protein_product_name":"ORF6 protein","vipr_locus_id":"ORF6","start":27202,"end":27387},{"source":"Genbank","gene_symbol":"ORF7a","protein_product_name":"ORF7a protein","vipr_locus_id":"ORF7a","start":27394,"end":27759},{"source":"Genbank","gene_symbol":"ORF7b","protein_product_name":"ORF7b","vipr_locus_id":"ORF7b","start":27756,"end":27887},{"source":"Genbank","gene_symbol":"ORF8","protein_product_name":"ORF8 protein","vipr_locus_id":"ORF8","start":27894,"end":28259},{"source":"Genbank","gene_symbol":"N","protein_product_name":"nucleocapsid phosphoprotein","vipr_locus_id":"N","start":28274,"end":29533},{"source":"Genbank","gene_symbol":"ORF10","protein_product_name":"ORF10 protein","vipr_locus_id":"ORF10","start":29558,"end":29674}]
+
+  function position_to_protein_info_deluge(position){
+    output_array = []
+    
+    for (i=0; i<more_protein_data.length; i++){
+      start = more_protein_data[i]["start"];
+      stop = more_protein_data[i]["end"];
+      region_range = range(start, stop+1);
+      if (region_range.includes(position)){
+        output_array.push(more_protein_data[i]);
+      }
+    }
+    
+    return output_array;
+  }
+
   </script>
   </html>
   
