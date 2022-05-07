@@ -39,30 +39,61 @@
       }
       #genome_map_container{
         text-align: left;
+        position: relative;
+        font-size: x-small;
       }
       .genome_map_spacer{
         background: white;
       }
       .genome_map_gene{
-        background: red;
+        background: rebeccapurple;
+        margin-bottom: 1px;
+      }
+      .genome_map_gene:hover{
+        filter: brightness(150%);
       }
       .genome_map_gene, .genome_map_spacer{
-        height: 15px;
+        height: 1em;
         display: inline-block;
+        position: relative;
       }
+      .annotate_left, .annotate_right{
+            margin: 0;
+            position: absolute;
+            z-index: 10;
+      }
+      .annotate_left{
+            right: 103%;
+        }
+      .annotate_right{
+            left: 103%;
+       }
+       #genome_map_cursor{
+         border: 1px solid #00000047;
+         width: 0px;
+         height: 100%;
+         position: absolute;
+         left: 0;
+         top: 0;
+       }
+       #genome_map_and_cursor_container{
+         position: relative;
+       }
     </style>
   </head>
   <body>
    
     <div id="input_container" class="card">
       <p>Nucleotide position</p>
-      <input id="position_input" oninput="doThing(); set_slide_position()" type="number" min="0" max="29903"></input>
+      <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903"></input>
     </div>
     <div class="card">
       <input id="slidey" type="range" min="1" max="29903" value="1" oninput="slide_position(); doThing()"/>
     </div>
     <div class="card">
-      <div id="genome_map_container">
+      <div id="genome_map_and_cursor_container">
+        <div id="genome_map_container"></div>
+        <div id="genome_map_cursor"></div>
       </div>
     </div>
     <div class="card">
@@ -423,11 +454,13 @@
   }
   
   function slide_position(){
-      document.getElementById("position_input").value = document.getElementById("slidey").value
+      document.getElementById("position_input").value = document.getElementById("slidey").value;
+      set_genome_map_cursor_position();
   }
   
   function set_slide_position(){
-      document.getElementById("slidey").value = document.getElementById("position_input").value
+      document.getElementById("slidey").value = document.getElementById("position_input").value;
+      set_genome_map_cursor_position();
   }
 
   // list of dicts
@@ -521,15 +554,25 @@ function generate_aa_image_html(amino_acid){
       region_width = region_end - region_start
       region_width_percentage = 100 * region_width / genome_length
       left_padding = 100 * region_start / genome_length
+      annotation_side = "annotate_right"
+      if ((region_end > (0.8 * genome_length)) & (region_name != "orf1ab")){
+        annotation_side = "annotate_left"
+      }
       // so the rationale here is that we want a div of width region_width_percentage
       // and we want it spaced left_padding from the left, so it appears in the correct
       // relative position when each gene is displayed on a separate line
-      genome_html = "<div class='genome_map_spacer' style='width:".concat(left_padding, "%'></div>")
-      genome_html += "<div class='genome_map_gene' style='width:".concat(region_width_percentage, "%'></div><br>")
+      genome_html = "<div class='genome_map_spacer".concat("' style='width:", left_padding, "%'></div>")
+      genome_html += "<div class='genome_map_gene'".concat(" style='width:", region_width_percentage, "%'><span class='rotate_text ", annotation_side, "'>", region_name, "</span></div><br>")
       document.getElementById("genome_map_container").innerHTML += genome_html
     }
   }
   generate_genome_map()
+
+  function set_genome_map_cursor_position(){
+    genome_length = 29903
+    genome_position_percentage = 100 * document.getElementById("slidey").value / genome_length
+    document.getElementById("genome_map_cursor").style.left = String(genome_position_percentage).concat("%")
+  }
   </script>
   </html>
   
