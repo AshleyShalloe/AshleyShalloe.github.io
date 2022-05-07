@@ -117,6 +117,9 @@
        .double_card_container > .card{
          height: 8em;
        }
+       .double_card_container{
+        display: flow-root;
+       }
     </style>
   </head>
   <body>
@@ -144,6 +147,9 @@
       <div class="card card_right">
         <div id="amino_pic"></div>
       </div>
+    </div>
+    <div class="card">
+      <div id="amplicon_data"></div>
     </div>
   </body>
   <script>
@@ -467,6 +473,7 @@
         metadata_array.push([fancy_name, fancy_aa_position].join(""))
         amino_acid_array.push(translated_codon)
       }
+      set_amplicon_metadata(position)
     }
   
     if (metadata_array.length == 0){
@@ -627,6 +634,28 @@ function generate_aa_image_html(amino_acid){
   // it's the toggle button inside the card
   function hideCard(card){
     card.parentElement.classList.toggle("card_hidden")
+  }
+  </script>
+  <script>
+  // let's find out what amplicon(s) the nucleotide is in
+  // and/or whether it sits within a primer region
+  function set_amplicon_metadata(position){
+    amplicon_html = []
+    for (x in primer_dict){
+      primer_start = primer_dict[x][0]
+      primer_end = primer_dict[x][1]
+      primer_range = range(primer_start, primer_end) // probable off-by-one
+      if (primer_range.includes(position)){
+        amplicon_html.push(x)
+      }
+    }
+    if (amplicon_html.length > 0){
+      amplicon_html = "Sits within V4.1 primer:<br>" + amplicon_html.join("<br>")
+    }
+    else{
+      amplicon_html = ""
+    }
+    document.getElementById("amplicon_data").innerHTML = amplicon_html
   }
   </script>
   </html>
