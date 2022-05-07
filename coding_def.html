@@ -23,6 +23,7 @@
         margin-bottom: 10px;
         box-shadow: 5px 5px 5px lightgrey;
         text-align: center;
+        position: relative;
       }
       .nt_metadata{
         font-weight: bold;
@@ -78,6 +79,27 @@
        }
        #genome_map_and_cursor_container{
          position: relative;
+       }
+       .card_hidden{
+         height: 0px;
+         overflow-y: hidden;
+       }
+       .card_hide_toggle{
+         position: absolute;
+         top: 0;
+         right: 0;
+         width: 1em;
+         height: 1em;
+         margin: 3px;
+         background: lightgray;
+         border-radius: 25% 25% 25% 100%;
+         line-height: 1em;
+       }
+       .card_hidden > div{
+         filter: opacity(0.1);
+       }
+       .card_hidden > .card_hide_toggle{
+         background: black;
        }
     </style>
   </head>
@@ -572,6 +594,21 @@ function generate_aa_image_html(amino_acid){
     genome_length = 29903
     genome_position_percentage = 100 * document.getElementById("slidey").value / genome_length
     document.getElementById("genome_map_cursor").style.left = String(genome_position_percentage).concat("%")
+  }
+  </script>
+  <script>
+  // hide button for the cards
+  function add_hide_buttons_to_cards(){
+    for (i=0; i<document.getElementsByClassName("card").length; i++){
+      document.getElementsByClassName("card")[i].innerHTML += "<span class='card_hide_toggle' onclick='hideCard(this)'></span>"
+    }
+  }
+  add_hide_buttons_to_cards()
+
+  // "card" here isn't actually the card
+  // it's the toggle button inside the card
+  function hideCard(card){
+    card.parentElement.classList.toggle("card_hidden")
   }
   </script>
   </html>
