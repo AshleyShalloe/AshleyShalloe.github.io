@@ -81,7 +81,7 @@
          position: relative;
        }
        .card_hidden{
-         height: 0px;
+         height: 0px !important;
          overflow-y: hidden;
        }
        .card_hide_toggle{
@@ -100,6 +100,22 @@
        }
        .card_hidden > .card_hide_toggle{
          background: black;
+       }
+       .card_left, .card_right{
+         width: 45%;
+         display: flex;
+         justify-content: center;
+         align-content: center;
+         flex-direction: column;
+       }
+       .card_left{
+         float: left;
+       }
+       .card_right{
+         float: right;
+       }
+       .double_card_container > .card{
+         height: 8em;
        }
     </style>
   </head>
@@ -121,11 +137,13 @@
     <div class="card">
       <div id="metadata_output"></div>
     </div>
-    <div class="card">
-      <div id="genbank_metadata"></div>
-    </div>
-    <div class="card">
-      <div id="amino_pic"></div>
+    <div class="double_card_container">  
+      <div class="card card_left">
+        <div id="genbank_metadata"></div>
+      </div>
+      <div class="card card_right">
+        <div id="amino_pic"></div>
+      </div>
     </div>
   </body>
   <script>
@@ -458,7 +476,7 @@
     
     // even more metadata
     more_metadata = position_to_protein_info_deluge(position)
-    genbank_metadata_list = ["<b>Genbank</b>"]
+    genbank_metadata_list = []
     for (i=0; i<more_metadata.length; i++){
       if (more_metadata[i]["source"] == "Genbank"){
         genbank_metadata_list.push(more_metadata[i]["protein_product_name"])
