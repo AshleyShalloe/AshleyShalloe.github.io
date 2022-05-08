@@ -16,6 +16,7 @@
       #position_input{
         padding: 5px;
         font-size: larger;
+        margin-top: 5px;
       }
       .card{
         background: white;
@@ -120,12 +121,15 @@
        .double_card_container{
         display: flow-root;
        }
+       #amino_pic{
+         overflow-y: auto;
+       }
     </style>
   </head>
   <body>
    
     <div id="input_container" class="card">
-      <p>Nucleotide position</p>
+      Nucleotide position<br>
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903"></input>
     </div>
     <div class="card">
@@ -148,7 +152,7 @@
         <div id="amino_pic"></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card card_left">
       <div id="amplicon_data"></div>
     </div>
   </body>
