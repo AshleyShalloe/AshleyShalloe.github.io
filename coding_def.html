@@ -48,7 +48,7 @@
         background: white;
       }
       .genome_map_gene{
-        background: rebeccapurple;
+        background: #9f73cb;
         margin-bottom: 1px;
       }
       .genome_map_gene:hover{
@@ -63,6 +63,7 @@
             margin: 0;
             position: absolute;
             z-index: 10;
+            line-height: 1em;
       }
       .annotate_left{
             right: 103%;
@@ -144,7 +145,7 @@
    
     <div id="input_container" class="card">
       Nucleotide position<br>
-      <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903"></input>
+      <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903" pattern="[0-9]*" inputmode="numeric"></input>
     </div>
     <div class="card" id="slidey_card">
       <input id="slidey" type="range" min="1" max="29903" value="1" oninput="slide_position(); doThing()"/>
@@ -743,8 +744,15 @@ function generate_aa_image_html(amino_acid){
     }
     document.getElementById("amplicon_data").innerHTML += primer_html
   }
-
-
+  </script>
+  <script>
+  // pastel rainbow genes!
+  function go_rainbow_genes(){
+    for (i=0; i<document.getElementsByClassName("genome_map_gene").length; i++){
+    document.getElementsByClassName("genome_map_gene")[i].style.filter = "hue-rotate(" + String(i*15) + "deg)"
+    }
+  }
+  go_rainbow_genes()
   </script>
   </html>
   
