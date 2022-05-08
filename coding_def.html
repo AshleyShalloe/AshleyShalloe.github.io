@@ -652,10 +652,10 @@ function generate_aa_image_html(amino_acid){
         start_coordinate = input_primer_dict[x][0]
       }
       else if (x.includes("RIGHT")){
-        end_coordinate = input_primer_dict[x][0]
+        end_coordinate = input_primer_dict[x][1]
       }
       if (start_coordinate){ // if we have a start co-ordinate
-        if (Object.keys(return_dict).includes(x)){ // if we've got the amplicon number in the dict
+        if (Object.keys(return_dict).includes(amplicon_number)){ // if we've got the amplicon number in the dict
           if (Object.keys(return_dict[amplicon_number]).includes("start")){ // and it contains a start
             if (return_dict[amplicon_number]["start"] > start_coordinate){ // and that start is later than what we're currently considering
               return_dict[amplicon_number]["start"] = start_coordinate // replace it with the earlier start
