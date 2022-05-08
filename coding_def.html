@@ -124,6 +124,20 @@
        #amino_pic{
          overflow-y: auto;
        }
+       @media only screen and (max-width: 550px){
+         .card_left, .card_right{
+           float: none;
+           width: unset;
+         }
+         .double_card_container > .card{
+           height: unset;
+         }
+       }
+       @media only print{
+         span.card_hide_toggle, #slidey_card{
+           display: none;
+         }
+       }
     </style>
   </head>
   <body>
@@ -132,7 +146,7 @@
       Nucleotide position<br>
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903"></input>
     </div>
-    <div class="card">
+    <div class="card" id="slidey_card">
       <input id="slidey" type="range" min="1" max="29903" value="1" oninput="slide_position(); doThing()"/>
     </div>
     <div class="card">
