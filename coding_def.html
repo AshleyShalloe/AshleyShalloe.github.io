@@ -639,24 +639,93 @@ function generate_aa_image_html(amino_acid){
   <script>
   // let's find out what amplicon(s) the nucleotide is in
   // and/or whether it sits within a primer region
+    // we need to take the primer dictionary
+  // and use that to generate co-ordinates for each amplicon
+  // if there are alt primers, we pick the widest co-ords
+  function generate_amplicon_dict(input_primer_dict){
+    return_dict = {}
+    for (x in input_primer_dict){
+      amplicon_number = x.split("_")[0]
+      start_coordinate = false
+      end_coordinate = false
+      if (x.includes("LEFT")){
+        start_coordinate = input_primer_dict[x][0]
+      }
+      else if (x.includes("RIGHT")){
+        end_coordinate = input_primer_dict[x][0]
+      }
+      if (start_coordinate){ // if we have a start co-ordinate
+        if (Object.keys(return_dict).includes(x)){ // if we've got the amplicon number in the dict
+          if (Object.keys(return_dict[amplicon_number]).includes("start")){ // and it contains a start
+            if (return_dict[amplicon_number]["start"] > start_coordinate){ // and that start is later than what we're currently considering
+              return_dict[amplicon_number]["start"] = start_coordinate // replace it with the earlier start
+            }
+          }
+          else{
+            return_dict[amplicon_number]["start"] = start_coordinate // if there's no start co-ord, add it
+          }
+        }
+        else{
+          return_dict[amplicon_number] = {"start": start_coordinate} // if there's no amplicon entry, add and populate it
+        }
+      }
+      else if (end_coordinate){ // similar thing but for end co-ordinates
+        if (Object.keys(return_dict).includes(amplicon_number)){ // i
+          if (Object.keys(return_dict[amplicon_number]).includes("end")){ 
+            if (return_dict[amplicon_number]["end"] < end_coordinate){ 
+              return_dict[amplicon_number]["end"] = end_coordinate
+            }
+          }
+          else{
+            return_dict[amplicon_number]["end"] = end_coordinate // if there's no end co-ord, add it
+          }
+        }
+        else{
+          return_dict[amplicon_number] = {"end": end_coordinate} // if there's no amplicon entry, add and populate it
+        }
+      }
+   }
+    return return_dict
+  }
+  
+  // let's not run this more than once
+  amplicon_dict = generate_amplicon_dict(primer_dict)
+  
+  // actually update the DOM
   function set_amplicon_metadata(position){
     amplicon_html = []
+    for (x in amplicon_dict){
+      amplicon_start = amplicon_dict[x]["start"]
+      amplicon_end = amplicon_dict[x]["end"]
+      amplicon_range = range(amplicon_start, amplicon_end) // probable off-by-one
+      if (amplicon_range.includes(position)){
+        amplicon_html.push(x)
+      }
+    }
+    if (amplicon_html.length > 0){
+      amplicon_html = "V4.1 amplicon " + amplicon_html.join(", ")
+    }
+    document.getElementById("amplicon_data").innerHTML = amplicon_html
+    
+    primer_html = []
     for (x in primer_dict){
       primer_start = primer_dict[x][0]
       primer_end = primer_dict[x][1]
       primer_range = range(primer_start, primer_end) // probable off-by-one
       if (primer_range.includes(position)){
-        amplicon_html.push(x)
+        primer_html.push(x)
       }
     }
-    if (amplicon_html.length > 0){
-      amplicon_html = "Sits within V4.1 primer:<br>" + amplicon_html.join("<br>")
+    if (primer_html.length > 0){
+      primer_html = "<br>V4.1 primer: " + primer_html.join(",")
     }
     else{
-      amplicon_html = ""
+      primer_html = ""
     }
-    document.getElementById("amplicon_data").innerHTML = amplicon_html
+    document.getElementById("amplicon_data").innerHTML += primer_html
   }
+
+
   </script>
   </html>
   
