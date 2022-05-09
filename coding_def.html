@@ -754,5 +754,19 @@ function generate_aa_image_html(amino_acid){
   }
   go_rainbow_genes()
   </script>
+  <script>
+  // function to read url parameters and jump to a specific nucleotide
+  function read_nucleotide_param_and_set_pos(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var nt = url.searchParams.get("nt")
+    if (nt){
+      document.getElementById("position_input").value = nt
+      doThing()
+      set_slide_position()
+    }
+  }
+  read_nucleotide_param_and_set_pos()
+  </script>
   </html>
   
