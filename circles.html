@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <link rel="icon" href="favicon.svg">
+        <title>Favicon generator</title>
+        <style>
+            .circle{
+                border-radius: 100%;
+                width: 100px;
+                height: 100px;
+                top: 50%;
+                left: 50%;
+                position: absolute;
+                background: #8157ff45;
+                z-index: 10;
+            }
+            #circleContainer{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+            #bigCircle{
+                border-radius: 100%;
+                margin-left: 100px;
+                margin-top: 100px;
+                z-index: -10;
+                background: #e3f0fb;
+            }
+            #buttonContainer{
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            body{
+                display: flex;
+                align-content: center;
+                align-items: center;
+                justify-content: center;
+                font-family: sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="buttonContainer">
+            <table>
+                <tr><td>Separation</td><td><input type="range" min=-500 max=500 step=1 oninput="doThing(this.value)" /></td><tr>
+                <tr><td>Number of circles to add</td><td><input type="number" id="circle_number" value=5 style="width: 3em" />
+                    <button onclick="make_circles(document.getElementById('circle_number').value)">Add</button></td></tr>
+                <tr><td>Centre circle scale</td><td><input type="range" min=0 max=2 step=0.1 oninput="scaleCentreCircle(this.value)" /></td></tr>
+            </table>
+        </div>
+        <div id="circleContainer"></div>
+        <div id="bigCircle"></div>
+    </body>
+    <script>
+        'use strict'
+        function range(start, stop, step) {
+            if (typeof stop == 'undefined') {
+                // one param defined
+                stop = start;
+                start = 0;
+            }
+            if (typeof step == 'undefined') {
+                step = 1;
+            }
+            if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
+                return [];
+            }
+            var result = [];
+            for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+                result.push(i);
+            }
+            return result;
+        };
+        function make_circles(y){
+            for (var x in range(0, y)){
+                document.getElementById("circleContainer").innerHTML = document.getElementById("circleContainer").innerHTML + "<div class='circle'></div>"
+            }
+            go_rainbow()
+        }
+        
+        make_circles(7)
+
+        function doThing(x){
+            for (var i=0; i<document.getElementsByClassName("circle").length; i++){
+                var offset_radians = i * (2 * Math.PI / document.getElementsByClassName("circle").length)
+                document.getElementsByClassName("circle")[i].style.transform = `translate3d(${Math.sin(offset_radians)*x}px, ${Math.cos(offset_radians)*x}px, 0px)`
+            }
+            //document.getElementById("circleContainer").style.transform = "rotate(" + x + "deg)"
+            document.getElementById("bigCircle").style.width = `${Math.abs(x)*2}px`
+            document.getElementById("bigCircle").style.height = `${Math.abs(x)*2}px`
+        }
+        function go_rainbow(){
+            for (var i=0; i<document.getElementsByClassName("circle").length; i++){
+                var offset_radians = i * (360 / document.getElementsByClassName("circle").length)
+                document.getElementsByClassName("circle")[i].style.filter = `hue-rotate(${offset_radians}deg)`
+                }
+            }
+        function scaleCentreCircle(x){
+            document.getElementById("bigCircle").style.transform = `scale(${x})`
+        }
+    </script>
+</html>
