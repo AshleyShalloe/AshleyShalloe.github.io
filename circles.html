@@ -42,10 +42,11 @@
     <body>
         <div id="buttonContainer">
             <table>
-                <tr><td>Separation</td><td><input type="range" min=-500 max=500 step=1 oninput="doThing(this.value)" /></td><tr>
+                <tr><td>Separation</td><td><input id="separationRange" type="range" min=-500 max=500 step=1 oninput="doThing(this.value)" /></td><tr>
                 <tr><td>Number of circles to add</td><td><input type="number" id="circle_number" value=5 style="width: 3em" />
                     <button onclick="make_circles(document.getElementById('circle_number').value)">Add</button></td></tr>
                 <tr><td>Centre circle scale</td><td><input type="range" min=0 max=2 step=0.1 oninput="scaleCentreCircle(this.value)" /></td></tr>
+                <tr><td><button id="startButton">Do audio thing</button></td><td></td></tr>
             </table>
         </div>
         <div id="circleContainer"></div>
@@ -99,4 +100,29 @@
             document.getElementById("bigCircle").style.transform = `scale(${x})`
         }
     </script>
+
+<script>
+    const volumeMeterEl = document.getElementById('circle_number');
+    const startButtonEl = document.getElementById('startButton');
+    startButtonEl.onclick = async () => {
+        startButtonEl.disabled = true;
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const audioContext = new AudioContext();
+        const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(stream);
+        const analyserNode = audioContext.createAnalyser();
+        mediaStreamAudioSourceNode.connect(analyserNode);
+
+        const pcmData = new Float32Array(analyserNode.fftSize);
+        const onFrame = () => {
+            analyserNode.getFloatTimeDomainData(pcmData);
+            let sumSquares = 0.0;
+            for (const amplitude of pcmData) { sumSquares += amplitude*amplitude; }
+            coolValue = 10 + Math.sqrt(1000000 * sumSquares / pcmData.length);
+            doThing(coolValue);
+            document.getElementById("separationRange").value = coolValue;
+            window.requestAnimationFrame(onFrame);
+        };
+        window.requestAnimationFrame(onFrame);
+    };
+</script>
 </html>
