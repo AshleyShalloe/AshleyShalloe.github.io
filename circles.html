@@ -38,6 +38,17 @@
                 justify-content: center;
                 font-family: sans-serif;
             }
+            button{
+                margin: 4px;
+            }
+            #buttonContainer table{
+                border: 1px solid #c7c7c7;
+                border-radius: 10px;
+                margin: 10px;
+                padding: 5px;
+                background: #f6f6f6;
+                box-shadow: 2px 5px 10px #0000004d
+            }
         </style>
     </head>
     <body>
@@ -47,7 +58,7 @@
                 <tr><td>Number of circles to add</td><td><input type="number" id="circle_number" value=5 style="width: 3em" />
                     <button onclick="make_circles(document.getElementById('circle_number').value)">Add</button></td></tr>
                 <tr><td>Centre circle scale</td><td><input type="range" min=0 max=2 step=0.1 oninput="scaleCentreCircle(this.value)" /></td></tr>
-                <tr><td><button id="startButton">Do audio thing</button></td><td></td></tr>
+                <tr><td><button id="startButton">Do audio thing</button><button id="borderButton" style="display: none" onclick="borderEnable=true; this.disabled = true">Borders</button></td><td></td></tr>
             </table>
         </div>
         <div id="circleContainer"></div>
@@ -103,10 +114,12 @@
     </script>
 
 <script>
+    var borderEnable = false;
     const volumeMeterEl = document.getElementById('circle_number');
     const startButtonEl = document.getElementById('startButton');
     startButtonEl.onclick = async () => {
         startButtonEl.disabled = true;
+        document.getElementById('borderButton').style.display='inline-block'
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         const audioContext = new AudioContext();
         const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(stream);
@@ -121,6 +134,9 @@
             coolValue = 10 + Math.sqrt(1000000 * sumSquares / pcmData.length);
             doThing(coolValue);
             document.getElementById("separationRange").value = coolValue;
+            if (borderEnable){
+                document.querySelectorAll(".circle").forEach(x => x.style.border = `${coolValue/10}px solid black`)
+            }
             window.requestAnimationFrame(onFrame);
         };
         window.requestAnimationFrame(onFrame);
