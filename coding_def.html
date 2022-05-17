@@ -71,79 +71,82 @@
         }
       .annotate_right{
             left: 103%;
-       }
-       #genome_map_cursor{
-         border: 1px solid #00000047;
-         width: 0px;
-         height: 100%;
-         position: absolute;
-         left: 0;
-         top: 0;
-       }
-       #genome_map_and_cursor_container{
-         position: relative;
-       }
-       .card_hidden{
-         height: 0px !important;
-         overflow-y: hidden;
-       }
-       .card_hide_toggle{
-         position: absolute;
-         top: 0;
-         right: 0;
-         width: 1em;
-         height: 1em;
-         margin: 3px;
-         background: lightgray;
-         border-radius: 25% 25% 25% 100%;
-         line-height: 1em;
-       }
-       .card_hidden > div{
-         filter: opacity(0.1);
-       }
-       .card_hidden > .card_hide_toggle{
-         background: black;
-       }
-       .card_left, .card_right{
-         width: 45%;
-         display: flex;
-         justify-content: center;
-         align-content: center;
-         flex-direction: column;
-       }
-       .card_left{
-         float: left;
-       }
-       .card_right{
-         float: right;
-       }
-       .double_card_container > .card{
-         height: 8em;
-       }
-       .double_card_container{
+      }
+      #genome_map_cursor{
+        border: 1px solid #00000047;
+        width: 0px;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      #genome_map_and_cursor_container{
+        position: relative;
+      }
+      .card_hidden{
+        height: 0px !important;
+        overflow-y: hidden;
+      }
+      .card_hide_toggle{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1em;
+        height: 1em;
+        margin: 3px;
+        background: lightgray;
+        border-radius: 25% 25% 25% 100%;
+        line-height: 1em;
+      }
+      .card_hidden > div{
+        filter: opacity(0.1);
+      }
+      .card_hidden > .card_hide_toggle{
+        background: black;
+      }
+      .card_left, .card_right{
+        width: 45%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+      }
+      .card_left{
+        float: left;
+      }
+      .card_right{
+        float: right;
+      }
+      .double_card_container > .card{
+        height: 8em;
+      }
+      .double_card_container{
         display: flow-root;
-       }
-       #amino_pic{
-         overflow-y: auto;
-       }
-       @media only screen and (max-width: 550px){
-         .card_left, .card_right{
-           float: none;
-           width: unset;
-         }
-         .double_card_container > .card{
-           height: unset;
-         }
-       }
-       @media only print{
-         span.card_hide_toggle, #slidey_card{
-           display: none;
-         }
-       }
+      }
+      #amino_pic{
+        overflow-y: auto;
+      }
+      @media only screen and (max-width: 550px){
+        .card_left, .card_right{
+          float: none;
+          width: unset;
+        }
+        .double_card_container > .card{
+          height: unset;
+        }
+      }
+      @media only print{
+        span.card_hide_toggle, #slidey_card{
+          display: none;
+        }
+      }
+      .highlighted_gene{
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
-   
+
     <div id="input_container" class="card">
       Nucleotide position<br>
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903" pattern="[0-9]*" inputmode="numeric"></input>
@@ -418,24 +421,24 @@
               '99_LEFT': [29452, 29475],
               '98_RIGHT': [29512, 29534],
               '99_RIGHT': [29827, 29854]
-   }
+  }
   
-   var codon_to_amino_acid_dict = {'TTT' : 'F', 'TTC' : 'F', 'TTA' : 'L', 'TTG' : 'L',
-                 'CTT' : 'L', 'CTC' : 'L', 'CTA' : 'L', 'CTG' : 'L',
-                 'ATT' : 'I', 'ATC' : 'I', 'ATA' : 'I', 'ATG' : 'M',
-                 'GTT' : 'V', 'GTC' : 'V', 'GTA' : 'V', 'GTG' : 'V',
-                 'TCT' : 'S', 'TCC' : 'S', 'TCA' : 'S', 'TCG' : 'S',
-                 'CCT' : 'P', 'CCC' : 'P', 'CCA' : 'P', 'CCG' : 'P',
-                 'ACT' : 'T', 'ACC' : 'T', 'ACA' : 'T', 'ACG' : 'T',
-                 'GCT' : 'A', 'GCC' : 'A', 'GCA' : 'A', 'GCG' : 'A',
-                 'TAT' : 'Y', 'TAC' : 'Y', 'TAA' : '*', 'TAG' : '*',
-                 'CAT' : 'H', 'CAC' : 'H', 'CAA' : 'Q', 'CAG' : 'Q',
-                 'AAT' : 'N', 'AAC' : 'N', 'AAA' : 'K', 'AAG' : 'K',
-                 'GAT' : 'D', 'GAC' : 'D', 'GAA' : 'E', 'GAG' : 'E',
-                 'TGT' : 'C', 'TGC' : 'C', 'TGA' : '*', 'TGG' : 'W',
-                 'CGT' : 'R', 'CGC' : 'R', 'CGA' : 'R', 'CGG' : 'R',
-                 'AGT' : 'S', 'AGC' : 'S', 'AGA' : 'R', 'AGG' : 'R',
-                 'GGT' : 'G', 'GGC' : 'G', 'GGA' : 'G', 'GGG' : 'G'}
+  var codon_to_amino_acid_dict = {'TTT' : 'F', 'TTC' : 'F', 'TTA' : 'L', 'TTG' : 'L',
+                'CTT' : 'L', 'CTC' : 'L', 'CTA' : 'L', 'CTG' : 'L',
+                'ATT' : 'I', 'ATC' : 'I', 'ATA' : 'I', 'ATG' : 'M',
+                'GTT' : 'V', 'GTC' : 'V', 'GTA' : 'V', 'GTG' : 'V',
+                'TCT' : 'S', 'TCC' : 'S', 'TCA' : 'S', 'TCG' : 'S',
+                'CCT' : 'P', 'CCC' : 'P', 'CCA' : 'P', 'CCG' : 'P',
+                'ACT' : 'T', 'ACC' : 'T', 'ACA' : 'T', 'ACG' : 'T',
+                'GCT' : 'A', 'GCC' : 'A', 'GCA' : 'A', 'GCG' : 'A',
+                'TAT' : 'Y', 'TAC' : 'Y', 'TAA' : '*', 'TAG' : '*',
+                'CAT' : 'H', 'CAC' : 'H', 'CAA' : 'Q', 'CAG' : 'Q',
+                'AAT' : 'N', 'AAC' : 'N', 'AAA' : 'K', 'AAG' : 'K',
+                'GAT' : 'D', 'GAC' : 'D', 'GAA' : 'E', 'GAG' : 'E',
+                'TGT' : 'C', 'TGC' : 'C', 'TGA' : '*', 'TGG' : 'W',
+                'CGT' : 'R', 'CGC' : 'R', 'CGA' : 'R', 'CGG' : 'R',
+                'AGT' : 'S', 'AGC' : 'S', 'AGA' : 'R', 'AGG' : 'R',
+                'GGT' : 'G', 'GGC' : 'G', 'GGA' : 'G', 'GGG' : 'G'}
   
   // https://stackoverflow.com/questions/8273047/javascript-function-similar-to-python-range
   function range(start, stop, step) {
@@ -490,11 +493,12 @@
         var codon = nc_045512_2.slice(codon_start, codon_end+1)
         var translated_codon = codon_to_amino_acid_dict[codon]
         var fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, region_position+nt_pos_correction_factor, "</div>")
-        var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat(region_name, ":", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ")</div>")
+        var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ")</div>")
         metadata_array.push([fancy_name, fancy_aa_position].join(""))
         amino_acid_array.push(translated_codon)
       }
       set_amplicon_metadata(position)
+      highlight_region_if_that_is_where_we_are()
     }
   
     if (metadata_array.length == 0){
@@ -630,7 +634,7 @@ function generate_aa_image_html(amino_acid){
       // and we want it spaced left_padding from the left, so it appears in the correct
       // relative position when each gene is displayed on a separate line
       var genome_html = "<div class='genome_map_spacer".concat("' style='width:", left_padding, "%'></div>")
-      genome_html += "<div class='genome_map_gene'".concat(" style='width:", region_width_percentage, "%'><span class='rotate_text ", annotation_side, "'>", region_name, "</span></div><br>")
+      genome_html += `<div id='genome_map_${region_name}' class='genome_map_gene' style='width: ${region_width_percentage}%'><span class='rotate_text ${annotation_side}'> ${region_name}</span></div><br>`
       document.getElementById("genome_map_container").innerHTML += genome_html
     }
   }
@@ -705,7 +709,7 @@ function generate_aa_image_html(amino_acid){
           return_dict[amplicon_number] = {"end": end_coordinate} // if there's no amplicon entry, add and populate it
         }
       }
-   }
+  }
     return return_dict
   }
   
@@ -768,6 +772,22 @@ function generate_aa_image_html(amino_acid){
     }
   }
   read_nucleotide_param_and_set_pos()
+  </script>
+  <script>
+  // function to highlight the region corresponding to the selected nucleotide
+  // ideally we'd write a "nucleotide to gene" function that would be reusable
+  // instead, we can just read it from the DOM, since we're already generating this
+  function highlight_region_if_that_is_where_we_are(){
+    // while (document.getElementsByClassName("highlighted_gene").length > 0){
+    //   document.getElementsByClassName("highlighted_gene")[0].classList.remove("highlighted_gene")
+    // }
+    
+    // var current_gene_list = []
+    // document.querySelectorAll(".region_name").forEach(x => current_gene_list.push(x.innerText)) // add 0, 1 or several regions to the list
+    // for (current_gene in current_gene_list){
+    //   document.getElementById(`genome_map_${current_gene_list[current_gene]}`).classList.add("highlighted_gene")
+    // }
+  }
   </script>
   </html>
   
