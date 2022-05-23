@@ -498,7 +498,7 @@
         amino_acid_array.push(translated_codon)
       }
       set_amplicon_metadata(position)
-      highlight_region_if_that_is_where_we_are()
+      //highlight_region_if_that_is_where_we_are() // needs optimisation
     }
   
     if (metadata_array.length == 0){
@@ -777,17 +777,17 @@ function generate_aa_image_html(amino_acid){
   // function to highlight the region corresponding to the selected nucleotide
   // ideally we'd write a "nucleotide to gene" function that would be reusable
   // instead, we can just read it from the DOM, since we're already generating this
-  function highlight_region_if_that_is_where_we_are(){
-    // while (document.getElementsByClassName("highlighted_gene").length > 0){
-    //   document.getElementsByClassName("highlighted_gene")[0].classList.remove("highlighted_gene")
-    // }
+  // function highlight_region_if_that_is_where_we_are(){
+  //   while (document.getElementsByClassName("highlighted_gene").length > 0){
+  //     document.getElementsByClassName("highlighted_gene")[0].classList.remove("highlighted_gene")
+  //   }
     
-    // var current_gene_list = []
-    // document.querySelectorAll(".region_name").forEach(x => current_gene_list.push(x.innerText)) // add 0, 1 or several regions to the list
-    // for (current_gene in current_gene_list){
-    //   document.getElementById(`genome_map_${current_gene_list[current_gene]}`).classList.add("highlighted_gene")
-    // }
-  }
+  //   var current_gene_list = []
+  //   document.querySelectorAll(".region_name").forEach(x => current_gene_list.push(x.innerText)) // add 0, 1 or several regions to the list
+  //   for (current_gene in current_gene_list){
+  //     document.getElementById(`genome_map_${current_gene_list[current_gene]}`).classList.add("highlighted_gene")
+  //   }
+  // }
   </script>
   </html>
   
