@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <style>
+            html{
+                font-family: monospace;
+                margin: 0 auto;
+            }
+            body{
+                margin: 20px;
+            }
+            textarea{
+                width: -webkit-fill-available;
+                height: 20em;
+                overflow-x: scroll;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>YouTube playback speed overclocker</h1>
+        <h2>What is this?</h2>
+        <p>It's a function designed to be pasted into the javascript console on YouTube.</p>
+        <p>It adds a spinner below the video which allows playback speeds as low as 0x and as high as 16x.</p>
+        <p>There are extensions designed to do the same thing. Trust those if you prefer...</p>
+        <h2>Code</h2>
+        <textarea>
+var playbackHTML = 'Playback Rate <input id="playbackRate" type="number" min=“1” max="16" step="0.1" value="1" oninput="changePlaybackRate()" style="border-radius: 1em; width: 50px; margin-left: 2px; text-align: center" />';
+
+function changePlaybackRate(){
+        rate = document.getElementById("playbackRate").value
+        document.querySelector("#movie_player > div.html5-video-container > video").playbackRate = rate
+}
+
+document.querySelector("#title > h1").innerHTML = playbackHTML
+        </textarea>
+    </body>
+</html>
