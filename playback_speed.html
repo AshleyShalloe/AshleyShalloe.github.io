@@ -1,5 +1,8 @@
 <html>
     <head>
+        <title>YT Overclocker</title>
+        <link rel="icon" href="favicon.svg">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             html{
                 font-family: monospace;
@@ -10,7 +13,7 @@
             }
             textarea{
                 width: -webkit-fill-available;
-                height: 20em;
+                height: 25em;
                 overflow-x: scroll;
             }
         </style>
@@ -22,15 +25,30 @@
         <p>It adds a spinner below the video which allows playback speeds as low as 0x and as high as 16x.</p>
         <p>There are extensions designed to do the same thing. Trust those if you prefer...</p>
         <h2>Code</h2>
-        <textarea>
-var playbackHTML = 'Playback Rate <input id="playbackRate" type="number" min=“1” max="16" step="0.1" value="1" oninput="changePlaybackRate()" style="border-radius: 1em; width: 50px; margin-left: 2px; text-align: center" />';
-
-function changePlaybackRate(){
-        rate = document.getElementById("playbackRate").value
-        document.querySelector("#movie_player > div.html5-video-container > video").playbackRate = rate
+        <textarea id="theFunction" readonly>
+function playbackRateInit(){
+    var playbackHTML = 'Playback Rate <input id="playbackRate" type="number" min=“1” max="16" step="0.1" value="1" oninput="setPlaybackRate(this.value)" style="border-radius: 1em; width: 50px; margin-left: 2px; text-align: center" />';
+    document.querySelector("#title > h1").innerHTML = playbackHTML;
+    setPlaybackRate(getPlaybackRate());
+}
+            
+function getPlaybackRate(){
+    return document.querySelector("#movie_player > div.html5-video-container > video").playbackRate
 }
 
-document.querySelector("#title > h1").innerHTML = playbackHTML
+function setPlaybackRate(rate){
+    document.querySelector("#movie_player > div.html5-video-container > video").playbackRate = rate;
+    document.getElementById("playbackRate").value = rate;
+}
+
+playbackRateInit()
         </textarea>
+        <h2>Copy to clipboard</h2>
+        <button onclick="copyToClipboard(); this.innerText = 'Copied'">Copy</button>
     </body>
+    <script>
+        function copyToClipboard(){
+            navigator.clipboard.writeText(document.getElementById("theFunction").value)
+        }
+    </script>
 </html>
