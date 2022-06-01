@@ -216,36 +216,36 @@ function demo(){
 }
 </script>
 <script>
-    // reads a sequence from URL parameters if present, and displays it
-    function read_params_and_set_seq(){
-        var url_string = window.location.href
-        var url = new URL(url_string)
-        var seq = url.searchParams.get("seq")
-        var id = url.searchParams.get("id")
-        if (seq){
-            var position_base_dict = decode_b36_dict(seq)
-            var fake_fasta_array = Array(29903).fill("?") // array of spaces
-            for (var position in position_base_dict){
-                var base = position_base_dict[position]
-                fake_fasta_array[position-1] = base
-            }
-            document.getElementById("inputSeq").value = `>${id}\n${fake_fasta_array.join("")}`
-            generateFastaDropdown(); 
-            demo();
+// reads a sequence from URL parameters if present, and displays it
+function read_params_and_set_seq(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var seq = url.searchParams.get("seq")
+    var id = url.searchParams.get("id")
+    if (seq){
+        var position_base_dict = decode_b36_dict(seq)
+        var fake_fasta_array = Array(29903).fill("?") // array of spaces
+        for (var position in position_base_dict){
+            var base = position_base_dict[position]
+            fake_fasta_array[position-1] = base
         }
+        document.getElementById("inputSeq").value = `>${id}\n${fake_fasta_array.join("")}`
+        generateFastaDropdown(); 
+        demo();
     }
-    
-    function decode_b36_dict(input_dict){
-        var positions_array = input_dict.split(/[A|C|G|T|R|Y|K|M|S|W|B|D|H|V|N|\-]/) // split on IUPAC nucleotides or -
-        var nucleotide_array = input_dict.replaceAll(/[a-z0-9]/g, "") // remove all the lowercase and numeric characters
-        var output_dict = {} // note, the input is actually just a string but the output really is an object
-        for (var i=0; i<positions_array.length-1; i++){
-            output_dict[parseInt(positions_array[i], 36)] = nucleotide_array[i]
-        }
-        return output_dict
+}
+
+function decode_b36_dict(input_dict){
+    var positions_array = input_dict.split(/[A|C|G|T|R|Y|K|M|S|W|B|D|H|V|N|\-]/) // split on IUPAC nucleotides or -
+    var nucleotide_array = input_dict.replaceAll(/[a-z0-9]/g, "") // remove all the lowercase and numeric characters
+    var output_dict = {} // note, the input is actually just a string but the output really is an object
+    for (var i=0; i<positions_array.length-1; i++){
+        output_dict[parseInt(positions_array[i], 36)] = nucleotide_array[i]
     }
-    
-    read_params_and_set_seq();
+    return output_dict
+}
+
+read_params_and_set_seq();
 </script>
 <script>
 "can't read my mind"
