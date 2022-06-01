@@ -1,0 +1,207 @@
+<html>
+    <head>
+    <link rel="icon" href="favicon.svg" />
+    <title>Undefined</title>
+        <style>
+            html{
+                font-family: sans-serif;
+                overflow-x: scroll;
+            }
+            body{
+                margin: 0 auto;
+                background: lightgray;
+            }
+            .match{
+                background: #9ec7a0;
+            }
+            .mismatch{
+                background: #ff9191;
+            }
+            td.match, td.mismatch{
+                min-width: 2em;
+                height: 2em;
+                text-align: center;
+            }
+            th{
+                font-size: x-small;
+            }
+            span.base{
+                display: block;
+            }
+            td.inputId, th.variantName{
+                white-space: nowrap;
+            }
+            table{
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .card{
+                background: white;
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                box-shadow: 5px 5px 10px #8b8b8b9c;
+                padding-left: 8px;
+                padding-right: 8px;  
+                border-top-right-radius: 1.5em;
+            }
+            #inputSeq{
+                width: 100%;
+                height: 10em;
+                margin-bottom: 10px;
+            }
+            #inputCard{
+                background: white;
+                color: black;
+            }
+            .card h2{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                margin: 0;
+            }
+            #header{
+                background: #017789;
+                color: black;
+                height: 1em;
+                padding-top: 1em;
+                padding-bottom: 2em;
+            }
+            #resultContainerContainer{
+                background: white;
+                min-height: -webkit-fill-available;
+            }
+            #header h1{
+                margin: 0;
+                color: white;
+            }
+            #definitionSelector{
+                font-family: monospace;
+                padding-bottom: 10px;
+            }
+            #definitionSelectorLeft, #definitionSelectorRight{
+                font-family: monospace;
+            }
+            #definitionSelectorLeft{
+                display: table-cell;
+                padding-right: 20px;
+            }
+            #definitionSelectorRight{
+                display: table-cell;
+            }
+        </style>
+        <script type="text/javascript" src="res/variant_definitions.js"></script>
+        <script type="text/javascript" src="res/nc_045512.js"></script>
+        <script type="text/javascript" src="res/fastaParse.js"></script>
+    </head>
+<body>
+<div id="header" class="card"><h1>Definition checker</h1></div>
+<div class="card">
+    <h2>What is this?</h2>
+    <p>So the idea is that you'd paste a SARS-CoV-2 fasta sequence into the "Input fasta" box (<span style="font-family: monospace">&gt;header</span> required).</p>
+    <p>Assuming that the sequence is aligned to the <a href="https://www.ncbi.nlm.nih.gov/nuccore/1798174254" target="_blank">NC_045512 reference</a>, the result should be a comparision of the input sequence against variant definitions from <a style="white-space: nowrap" href="https://github.com/phe-genomics/variant_definitions" target="_blank">phe-genomics/variant_definitions</a>.
+    <p>It's a work in progress, still quite a few things to do:</p>
+    <ul>
+        <li>input validation</li>
+        <li>URL parameters</li>
+        <li>sort definition list</li>
+        <li>calling definitions</li>
+        <li>handling the required field</li>
+        <li>display all fasta, rather than just the first one</li>
+    </ul>
+    <br>
+</div>
+<div id="inputCard" class="card">
+    <h2>Input fasta</h2>
+    <textarea oninput="demo()" id="inputSeq"></textarea>
+</div>
+<div id="definitionSelectorContainer" class="card">
+    <h2>Definitions</h2>
+    <div>
+        <div id="definitionSelectorLeft"></div>
+        <div id="definitionSelectorRight"></div>
+    </div>
+    <br>
+</div>
+<div id="resultContainerContainer" class="card">
+    <h2>Result</h2>
+    <div id="resultContainer"></div>
+    <br>
+</div>
+</body>
+<script>
+'use strict'
+
+function compare_sequence_to_definition(input_id, input_sequence, input_definition){
+    var name = input_definition["phe-label"] ? input_definition["phe-label"] : input_definition["unique-id"] // preferentially use the phe-label if present, falling back to the unique-id if not
+    var variants = input_definition["variants"]
+    var out_header = []
+    var out_cells = []
+    for (var idx in variants){
+        var v = variants[idx]
+        if (v["type"] == "SNP" | v["type"] == "MNP"){
+            var obrp = v["one-based-reference-position"]
+            var ref = v["reference-base"]
+            var alt = v["variant-base"]
+            var query_base = input_sequence[obrp-1]
+            if (v["type"] == "MNP"){
+                var mnp_length = ref.length
+                //query_base = input_sequence.slice(obrp-1, obrp - 1 + mnp_length)
+            }
+            var match = "mismatch"
+            if (query_base == alt){
+                match = "match"
+            }
+            out_header.push(`<th><span class='pos'>${obrp}</span><span class='base'>${alt}</span></th>`)
+            out_cells.push(`<td class='${match}'>${query_base}</td>`)
+        }
+    }
+    out_header = "<tr>" + `<th class='variantName'>${name}</th>` + out_header.join("\n") + "</tr>"
+    var out_row = `<tr><td class='inputId'>${input_id}</td>` + out_cells.join("\n") + "</tr>"
+    var out_table = "<table>\n" + out_header + "\n" + out_row + "</table>"
+    return out_table
+}
+</script>
+<script>
+// populate the definitions div with a form
+// TODO: sort in a sane order
+function makeDefinitionForm(input_definitions){
+    for (var v in input_definitions){
+        var phe_label = input_definitions[v]["phe-label"] ? input_definitions[v]["phe-label"] : input_definitions[v]["unique-id"] 
+        var unique_id = input_definitions[v]["unique-id"]
+        if (v < Math.ceil(input_definitions.length/2)){
+            definitionSelectorLeft.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='demo()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
+        }
+        else{
+            definitionSelectorRight.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='demo()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
+        }
+    }
+}
+makeDefinitionForm(variant_definitions)
+</script>
+<script>
+function demo(){
+    document.getElementById("resultContainer").innerHTML = ""
+    parsedFasta = parseFastaToObject(document.getElementById("inputSeq").value)
+    for (f in parsedFasta){
+        var f_id = f
+        var f_fas = parsedFasta[f]
+    }
+    var variant_definitions_to_include = []
+    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
+        if (document.getElementsByClassName("definitionCheckbox")[i].checked){
+            for (x in variant_definitions){
+                if (variant_definitions[x]["unique-id"] == document.getElementsByClassName("definitionCheckbox")[i].value)
+                variant_definitions_to_include.push(variant_definitions[x])
+            }
+        }
+    }
+    for (x in variant_definitions_to_include){
+        document.getElementById("resultContainer").innerHTML += compare_sequence_to_definition(f_id, f_fas, variant_definitions_to_include[x])
+    }
+}
+</script>
+<script>
+"can't read my mind"
+</script>
+</html>

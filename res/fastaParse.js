@@ -18,9 +18,7 @@ function parseFastaToObject(inputFasta){
         }
         else{
             fastaBody += inFasta[i].trim()
-            if (fastaBody.length == 29903){
-                outFasta[fastaHeader] = fastaBody
-            }
+            outFasta[fastaHeader] = fastaBody
         }
     }
     return outFasta

@@ -10,6 +10,10 @@ A tool for converting a nucleotide position in the SARS-CoV-2 genome into an ami
 
 * [coding_def.html](https://ashleyshalloe.github.io/coding_def.html)
 
+A tool that compares an aligned SARS-CoV-2 sequence against variant definitions
+
+* [undefined.html](https://ashleyshalloe.github.io/undefined.html)
+
 Some fancy circles:
 
 * [circles.html](https://ashleyshalloe.github.io/circles.html)
