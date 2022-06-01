@@ -151,7 +151,7 @@ function compare_sequence_to_definition(input_id, input_sequence, input_definiti
             var query_base = input_sequence[obrp-1]
             if (v["type"] == "MNP"){
                 var mnp_length = ref.length
-                //query_base = input_sequence.slice(obrp-1, obrp - 1 + mnp_length)
+                query_base = input_sequence.slice(obrp-1, obrp - 1 + mnp_length)
             }
             var match = "mismatch"
             if (query_base == alt){
