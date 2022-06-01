@@ -107,13 +107,18 @@
         <li>sort definition list</li>
         <li>calling definitions</li>
         <li>handling the required field</li>
-        <li>display all fasta, rather than just the first one</li>
     </ul>
     <br>
 </div>
 <div id="inputCard" class="card">
     <h2>Input fasta</h2>
-    <textarea oninput="demo()" id="inputSeq"></textarea>
+    <textarea oninput="generateFastaDropdown(); demo()" id="inputSeq"></textarea>
+</div>
+<div class="card">
+    <h2>Select</h2>
+    <select id="fastaHeaderList" oninput="demo()">
+    </select>
+    <br><br>
 </div>
 <div id="definitionSelectorContainer" class="card">
     <h2>Definitions</h2>
@@ -178,15 +183,25 @@ function makeDefinitionForm(input_definitions){
     }
 }
 makeDefinitionForm(variant_definitions)
+
+// reads the fasta headers, generates a dropdown
+function generateFastaDropdown(){
+    var fastaHeaders = Object.keys(parseFastaToObject(document.getElementById("inputSeq").value))
+    dropdownHtml = []
+    for (var x in fastaHeaders){
+        header = fastaHeaders[x]
+        dropdownHtml.push(`<option value='${header}'>${header}</option>`)
+    }
+    document.getElementById("fastaHeaderList").innerHTML = dropdownHtml.join("\n")
+    document.getElementById("fastaHeaderList").getElementsByTagName("option")[0].selected = true;
+}
 </script>
 <script>
 function demo(){
     document.getElementById("resultContainer").innerHTML = ""
     parsedFasta = parseFastaToObject(document.getElementById("inputSeq").value)
-    for (f in parsedFasta){
-        var f_id = f
-        var f_fas = parsedFasta[f]
-    }
+    var f_id = document.getElementById("fastaHeaderList").value
+    var f_fas = parsedFasta[f_id]
     var variant_definitions_to_include = []
     for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
         if (document.getElementsByClassName("definitionCheckbox")[i].checked){
