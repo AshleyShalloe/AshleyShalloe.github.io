@@ -21,3 +21,9 @@ Some fancy circles:
 A function for pushing YouTube playback to ludicrous speed:
 
 * [playback_speed.html](https://ashleyshalloe.github.io/playback_speed.html)
+
+## WIP
+
+Colour scheme generator
+
+* [colours.html](https://ashleyshalloe.github.io/colours.html)

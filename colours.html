@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+           html{
+                font-family: sans-serif;
+            }
+            .colourSquare{
+                height: 100px;
+                width: 100px;
+                border: 1px solid lightgray;
+                display: inline-block;
+            }
+        </style>
+    </head>
+<body>
+<h2>Seed</h2>
+<div id="seedColour" class="colourSquare"></div>
+<input type="color" onchange="set_seed(this.value)" value="#ffffff">
+<h2>Complementary</h2>
+<div class="colourSquare"></div>
+<div id="complementaryColour" class="colourSquare"></div>
+<h2>Opposite</h2>
+<div class="colourSquare"></div>
+<div id="oppositeColour" class="colourSquare"></div>
+<h2>Analogous</h2>
+<input id="analagousAngle" type="range" start=0 end=360 value=60 oninput="analagousAngle(this.value)">
+<br>
+<div class="colourSquare"></div>
+<div id="analogousLeft" class="colourSquare"></div>
+<div id="analogousRight" class="colourSquare"></div>
+</body>
+<script>
+function set_seed(seedColour){
+    for (var i=0; i<document.getElementsByClassName("colourSquare").length; i++){
+        document.getElementsByClassName("colourSquare")[i].style.background = seedColour
+    }
+}
+
+function analagousAngle(angle=60){
+    document.getElementById("analogousLeft").style.filter = `hue-rotate(-${angle}deg)`
+    document.getElementById("analogousRight").style.filter = `hue-rotate(${angle}deg)`
+}
+
+analagousAngle()
+
+document.getElementById("complementaryColour").style.filter = "hue-rotate(180deg)"
+document.getElementById("oppositeColour").style.filter = "hue-rotate(120deg)"
+</script>
+</html>
