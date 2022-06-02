@@ -1,6 +1,8 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Colours</title>
+        <link rel="icon" href="favicon.svg" />
         <style>
            html{
                 font-family: sans-serif;
@@ -16,7 +18,7 @@
 <body>
 <h2>Seed</h2>
 <div id="seedColour" class="colourSquare"></div>
-<input type="color" onchange="set_seed(this.value)" value="#ffffff">
+<input type="color" id="colourPicker" onchange="set_seed(this.value)" value="#ffffff">
 <h2>Complementary</h2>
 <div class="colourSquare"></div>
 <div id="complementaryColour" class="colourSquare"></div>
@@ -65,7 +67,9 @@ function shadeTheShades(){
 }
 
 function init(){
-    set_seed(randomColour())
+    var random_colour = randomColour()
+    set_seed(random_colour)
+    document.getElementById("colourPicker").value = random_colour
     shadeTheShades()
     analagousAngle()
     document.getElementById("complementaryColour").style.filter = "hue-rotate(180deg)"
