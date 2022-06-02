@@ -70,6 +70,7 @@
             #resultContainerContainer{
                 background: white;
                 min-height: -webkit-fill-available;
+                overflow-x: scroll;
             }
             #header h1{
                 margin: 0;
@@ -110,7 +111,7 @@
     <br>
 </div>
 <div id="inputCard" class="card">
-    <h2>Input fasta</h2>
+    <h2>Input fasta<button style="float: right; margin-right: 10px" onclick="example()">Example</button></h2>
     <textarea oninput="generateFastaDropdown(); demo()" id="inputSeq"></textarea>
 </div>
 <div class="card">
@@ -243,6 +244,12 @@ function decode_b36_dict(input_dict){
         output_dict[parseInt(positions_array[i], 36)] = nucleotide_array[i]
     }
     return output_dict
+}
+
+function example(){
+    document.getElementById("inputSeq").value = ">NC_045512\n" + nc_045512;
+    generateFastaDropdown();
+    demo();
 }
 
 read_params_and_set_seq();
