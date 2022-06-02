@@ -22,15 +22,31 @@
 <div id="complementaryColour" class="colourSquare"></div>
 <h2>Opposite</h2>
 <div class="colourSquare"></div>
-<div id="oppositeColour" class="colourSquare"></div>
+<div id="oppositeColourNeg" class="colourSquare"></div>
+<div id="oppositeColourPos" class="colourSquare"></div>
 <h2>Analogous</h2>
 <input id="analagousAngle" type="range" start=0 end=360 value=60 oninput="analagousAngle(this.value)">
 <br>
 <div class="colourSquare"></div>
 <div id="analogousLeft" class="colourSquare"></div>
 <div id="analogousRight" class="colourSquare"></div>
+<h2>Shades</h2>
+<div id="shade1" class="colourSquare shade"></div>
+<div id="shade2" class="colourSquare shade"></div>
+<div id="shade3" class="colourSquare shade"></div>
+<div id="shade4" class="colourSquare shade"></div>
 </body>
 <script>
+'use strict'
+// thanks stackoverflow
+function randbetween(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function randomColour(){
+    return "#" + randbetween(0,16777215).toString(16)
+}
+
 function set_seed(seedColour){
     for (var i=0; i<document.getElementsByClassName("colourSquare").length; i++){
         document.getElementsByClassName("colourSquare")[i].style.background = seedColour
@@ -42,9 +58,21 @@ function analagousAngle(angle=60){
     document.getElementById("analogousRight").style.filter = `hue-rotate(${angle}deg)`
 }
 
-analagousAngle()
+function shadeTheShades(){
+    for (var i=0; i<document.getElementsByClassName("shade").length; i++){
+        document.getElementsByClassName("shade")[i].style.filter = `brightness(${0.5+i*0.5})`
+    }
+}
 
-document.getElementById("complementaryColour").style.filter = "hue-rotate(180deg)"
-document.getElementById("oppositeColour").style.filter = "hue-rotate(120deg)"
+function init(){
+    set_seed(randomColour())
+    shadeTheShades()
+    analagousAngle()
+    document.getElementById("complementaryColour").style.filter = "hue-rotate(180deg)"
+    document.getElementById("oppositeColourNeg").style.filter = "hue-rotate(-120deg)"
+    document.getElementById("oppositeColourPos").style.filter = "hue-rotate(120deg)"
+}
+
+init()
 </script>
 </html>
