@@ -182,7 +182,6 @@ function makeDefinitionForm(input_definitions){
         }
     }
 }
-makeDefinitionForm(variant_definitions)
 
 // reads the fasta headers, generates a dropdown
 function generateFastaDropdown(){
@@ -251,8 +250,48 @@ function example(){
     generateFastaDropdown();
     demo();
 }
+</script>
+<script>
+// the variant definitions are stored in an array
+// but it'd be nice to have a dictionary of unique-id to phe-label
+// so this is that
+function get_unique_id_to_phe_label_dict(){
+    if (window.return_dict){
+        return window.return_dict // if we've got a global just use that
+    }
+    else{
+        window.return_dict = {}
+        for (var x in variant_definitions){
+            var_def = variant_definitions[x]
+            window.return_dict[var_def["unique-id"]] = var_def["phe-label"] ? var_def["phe-label"] : var_def["unique-id"] // sub the unique-id if a phe-label isn't available
+        }
+        return window.return_dict
+    }
+}
 
-read_params_and_set_seq();
+// Reads a regex pattern from url parameters which is used to select
+// what variants are checked in the definitions card.
+// This uses phe-label
+function read_params_and_check_variants(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var def = url.searchParams.get("def")
+    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
+        var unique_id = document.getElementsByClassName("definitionCheckbox")[i].value
+        var phe_label = get_unique_id_to_phe_label_dict()[unique_id]
+        if (!phe_label.match(def)){
+            document.getElementsByClassName("definitionCheckbox")[i].checked = false
+        }
+    }
+}
+</script>
+<script>
+function init(){
+    makeDefinitionForm(variant_definitions)
+    read_params_and_set_seq();
+    read_params_and_check_variants()
+}
+init();
 </script>
 <script>
 "can't read my mind"
