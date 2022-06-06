@@ -112,11 +112,11 @@
 </div>
 <div id="inputCard" class="card">
     <h2>Input fasta<button style="float: right; margin-right: 10px" onclick="example()">Example</button></h2>
-    <textarea oninput="generateFastaDropdown(); demo()" id="inputSeq"></textarea>
+    <textarea oninput="generateFastaDropdown(); run()" id="inputSeq"></textarea>
 </div>
 <div class="card">
     <h2>Select</h2>
-    <select id="fastaHeaderList" oninput="demo()">
+    <select id="fastaHeaderList" oninput="run()">
     </select>
     <br><br>
 </div>
@@ -175,10 +175,10 @@ function makeDefinitionForm(input_definitions){
         var phe_label = input_definitions[v]["phe-label"] ? input_definitions[v]["phe-label"] : input_definitions[v]["unique-id"] 
         var unique_id = input_definitions[v]["unique-id"]
         if (v < Math.ceil(input_definitions.length/2)){
-            definitionSelectorLeft.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='demo()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
+            definitionSelectorLeft.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='run()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
         }
         else{
-            definitionSelectorRight.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='demo()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
+            definitionSelectorRight.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='run()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
         }
     }
 }
@@ -196,7 +196,7 @@ function generateFastaDropdown(){
 }
 </script>
 <script>
-function demo(){
+function run(){
     document.getElementById("resultContainer").innerHTML = ""
     parsedFasta = parseFastaToObject(document.getElementById("inputSeq").value)
     var f_id = document.getElementById("fastaHeaderList").value
@@ -231,7 +231,7 @@ function read_params_and_set_seq(){
         }
         document.getElementById("inputSeq").value = `>${id}\n${fake_fasta_array.join("")}`
         generateFastaDropdown(); 
-        demo();
+        run();
     }
 }
 
@@ -248,7 +248,7 @@ function decode_b36_dict(input_dict){
 function example(){
     document.getElementById("inputSeq").value = ">NC_045512\n" + nc_045512;
     generateFastaDropdown();
-    demo();
+    run();
 }
 </script>
 <script>
@@ -270,8 +270,7 @@ function get_unique_id_to_phe_label_dict(){
 }
 
 // Reads a regex pattern from url parameters which is used to select
-// what variants are checked in the definitions card.
-// This uses phe-label
+// what variants are checked in the definitions card (based on phe-label)
 function read_params_and_check_variants(){
     var url_string = window.location.href
     var url = new URL(url_string)
