@@ -1,1 +1,160 @@
-<meta http-equiv="Refresh" content="0; url='https://github.com/AshleyShalloe/AshleyShalloe.github.io'" />
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whatever</title>
+<link rel="icon" href="favicon.svg" />
+<style>
+    html{
+        font-family: sans-serif;
+    }
+    body{
+        background: #95C7FF;
+        color: black;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card{
+        background: rgb(236, 236, 236);
+        color: black;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: 1px solid black;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        min-height: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-family: monospace;
+    }
+    .card:hover{
+        filter: brightness(1.2);
+        text-decoration: underline;
+    }
+    .cardContainer{
+        background-color: white;
+        border: 1px solid black;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flow-root;
+        box-shadow: 5px 5px 5px rgba(60, 60, 60, 0.388);
+    }
+    .cardImg{
+        max-height: 200px;
+        display: block;
+        border: 1px solid gray;
+    }
+    .leftcard{
+        float: left;
+        margin-left: 10px;
+        margin-right: unset;
+    }
+    .rightcard{
+        float: right;
+        margin-right: 10px;
+        margin-left: unset;
+    }
+    .leftcard, .rightcard{
+        width: 46%;
+    }
+    #header{
+        border: 1px solid black;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-size: x-large;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.344);
+        margin-bottom: 20px;
+        background: #5986D9;
+        color: white;
+    }
+     @media only screen and (max-width: 650px){
+        div.leftcard, div.rightcard{
+          float: none;
+          width: unset;
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+        .cardContainer > .card{
+          height: unset;
+        }
+      }
+    .cardHeader{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-size: larger;
+        border-bottom: 1px solid black;
+        font-weight: lighter;
+    }
+    .cardContainer:nth-child(4n-3) .cardHeader{
+        background: #4C9B33;
+        color: white;
+    }
+    .cardContainer:nth-child(4n-2) .cardHeader{
+        background: #E2677B;
+        color: white;
+    }
+    .cardContainer:nth-child(4n-1) .cardHeader{
+        background: #239E8A;
+        color: white;
+    }
+    .cardContainer:nth-child(4n) .cardHeader{
+        background: #B96AD2;
+        color: white;
+    }
+    a{
+        text-decoration: none;
+    }
+</style>
+</head>
+<body>
+<div id="header">
+Heading
+</div>
+<div class="cardContainer">
+    <div class="cardHeader">GitHub Repo</div>
+    <a href="https://github.com/AshleyShalloe/AshleyShalloe.github.io" target="_blank">
+        <div class="card">
+        &gt;GitHub Repo<br>
+        Just a link to the repo where this GitHub Site is actually stored.
+        </div>
+    </a>
+</div>
+<div class="cardContainer">
+    <div class="cardHeader">SARS-CoV-2 stuff</div>
+    <a href="coding_def.html" target="_blank">
+        <div class="card leftcard">
+         &gt;Coding definition<br>
+        The SARS-CoV-2 genome annotated with coding regions, gene names, proteins, amino acids and amplicons.
+        </div>
+    </a>
+    <a href="undefined.html" target="_blank">
+        <div class="card rightcard">
+        &gt;Undefined<br>
+        Compare a SARS-CoV-2 sequence against variant definitions to find out why it does or doesn't meet those definitions.
+        </div>
+    </a>
+</div>
+<div class="cardContainer">
+    <div class="cardHeader">Other stuff</div>
+    <a href="colours.html" target="_blank">
+        <div class="card leftcard">
+        &gt;Colours<br>
+        A colour palette generator. Random on every page load. See if you get something nice. Used to generate the colourscheme for this page...
+        </div>
+    </a>
+    <a href="circles.html" target="_blank">
+        <div class="card rightcard">
+        &gt;Circles<br>
+        Audio responsive circles. No real rhyme or reason, just for fun.
+        </div>
+    </a>
+</div>
+</body>
+</html>
