@@ -61,7 +61,9 @@
         width: 46%;
     }
     #header{
-        border: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
         padding-bottom: 10px;
         padding-top: 10px;
         padding-left: 5px;
@@ -71,6 +73,8 @@
         margin-bottom: 20px;
         background: #5986D9;
         color: white;
+        display: flex;
+        justify-content: space-between;
     }
      @media only screen and (max-width: 650px){
         div.leftcard, div.rightcard{
@@ -115,7 +119,8 @@
 </head>
 <body>
 <div id="header">
-Heading
+    <span>Whatever it is that Ashley's up to</span>
+    <span style="white-space: nowrap; font-size: smaller;" id="emoticon"></span>
 </div>
 <div class="cardContainer">
     <div class="cardHeader">GitHub Repo</div>
@@ -146,7 +151,7 @@ Heading
     <a href="colours.html" target="_blank">
         <div class="card leftcard">
         &gt;Colours<br>
-        A colour palette generator. Random on every page load. See if you get something nice. Used to generate the colourscheme for this page...
+        A colour palette generator. Random on every page load, see if you get something nice. Used to generate the colourscheme for this page...
         </div>
     </a>
     <a href="circles.html" target="_blank">
@@ -157,4 +162,23 @@ Heading
     </a>
 </div>
 </body>
+<script>
+'use strict'
+function setRandomEmoticon(){
+    var emoticonArray = [
+                        "¯\\_(ツ)_/¯",
+                        "=^_^=",
+                        "OwO",
+                        "(ﾟ∀ﾟ)",
+                        "☆〜（ゝ。∂）",
+                        "ヽ(^o^)",
+                        "☆彡"
+                    ]
+    document.getElementById("emoticon").innerText = emoticonArray[Math.floor(Math.random()*emoticonArray.length)]
+}
+function init(){
+    setRandomEmoticon();
+}
+init();
+</script>
 </html>
