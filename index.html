@@ -14,6 +14,7 @@
         margin: 0 auto;
         padding-left: 10px;
         padding-right: 10px;
+        padding-bottom: 3em;
     }
     .card{
         background: rgb(236, 236, 236);
@@ -132,6 +133,86 @@
     .titlebarButton:hover{
         filter: brightness(1.2);
     }
+    #taskbar{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 2em;
+        background: #e1e1e1;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: space-between;
+        align-items: center;
+    }
+    #startButton{
+        display: inline-block;
+        background: #e1e1e1;
+        height: 1.8em;
+        margin-top: 0.1em;
+        margin-bottom: 0.1em;
+        margin-right: 0.3em;
+        line-height: 1.8em;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: inset 0.1em 0.1em 0.1em 0 rgb(255 255 255 / 50%), inset -0.1em -0.1em 0.1em 0 rgb(0 0 0 / 50%);
+    }
+    #startButton:hover{
+        filter: brightness(1.2);
+    }
+    #taskbarClock{
+        display: inline-block;
+        cursor: default;
+        margin-right: 0.2em;
+        height: 1.8em;
+        padding-left: 4px;
+        padding-right: 4px;
+        line-height: 1.8em;
+        margin-top: 0.1em;
+        margin-bottom: 0.1em;
+        box-shadow: inset 0.05em 0.05em 0.05em 0 rgb(46 46 46 / 50%), inset -0.05em -0.05em 0.05em 0 rgb(205 205 205 / 50%)
+    }
+    #windowButtonContainer{
+        width: -webkit-fill-available;
+        white-space: nowrap;
+        overflow-x: scroll;
+    }
+    #windowButtonContainer::-webkit-scrollbar{
+        display: none;
+    }
+    .windowButton{
+        display: inline-block;
+        min-width: 20%;
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+        background: #e1e1e1;
+        cursor: default;
+        padding-left: 0.4em;
+        padding-right: 0.4em;
+        height: 1.8em;
+        margin-top: 0.1em;
+        margin-bottom: 0.1em;
+        line-height: 1.8em;
+        box-shadow: inset 0.05em 0.05em 0.05em 0 rgb(255 255 255), inset -0.05em -0.05em 0.05em 0 rgb(0 0 0 / 50%)
+    }
+    .windowButton:hover{
+        filter: brightness(1.5) saturate(0.5);
+    }
+    .windowButton:nth-child(4n):hover{
+        background: #4C9B33;
+    }
+    .windowButton:nth-child(4n-3):hover{
+        background: #E2677B;
+    }
+    .windowButton:nth-child(4n-2):hover{
+        background: #239E8A;
+    }
+    .windowButton:nth-child(4n-1):hover{
+        background: #B96AD2;
+    }
 </style>
 </head>
 <body>
@@ -178,6 +259,7 @@
         </div>
     </a>
 </div>
+<div id="taskbar"><div id="startButton" onclick="startButtonAction()">Start</div><div id="windowButtonContainer"></div><div id="taskbarClock">13:37</div></div>
 </body>
 <script>
 'use strict'
@@ -206,8 +288,26 @@ function buttonPress(buttonElement){
     buttonElement.innerText = emojiArray[Math.floor(Math.random()*emojiArray.length)]
 }
 
+function addWindowsToTaskbar(){
+    var titleText = []
+    for (var i=0; i<document.getElementsByClassName("cardHeader").length; i++){
+        titleText.push(document.getElementsByClassName("cardHeader")[i].innerText)
+    }
+    for (var x in titleText){
+        var tt = titleText[x];
+        var windowButton = `<div class="windowButton">${tt}</div>`
+        document.getElementById("windowButtonContainer").innerHTML += windowButton;
+    }
+}
+
+function startButtonAction(){
+    var audio = new Audio('https://ice4.somafm.com/lush-128-mp3');
+    audio.play();
+}
+
 function init(){
     setRandomEmoticon();
+    addWindowsToTaskbar(); // run before adding titlebar buttons
     addTitlebarButtons();
 }
 
