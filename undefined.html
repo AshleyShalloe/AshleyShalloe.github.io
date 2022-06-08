@@ -275,11 +275,13 @@ function read_params_and_check_variants(){
     var url_string = window.location.href
     var url = new URL(url_string)
     var def = url.searchParams.get("def")
-    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
-        var unique_id = document.getElementsByClassName("definitionCheckbox")[i].value
-        var phe_label = get_unique_id_to_phe_label_dict()[unique_id]
-        if (!phe_label.match(def)){
-            document.getElementsByClassName("definitionCheckbox")[i].checked = false
+    if (def){
+        for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
+            var unique_id = document.getElementsByClassName("definitionCheckbox")[i].value
+            var phe_label = get_unique_id_to_phe_label_dict()[unique_id]
+            if (!phe_label.match(def)){
+                document.getElementsByClassName("definitionCheckbox")[i].checked = false
+            }
         }
     }
 }
