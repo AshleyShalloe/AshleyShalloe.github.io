@@ -159,8 +159,11 @@
     </div>
 </div>
 <div id="linkModal" class="modal" style="display: none">
-    <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Link</div></div>
+    <div class="titlebar"><div class="titlebarCloseButton" onmouseup="document.getElementById('copyButton').innerHTML = 'Copy to clipboard'"></div><div class="titlebarTitle">Link</div></div>
     <textarea></textarea>
+    <ul class="unstyledList buttonList">
+        <li id="copyButton" onclick="copyToClipboard(this.parentElement.previousElementSibling.value); this.innerText = 'Copied'">Copy to clipboard</li>
+    </ul>
 </div>
 <div id="viewModal" class="modal" style="display: none">
     <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">View</div></div>
@@ -205,6 +208,10 @@ function addOnclickToInputGrid(){
     for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
         document.getElementById("inputPattern").getElementsByTagName("td")[i].onclick = function(){this.classList.toggle('selectedSquare');copyInputGridToWallpaperGrid()}
     }
+}
+
+function copyToClipboard(input){
+    navigator.clipboard.writeText(input)
 }
 
 function generateWallpaperGrid(width, height){
@@ -367,10 +374,10 @@ function generateUrlFromInputPattern(){
     }
     var primarySecondaryColourDict = getPrimarySecondaryColParams()
     if (primarySecondaryColourDict["primary"]){
-        primaryColParameter = "&primary=" + primarySecondaryColourDict["primary"]
+        primaryColParameter = "&primary=" + primarySecondaryColourDict["primary"].replace("#", "")
     }
     if (primarySecondaryColourDict["secondary"]){
-        secondaryColParameter = "&secondary=" + primarySecondaryColourDict["secondary"]
+        secondaryColParameter = "&secondary=" + primarySecondaryColourDict["secondary"].replace("#", "")
     }
     return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter + widthAndHeightParameters + primaryColParameter + secondaryColParameter
 }
