@@ -205,8 +205,11 @@ function read_url_params_and_apply(){
     var url_string = window.location.href
     var url = new URL(url_string)
     var pattern = url.searchParams.get("pattern")
-    var patternWidth = url.searchParams.get("width")
-    var patternHeight = url.searchParams.get("height")
+    var patternWidth = getWidthAndHeightFromUrlParams()["width"]
+    var patternHeight = getWidthAndHeightFromUrlParams()["height"]
+    if (patternHeight & patternWidth){
+        document.getElementById("inputPattern").innerHTML = generateInputPatternTable(patternWidth, patternHeight)
+    }
     if (pattern){
         if (pattern.length != 64){
             console.log(`Pattern length should be 64 (submitted pattern length:${pattern.length}). Displaying it anyway.`)
@@ -221,8 +224,29 @@ function read_url_params_and_apply(){
         }
         copyInputGridToWallpaperGrid();
     }
-    if (patternHeight & patternWidth){
-        document.getElementById("inputPattern").innerHTML = generateInputPatternTable(patternWidth, patternHeight)
+}
+
+function getWidthAndHeightFromUrlParams(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var patternWidth = url.searchParams.get("width")
+    var patternHeight = url.searchParams.get("height")
+    if (patternWidth & patternHeight){
+        return {"width": patternWidth, "height": patternHeight}
+    }
+    else{
+        return {"width": undefined, "height": undefined}
+    }
+}
+
+function getWidthAndHeightFromInputPattern(){
+    var width = document.getElementById("inputPattern").getElementsByTagName("tr")[0].getElementsByTagName("td").length
+    var height = document.getElementById("inputPattern").getElementsByTagName("tr").length
+    if ((width == 8) & (height == 8)){
+        return {"width": undefined, "height": undefined}
+    }
+    else{
+        return {"width": width, "height": height}
     }
 }
 
@@ -246,6 +270,7 @@ function generateInputPatternTable(width, height){
 
 function generateUrlFromInputPattern(){
     var patternParameter = ""
+    var widthAndHeightParameters = ""
     for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
         if (document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.contains("selectedSquare")){
             patternParameter += "1"
@@ -254,7 +279,11 @@ function generateUrlFromInputPattern(){
             patternParameter += "0"
         }
     }
-    return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter
+    var wh_dict = getWidthAndHeightFromInputPattern()
+    if (wh_dict["width"] & wh_dict["height"]){
+        widthAndHeightParameters = `&width=${wh_dict["width"]}&height=${wh_dict["height"]}`
+    }
+    return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter + widthAndHeightParameters
 }
 
 function updateLinkModal(){
