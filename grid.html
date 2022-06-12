@@ -20,6 +20,13 @@
         font-size: 3pt;
         border-collapse: collapse;
     }
+    #wallpaperGrid{
+        background: white;
+    }
+    #wallpaperGridContainer{
+        border-radius: 15px;
+        background: white;
+    }
     #inputPattern{
         position: absolute;
         background: white;
@@ -32,6 +39,27 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        background: #0f0f0f;
+    }
+    #menubar{
+        font-family: sans-serif;
+        border-bottom: 1px solid black;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-left: 5px;
+    }
+    #menubar td{
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    #menubar td:active{
+        color: white;
+        background: black;
+    }
+    #menubar td:hover{
+        cursor: default;
     }
 </style>
 </head>
@@ -46,6 +74,19 @@
         <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
         <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
     </table>
+<div id="wallpaperGridContainer">
+    <div id="menubar">
+        <table>
+            <tr>
+                <td></td>
+                <td>File</td>
+                <td>Edit</td>
+                <td>View</td>
+                <td>Special</td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 <script>
 'use strict'
@@ -75,7 +116,7 @@ function generateWallpaperGrid(width, height){
 
 function addWallpaperGridToDom(width, height){
     var grid = generateWallpaperGrid(width, height)
-    document.getElementsByTagName("body")[0].innerHTML += grid
+    document.getElementById("wallpaperGridContainer").innerHTML += grid
 }
 
 function copyInputGridToWallpaperGrid(){
