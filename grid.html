@@ -209,7 +209,7 @@ function read_url_params_and_apply(){
     var patternHeight = url.searchParams.get("height")
     if (pattern){
         if (pattern.length != 64){
-            return console.log(`Pattern length must be 64 (submitted pattern length:${pattern.length})`)
+            console.log(`Pattern length should be 64 (submitted pattern length:${pattern.length}). Displaying it anyway.`)
         }
         for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
             if (parseInt(pattern[i])){
