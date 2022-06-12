@@ -186,7 +186,6 @@
             <li>View gives a bunch of examples</li>
             <li>Special does something special</li>
         </ul>
-        Or it will do if I ever implement that</p>
     </div>
 </div>
 <div id="specialModal" class="modal" style="display: none">
@@ -196,7 +195,7 @@
         <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
     </table>
     <ul class="unstyledList buttonList">
-        <li onclick="overridePrimarySecondary(document.getElementById('primaryCol').value, document.getElementById('secondaryCol').value)">Apply</li>
+        <li onclick="doColourOverride()">Apply</li>
     </ul>
 </div>
 </body>
@@ -265,24 +264,46 @@ function read_url_params_and_apply(){
     var pattern = url.searchParams.get("pattern")
     var patternWidth = getWidthAndHeightFromUrlParams()["width"]
     var patternHeight = getWidthAndHeightFromUrlParams()["height"]
+    var primaryCol = getPrimarySecondaryColParams()["primary"]
+    var secondaryCol = getPrimarySecondaryColParams()["secondary"]
     if (patternHeight & patternWidth){
         document.getElementById("inputPattern").innerHTML = generateInputPatternTable(patternWidth, patternHeight)
     }
     if (pattern){
         setPattern(pattern);
     }
+    if (primaryCol || secondaryCol){
+       setPrimarySecondaryInputSelectorValues()
+       doColourOverride()
+    }
+}
+
+function getPrimarySecondaryColParams(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var primaryCol = url.searchParams.get("primary")
+    var secondaryCol = url.searchParams.get("secondary")
+    primaryCol = primaryCol ? "#" + primaryCol : undefined // only add a hash in front of the bare hexcode if the parameter is defined, otherwise leave undefined
+    secondaryCol = secondaryCol ? "#" + secondaryCol : undefined
+    return {"primary": primaryCol, "secondary": secondaryCol}
+}
+
+function setPrimarySecondaryInputSelectorValues(){
+    var colours = getPrimarySecondaryColParams()
+    document.getElementById("primaryCol").value = colours["primary"]
+    document.getElementById("secondaryCol").value = colours["secondary"]
 }
 
 function setPattern(patternString){
     for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
-            if (parseInt(patternString[i])){
-                document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.add("selectedSquare")
-            }
-            else{
-                document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.remove("selectedSquare")
-            }
+        if (parseInt(patternString[i])){
+            document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.add("selectedSquare")
         }
-        copyInputGridToWallpaperGrid();
+        else{
+            document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.remove("selectedSquare")
+        }
+    }
+    copyInputGridToWallpaperGrid();
 }
 
 function getWidthAndHeightFromUrlParams(){
@@ -330,6 +351,8 @@ function generateInputPatternTable(width, height){
 function generateUrlFromInputPattern(){
     var patternParameter = ""
     var widthAndHeightParameters = ""
+    var primaryColParameter = ""
+    var secondaryColParameter = ""
     for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
         if (document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.contains("selectedSquare")){
             patternParameter += "1"
@@ -342,7 +365,14 @@ function generateUrlFromInputPattern(){
     if (wh_dict["width"] & wh_dict["height"]){
         widthAndHeightParameters = `&width=${wh_dict["width"]}&height=${wh_dict["height"]}`
     }
-    return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter + widthAndHeightParameters
+    var primarySecondaryColourDict = getPrimarySecondaryColParams()
+    if (primarySecondaryColourDict["primary"]){
+        primaryColParameter = "&primary=" + primarySecondaryColourDict["primary"]
+    }
+    if (primarySecondaryColourDict["secondary"]){
+        secondaryColParameter = "&secondary=" + primarySecondaryColourDict["secondary"]
+    }
+    return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter + widthAndHeightParameters + primaryColParameter + secondaryColParameter
 }
 
 function updateLinkModal(){
@@ -425,6 +455,10 @@ function overridePrimarySecondary(primary, secondary){
      document.getElementById("secondaryColourOverride").innerHTML = `.selectedSquare{background: ${secondary};}`
      document.getElementById("wallpaperGrid").style.background = primary
      document.getElementById("inputPattern").style.background = primary
+}
+
+function doColourOverride(){
+    overridePrimarySecondary(document.getElementById('primaryCol').value, document.getElementById('secondaryCol').value)
 }
 </script>
 <script>
