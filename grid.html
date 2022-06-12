@@ -4,6 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grid</title>
 <style>
+    html{
+        font-family: sans-serif;
+    }
     #inputPattern, #inputPattern td{
         border: 1px solid black;
         border-collapse: collapse;
@@ -61,6 +64,47 @@
     #menubar td:hover{
         cursor: default;
     }
+    #menubar a{
+        text-decoration: none;
+        color: unset;
+    }
+    #linkModal{
+        border: 1px solid black;
+        background: white;
+        position: absolute;
+        padding-bottom: 10px;
+    }
+    #linkModal textarea{
+        height: 5em;
+        width: 45em;
+        margin: 10px;
+    }
+    .titlebar{
+        border-bottom: 1px solid black;
+        text-align: center;
+        margin-bottom: 10px;
+        background: repeating-linear-gradient(
+            0deg,
+            #000000,
+            #ffffff 2px,
+            #000000 2px,
+            #ffffff 2px
+        );
+    }
+    .titlebarCloseButton{
+        height: 1em;
+        width: 1em;
+        border: 1px solid black;
+        background: white;
+        position: fixed;
+        margin-left: 5px;
+        margin-top: 4px;
+    }
+    .titlebarTitle{
+        background: white;
+        padding: 4px;
+        display: inline-block;
+    }
 </style>
 </head>
 <body>
@@ -78,14 +122,18 @@
     <div id="menubar">
         <table>
             <tr>
-                <td></td>
-                <td>File</td>
+                <td><a href="grid.html?pattern=0101010110101010010101011010101001010101101010100101010110101010"></a></td>
+                <td onclick="generateLinkModal()">File</td>
                 <td>Edit</td>
                 <td>View</td>
-                <td>Special</td>
+                <td><a href="grid.html?pattern=0100010010101010100100101000001001000100001010000001000000000000">Special</a></td>
             </tr>
         </table>
     </div>
+</div>
+<div id="linkModal" style="display: none">
+    <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Link</div></div>
+    <textarea></textarea>
 </div>
 </body>
 <script>
@@ -146,10 +194,48 @@ function getStateOfInputGridWithWrappingCoords(x, y){
     return isSelected
 }
 
+function read_url_params_and_apply(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var pattern = url.searchParams.get("pattern")
+    if (pattern){
+        if (pattern.length != 64){
+            return console.log(`Pattern length must be 64 (submitted pattern length:${pattern.length})`)
+        }
+        for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
+            if (parseInt(pattern[i])){
+                document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.add("selectedSquare")
+            }
+            else{
+                document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.remove("selectedSquare")
+            }
+        }
+        copyInputGridToWallpaperGrid();
+    }
+}
+
+function generateUrlFromInputPattern(){
+    var patternParameter = ""
+    for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
+        if (document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.contains("selectedSquare")){
+            patternParameter += "1"
+        }
+        else{
+            patternParameter += "0"
+        }
+    }
+    return window.location.pathname + "?pattern=" + patternParameter
+}
+
+function generateLinkModal(){
+    document.getElementById("linkModal").getElementsByTagName("textarea")[0].value = generateUrlFromInputPattern();
+    document.getElementById("linkModal").style.display = "unset"
+}
 
 function init(){
     addWallpaperGridToDom(512,342)
     addOnclickToInputGrid();
+    read_url_params_and_apply();
 }
 init();
 </script>
