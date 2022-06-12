@@ -8,13 +8,13 @@
         font-family: sans-serif;
     }
     #inputPattern, #inputPattern td{
-        border: 1px solid black;
         border-collapse: collapse;
     }
     #inputPattern td{
         height: 1em;
         width: 1em;
         padding: 0px;
+        border: 1px solid black;
     }
     .selectedSquare{
         background: black;
@@ -30,12 +30,12 @@
         border-radius: 15px;
         background: white;
     }
-    #inputPattern{
+    #inputPatternContainer{
         position: absolute;
         background: white;
         top: 20%;
         left: 20%;
-        box-shadow: 5px 5px 5px #b3b3b3;
+        border: 1px solid black;
     }
     body{
         display: flex;
@@ -68,7 +68,7 @@
         text-decoration: none;
         color: unset;
     }
-    #linkModal{
+    .modal{
         border: 1px solid black;
         background: white;
         position: absolute;
@@ -78,11 +78,11 @@
         height: 5em;
         width: 45em;
         margin: 10px;
+        margin-top: 10px;
     }
     .titlebar{
         border-bottom: 1px solid black;
         text-align: center;
-        margin-bottom: 10px;
         background: repeating-linear-gradient(
             0deg,
             #000000,
@@ -100,6 +100,9 @@
         margin-left: 5px;
         margin-top: 4px;
     }
+    .titlebarCloseButton:active{
+        background: black;
+    }
     .titlebarTitle{
         background: white;
         padding: 4px;
@@ -108,6 +111,8 @@
 </style>
 </head>
 <body>
+<div id="inputPatternContainer">
+    <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Pattern</div></div>
     <table id="inputPattern">
         <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
         <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
@@ -118,20 +123,21 @@
         <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
         <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
     </table>
+</div>
 <div id="wallpaperGridContainer">
     <div id="menubar">
         <table>
             <tr>
                 <td><a href="grid.html?pattern=0101010110101010010101011010101001010101101010100101010110101010"></a></td>
                 <td onclick="generateLinkModal()">File</td>
-                <td>Edit</td>
+                <td onclick="showHidePatternWindow()">Edit</td>
                 <td>View</td>
                 <td><a href="grid.html?pattern=0100010010101010100100101000001001000100001010000001000000000000">Special</a></td>
             </tr>
         </table>
     </div>
 </div>
-<div id="linkModal" style="display: none">
+<div id="linkModal" class="modal" style="display: none">
     <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Link</div></div>
     <textarea></textarea>
 </div>
@@ -182,7 +188,8 @@ function copyInputGridToWallpaperGrid(){
                 document.getElementById("wallpaperGrid").getElementsByTagName("tr")[h].getElementsByTagName("td")[w].classList.remove("selectedSquare")
             }
         }
-    } 
+    }
+    updateLinkModal();
 }
 
 function getStateOfInputGridWithWrappingCoords(x, y){
@@ -227,15 +234,39 @@ function generateUrlFromInputPattern(){
     return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter
 }
 
-function generateLinkModal(){
+function updateLinkModal(){
     document.getElementById("linkModal").getElementsByTagName("textarea")[0].value = generateUrlFromInputPattern();
+}
+
+function generateLinkModal(){
+    updateLinkModal();
     document.getElementById("linkModal").style.display = "unset"
+}
+
+function addCloseWindowEventToButtons(){
+    for (var i=0; i<document.getElementsByClassName("titlebarCloseButton").length; i++){
+        document.getElementsByClassName("titlebarCloseButton")[i].onclick = function(){closeWindow(this)};
+    }
+}
+
+function closeWindow(buttonElement){
+    buttonElement.parentElement.parentElement.style.display = "none"
+}
+
+function showHidePatternWindow(){
+    if (document.getElementById("inputPatternContainer").style.display == "none"){
+        document.getElementById("inputPatternContainer").style.display = ''
+    }
+    else{
+        document.getElementById("inputPatternContainer").style.display = "none"
+    }
 }
 
 function init(){
     addWallpaperGridToDom(512,342)
     addOnclickToInputGrid();
     read_url_params_and_apply();
+    addCloseWindowEventToButtons()
 }
 init();
 </script>
