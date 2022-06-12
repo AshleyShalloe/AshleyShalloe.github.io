@@ -1,0 +1,115 @@
+<html>
+<head>
+<link rel="icon" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid</title>
+<style>
+    #inputPattern, #inputPattern td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    #inputPattern td{
+        height: 1em;
+        width: 1em;
+        padding: 0px;
+    }
+    .selectedSquare{
+        background: black;
+    }
+    #wallpaperGrid, #wallpaperGrid td{
+        font-size: 3pt;
+        border-collapse: collapse;
+    }
+    #inputPattern{
+        position: absolute;
+        background: white;
+        top: 20%;
+        left: 20%;
+        box-shadow: 5px 5px 5px #b3b3b3;
+    }
+    body{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+</head>
+<body>
+    <table id="inputPattern">
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+    </table>
+</body>
+<script>
+'use strict'
+function addOnclickToInputGrid(){
+    for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
+        document.getElementById("inputPattern").getElementsByTagName("td")[i].onclick = function(){this.classList.toggle('selectedSquare');copyInputGridToWallpaperGrid()}
+    }
+}
+
+function generateWallpaperGrid(width, height){
+    var tablehtml = []
+    tablehtml.push("<table id='wallpaperGrid'>")
+    for (var j=0; j<height; j++){
+        var rowhtml = []
+        rowhtml.push("<tr>")
+        for (var i=0; i<width; i++){
+            rowhtml.push("<td></td>")
+        }
+        rowhtml.push("</tr>")
+        rowhtml = rowhtml.join("")
+        tablehtml.push(rowhtml)
+    }
+    tablehtml.push("</table>")
+    tablehtml = tablehtml.join("\n")
+    return tablehtml
+}
+
+function addWallpaperGridToDom(width, height){
+    var grid = generateWallpaperGrid(width, height)
+    document.getElementsByTagName("body")[0].innerHTML += grid
+}
+
+function copyInputGridToWallpaperGrid(){
+    // iterate through cells in rows in wallpaper grid
+    // find out what state the pixel should be in for a repeating
+    // pattern with some modulo nonsense
+    var wp_gridWidth = document.getElementById("wallpaperGrid").getElementsByTagName("tr")[0].getElementsByTagName("td").length
+    var wp_gridHeight = document.getElementById("wallpaperGrid").getElementsByTagName("tr").length
+    for (var h=0; h<wp_gridHeight; h++){
+        for (var w=0; w<wp_gridWidth; w++){
+            if (getStateOfInputGridWithWrappingCoords(w,h)){
+                document.getElementById("wallpaperGrid").getElementsByTagName("tr")[h].getElementsByTagName("td")[w].classList.add("selectedSquare")
+            }
+            else{
+                document.getElementById("wallpaperGrid").getElementsByTagName("tr")[h].getElementsByTagName("td")[w].classList.remove("selectedSquare")
+            }
+        }
+    } 
+}
+
+function getStateOfInputGridWithWrappingCoords(x, y){
+    var in_gridWidth = document.getElementById("inputPattern").getElementsByTagName("tr")[0].getElementsByTagName("td").length
+    var in_gridHeight = document.getElementById("inputPattern").getElementsByTagName("tr").length
+    var wrapped_x = x % in_gridWidth
+    var wrapped_y = y % in_gridHeight
+    var isSelected = document.getElementById("inputPattern").getElementsByTagName("tr")[wrapped_y].getElementsByTagName("td")[wrapped_x].classList.contains("selectedSquare")
+    return isSelected
+}
+
+
+function init(){
+    addWallpaperGridToDom(512,342)
+    addOnclickToInputGrid();
+}
+init();
+</script>
+</html>

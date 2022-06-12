@@ -27,3 +27,7 @@ A function for pushing YouTube playback to ludicrous speed:
 Colour scheme generator
 
 * [colours.html](https://ashleyshalloe.github.io/colours.html)
+
+System 6 wallpaper pixel art
+
+* [grid.html](https://ashleyshalloe.github.io/grid.html)
