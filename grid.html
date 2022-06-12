@@ -224,7 +224,7 @@ function generateUrlFromInputPattern(){
             patternParameter += "0"
         }
     }
-    return window.location.pathname + "?pattern=" + patternParameter
+    return window.location.hostname + window.location.pathname + "?pattern=" + patternParameter
 }
 
 function generateLinkModal(){
