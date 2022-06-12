@@ -253,10 +253,10 @@ function getWidthAndHeightFromInputPattern(){
 function generateInputPatternTable(width, height){
     var tablehtml = []
     tablehtml.push("<table>")
-    for (var w=0; w<width; w++){
+    for (var h=0; h<height; w++){
         var rowhtml = []
         rowhtml.push("<tr>")
-        for (var h=0; h<height; h++){
+        for (var w=0; h<width; h++){
             rowhtml.push("<td></td>")
         }
         rowhtml.push("</tr>")
