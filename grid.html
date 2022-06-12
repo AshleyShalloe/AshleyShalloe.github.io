@@ -205,6 +205,8 @@ function read_url_params_and_apply(){
     var url_string = window.location.href
     var url = new URL(url_string)
     var pattern = url.searchParams.get("pattern")
+    var patternWidth = url.searchParams.get("width")
+    var patternHeight = url.searchParams.get("height")
     if (pattern){
         if (pattern.length != 64){
             return console.log(`Pattern length must be 64 (submitted pattern length:${pattern.length})`)
@@ -219,6 +221,27 @@ function read_url_params_and_apply(){
         }
         copyInputGridToWallpaperGrid();
     }
+    if (patternHeight & patternWidth){
+        document.getElementById("inputPattern").innerHTML = generateInputPatternTable(patternWidth, patternHeight)
+    }
+}
+
+function generateInputPatternTable(width, height){
+    var tablehtml = []
+    tablehtml.push("<table>")
+    for (var w=0; w<width; w++){
+        var rowhtml = []
+        rowhtml.push("<tr>")
+        for (var h=0; h<height; h++){
+            rowhtml.push("<td></td>")
+        }
+        rowhtml.push("</tr>")
+        rowhtml = rowhtml.join("")
+        tablehtml.push(rowhtml)
+    }
+    tablehtml.push("</table>")
+    tablehtml = tablehtml.join("\n")
+    return tablehtml
 }
 
 function generateUrlFromInputPattern(){
@@ -264,8 +287,8 @@ function showHidePatternWindow(){
 
 function init(){
     addWallpaperGridToDom(512,342)
-    addOnclickToInputGrid();
     read_url_params_and_apply();
+    addOnclickToInputGrid();
     addCloseWindowEventToButtons()
 }
 init();
