@@ -175,9 +175,10 @@ function compare_sequence_to_definition(input_id, input_sequence, input_definiti
 // populate the definitions div with a form
 // TODO: sort in a sane order
 function makeDefinitionForm(input_definitions){
+    input_definitions = input_definitions.map(x => [(x["phe-label"] ? x["phe-label"] : x["unique-id"]), x["unique-id"]]).sort(sort_genomics_variant_call) // returns a sorted array of [phe-label, unique-id] arrays
     for (var v in input_definitions){
-        var phe_label = input_definitions[v]["phe-label"] ? input_definitions[v]["phe-label"] : input_definitions[v]["unique-id"] 
-        var unique_id = input_definitions[v]["unique-id"]
+        var phe_label = input_definitions[v][0]
+        var unique_id = input_definitions[v][1]
         if (v < Math.ceil(input_definitions.length/2)){
             definitionSelectorLeft.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='run()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
         }
@@ -300,7 +301,48 @@ function set_checked_variants(regexString){
             document.getElementsByClassName("definitionCheckbox")[i].checked = false
         }
     }
-    run();
+    //run();
+}
+
+function sort_genomics_variant_call(variant_call_a, variant_call_b){
+    // function that can be used to sort variant calls
+    // input is an array of [phe-label, unique-id] arrays
+    // usage: [["VOC-21APR-02", "empathy-serve", ["VOC-22JAN-01", "imagines-viewable"]].sort(sort_genomics_variant_call)
+    var month_num = {
+        'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
+        'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12
+    }
+    variant_calls = [variant_call_a[0], variant_call_b[0]]
+    for (var i=0; i<2; i++){
+        variant_call = variant_calls[i]
+        var var_split = variant_call.split('-')
+        if (var_split.length > 2){
+            var voc_vui = var_split[0]
+            var yy = var_split[1].slice(0,2)
+            var month = var_split[1].slice(2,var_split[1].length)
+            var num = var_split[2]
+            var_split = [yy, month_num[month], num, voc_vui]
+        }
+        else if (variant_call == 'Omicron_Unassigned'){
+            var_split = ['21', 11, '00', 'REQ']
+        }
+        else if (variant_call.startsWith('SIM')){
+            var_split = ['_', '_', '00', 'SIM']
+        }
+        else{
+            var_split = ['_', '_', '_', var_split]
+        }
+        variant_calls[i] = var_split.join("")
+    }
+    if (variant_calls[0] < variant_calls[1]){
+        return -1;
+    }
+    if (variant_calls[0] > variant_calls[1]){
+        return 1;
+    }
+    else{
+        return 0;
+    }
 }
 </script>
 <script>
