@@ -121,7 +121,11 @@
     <br><br>
 </div>
 <div id="definitionSelectorContainer" class="card">
-    <h2>Definitions</h2>
+    <h2>
+        Definitions
+        <button style="float: right; margin-right: 10px" onclick="set_checked_variants('VOC')">VOCs only</button>
+        <button style="float: right; margin-right: 10px" onclick="set_checked_variants('21NOV-01|22JAN-01|SIM-BA3|22APR-0[2-4]|Omicron')">Omicron-like</button>
+    </h2>
     <div>
         <div id="definitionSelectorLeft"></div>
         <div id="definitionSelectorRight"></div>
@@ -280,7 +284,15 @@ function read_params_and_check_variants(){
     }
 }
 
+function set_all_variants_to_checked(){
+    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
+        document.getElementsByClassName("definitionCheckbox")[i].checked = true
+    }
+}
+
 function set_checked_variants(regexString){
+    // so we set all the variants to checked, then we uncheck the ones that don't match the regex
+    set_all_variants_to_checked()
     for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
         var unique_id = document.getElementsByClassName("definitionCheckbox")[i].value
         var phe_label = get_unique_id_to_phe_label_dict()[unique_id]
@@ -288,6 +300,7 @@ function set_checked_variants(regexString){
             document.getElementsByClassName("definitionCheckbox")[i].checked = false
         }
     }
+    run();
 }
 </script>
 <script>
