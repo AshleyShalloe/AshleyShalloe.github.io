@@ -80,15 +80,16 @@
                 font-family: monospace;
                 padding-bottom: 10px;
             }
-            #definitionSelectorLeft, #definitionSelectorRight{
+            #definitionSelectorLeft, #definitionSelectorMiddle, #definitionSelectorRight{
                 font-family: monospace;
             }
             #definitionSelectorLeft{
                 display: table-cell;
                 padding-right: 20px;
             }
-            #definitionSelectorRight{
+            #definitionSelectorMiddle, #definitionSelectorRight{
                 display: table-cell;
+                padding-right: 20px;
             }
         </style>
         <script type="text/javascript" src="res/variant_definitions.js"></script>
@@ -101,10 +102,9 @@
     <h2>What is this?</h2>
     <p>So the idea is that you'd paste a SARS-CoV-2 fasta sequence into the "Input fasta" box (<span style="font-family: monospace">&gt;header</span> required).</p>
     <p>Assuming that the sequence is aligned to the <a href="https://www.ncbi.nlm.nih.gov/nuccore/1798174254" target="_blank">NC_045512 reference</a>, the result should be a comparision of the input sequence against variant definitions from <a style="white-space: nowrap" href="https://github.com/phe-genomics/variant_definitions" target="_blank">phe-genomics/variant_definitions</a>.
-    <p>It's a work in progress, still quite a few things to do:</p>
+    <p>It's a work in progress, still a few things to do:</p>
     <ul>
         <li>input validation</li>
-        <li>sort definition list</li>
         <li>calling definitions</li>
         <li>handling the required field</li>
     </ul>
@@ -128,6 +128,7 @@
     </h2>
     <div>
         <div id="definitionSelectorLeft"></div>
+        <div id="definitionSelectorMiddle"></div>
         <div id="definitionSelectorRight"></div>
     </div>
     <br>
@@ -179,8 +180,11 @@ function makeDefinitionForm(input_definitions){
     for (var v in input_definitions){
         var phe_label = input_definitions[v][0]
         var unique_id = input_definitions[v][1]
-        if (v < Math.ceil(input_definitions.length/2)){
+        if (v < Math.ceil(input_definitions.length/3)){
             definitionSelectorLeft.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='run()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
+        }
+        else if (v/2 < Math.ceil(input_definitions.length/3)){
+            definitionSelectorMiddle.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='run()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
         }
         else{
             definitionSelectorRight.innerHTML += `<input type='checkbox' class='definitionCheckbox' onchange='run()' checked id='label_${unique_id}' value=${unique_id} /><label for='label_${unique_id}'>${phe_label}</label><br>`
@@ -301,7 +305,7 @@ function set_checked_variants(regexString){
             document.getElementsByClassName("definitionCheckbox")[i].checked = false
         }
     }
-    //run();
+    run();
 }
 
 function sort_genomics_variant_call(variant_call_a, variant_call_b){
