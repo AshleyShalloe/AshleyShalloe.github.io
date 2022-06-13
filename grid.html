@@ -297,8 +297,20 @@ function getPrimarySecondaryColParams(){
 
 function setPrimarySecondaryInputSelectorValues(){
     var colours = getPrimarySecondaryColParams()
-    document.getElementById("primaryCol").value = colours["primary"]
-    document.getElementById("secondaryCol").value = colours["secondary"]
+    document.getElementById("primaryCol").value = colours["primary"] ? colours["primary"] : "#ffffff"
+    document.getElementById("secondaryCol").value = colours["secondary"] ? colours["secondary"] : "#000000"
+}
+
+function getPrimarySecondaryColFromInput(){
+    var primaryCol = document.getElementById("primaryCol").value
+    var secondaryCol = document.getElementById("secondaryCol").value
+    if (primaryCol == "#ffffff"){
+        primaryCol = undefined
+    }
+    if (secondaryCol == "#000000"){
+        secondaryCol = undefined
+    }
+    return {"primary": primaryCol, "secondary": secondaryCol}
 }
 
 function setPattern(patternString){
@@ -372,7 +384,7 @@ function generateUrlFromInputPattern(){
     if (wh_dict["width"] & wh_dict["height"]){
         widthAndHeightParameters = `&width=${wh_dict["width"]}&height=${wh_dict["height"]}`
     }
-    var primarySecondaryColourDict = getPrimarySecondaryColParams()
+    var primarySecondaryColourDict = getPrimarySecondaryColFromInput()
     if (primarySecondaryColourDict["primary"]){
         primaryColParameter = "&primary=" + primarySecondaryColourDict["primary"].replace("#", "")
     }
@@ -480,9 +492,9 @@ function makeModalsDraggable(){
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  if (document.getElementById(elmnt.id).getElementsByClassName("titlebar")[0]) {
+    // if present, the titlebar is where you move the DIV from:
+    document.getElementById(elmnt.id).getElementsByClassName("titlebar")[0].onmousedown = dragMouseDown;
   } else {
     // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
