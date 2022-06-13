@@ -196,6 +196,18 @@
       .hiddenModal{
         display: none;
       }
+      .modalButton{
+        border: 1px solid black;
+        background: white;
+        padding: 4px;
+        cursor: pointer;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      .modalButton:active{
+        background: black;
+        color: white;
+      }
     </style>
   </head>
   <body>
@@ -230,6 +242,7 @@
     <div class="modal hiddenModal" id="explanationModal">
       <p>
         <h2>URL parameter usage</h2>
+        <p>Example URL parameters for jumping to a position by nucleotide or by amino acid</p>
         <p>
           Jump to nucleotide 4274<br>
           <span class="code"><a href="coding_def.html?nt=4274">coding_def.html?nt=4274</a></span>
@@ -238,6 +251,7 @@
           Jump to S:484<br>
           <span class="code"><a href="coding_def.html?aa=S:484">coding_def.html?aa=S:484</a></span>
         </p>
+        <div class="modalButton" onclick="document.getElementById('explanationModal').classList.toggle('hiddenModal')">Close</div>
     </div>
     <div id="explanationModalShowHide" onclick="document.getElementById('explanationModal').classList.toggle('hiddenModal')">
       ?
