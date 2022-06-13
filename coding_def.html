@@ -627,7 +627,7 @@ function generate_aa_image_html(amino_acid){
       var region_width_percentage = 100 * region_width / genome_length
       var left_padding = 100 * region_start / genome_length
       annotation_side = "annotate_right"
-      if ((region_end > (0.8 * genome_length)) & (region_name != "orf1ab")){
+      if ((region_end > (0.8 * genome_length)) && (region_name != "orf1ab")){
         annotation_side = "annotate_left"
       }
       // so the rationale here is that we want a div of width region_width_percentage
@@ -771,7 +771,85 @@ function generate_aa_image_html(amino_acid){
       set_slide_position()
     }
   }
-  read_nucleotide_param_and_set_pos()
+
+  // convert a region:amino acid position string input into a nt position
+  function protein_to_nucleotide(inputString){
+    var region = inputString.split(":")[0]
+    var aa_pos = inputString.split(":")[1]
+    // some input validation
+    if (aa_pos <= 0){
+      console.error("Invalid index")
+      return 0
+    }
+    if (!(region && aa_pos)){
+      console.error("Invalid input string")
+      return 0
+    }
+    if (isNaN(parseInt(aa_pos))){
+      console.error("Invalid input string")
+      return 0
+    }
+    if (!(Object.keys(region_to_pos_dict).includes(region))){
+      console.error("Region", region, "not in region_to_pos_dict")
+      return 0
+    }
+    // post validation calculations
+    var nt_offset = (aa_pos * 3) - 3
+    var regionMetadata = region_to_pos_dict[region]
+    var nt_pos = undefined
+    var frameshift = undefined
+    var width_0 = regionMetadata[1] - regionMetadata[0]
+    var width_1 = undefined
+    // the rest of the function
+    if (regionMetadata.length == 2){
+      nt_pos = regionMetadata[0] + nt_offset
+      if (nt_offset <= width_0){
+        return nt_pos
+      }
+      else{
+        console.error("Amino acid position", aa_pos, "is beyond the end of", region)
+      }
+    }
+    else if (regionMetadata.length == 4){
+      width_1 = regionMetadata[3] - regionMetadata[2]
+      if (nt_offset <= width_0){
+        nt_pos = regionMetadata[0] + nt_offset
+        return nt_pos
+      }
+      else if (nt_offset <= (width_0 + width_1)){ // add both widths together for the full region length
+        frameshift = (regionMetadata[2] - regionMetadata[1]) - 1
+        nt_pos = regionMetadata[0] + nt_offset + frameshift
+        return nt_pos
+      }
+      else{
+        console.error("Amino acid position", aa_pos, "is beyond the end of", region)
+        return 0
+      }
+    }
+    else{
+      console.error("Region", region, "has invalid length", regionMetadata.length, "(expected either 2 or 4)")
+      return 0
+    }
+  }
+
+  function read_aa_param_and_set_pos(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var aa = url.searchParams.get("aa")
+    if (aa){
+      document.getElementById("position_input").value = protein_to_nucleotide(aa)
+      doThing()
+      set_slide_position()
+    }
+  }
+
+  function init(){
+    read_nucleotide_param_and_set_pos();
+    read_aa_param_and_set_pos();
+  }
+
+  init();
+
   </script>
   <script>
   // function to highlight the region corresponding to the selected nucleotide
