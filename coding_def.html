@@ -12,6 +12,10 @@
       body{
         margin: 0 auto;
         max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
       }
   
       #position_input{
@@ -143,6 +147,55 @@
       .highlighted_gene{
         font-weight: bold;
       }
+      .modal{
+        padding: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 3px solid black;
+        background: rgba(255, 255, 255, 0.95);
+        position: fixed;
+        box-shadow: 5px 5px 5px #00000099;
+      }
+      #explanationModal{
+        text-align: center;
+        background: rgb(243 224 242 / 95%)
+      }
+      .code{
+        font-family: monospace;
+        font-size: larger;
+      }
+      .code a{
+        color: black;
+      }
+      .code a:hover{
+        font-weight: bold;
+      }
+      #explanationModalShowHide{
+        padding: 5px;
+        background: blue;
+        color: white;
+        border: 5px solid white;
+        outline: 5px solid blue;
+        border-radius: 100%;
+        width: 1em;
+        height: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        position: fixed;
+        bottom: 2%;
+        right: 2%;
+        filter: opacity(0.1);
+        transition: filter 0.2s;
+        cursor: pointer;
+      }
+      #explanationModalShowHide:hover{
+        filter: opacity(1)
+      }
+      .hiddenModal{
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -173,6 +226,21 @@
     </div>
     <div class="card card_left">
       <div id="amplicon_data"></div>
+    </div>
+    <div class="modal hiddenModal" id="explanationModal">
+      <p>
+        <h2>URL parameter usage</h2>
+        <p>
+          Jump to nucleotide 4274<br>
+          <span class="code"><a href="coding_def.html?nt=4274">coding_def.html?nt=4274</a></span>
+        </p>
+        <p>
+          Jump to S:484<br>
+          <span class="code"><a href="coding_def.html?aa=S:484">coding_def.html?aa=S:484</a></span>
+        </p>
+    </div>
+    <div id="explanationModalShowHide" onclick="document.getElementById('explanationModal').classList.toggle('hiddenModal')">
+      ?
     </div>
   </body>
   <script>
