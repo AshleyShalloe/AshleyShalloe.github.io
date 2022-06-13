@@ -22,12 +22,12 @@ A function for pushing YouTube playback to ludicrous speed:
 
 * [playback_speed.html](https://ashleyshalloe.github.io/playback_speed.html)
 
+System 6 wallpaper pixel art
+
+* [grid.html](https://ashleyshalloe.github.io/grid.html)
+
 ## WIP
 
 Colour scheme generator
 
 * [colours.html](https://ashleyshalloe.github.io/colours.html)
-
-System 6 wallpaper pixel art
-
-* [grid.html](https://ashleyshalloe.github.io/grid.html)

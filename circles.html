@@ -17,19 +17,20 @@
             #circleContainer{
                 position: absolute;
                 top: 50%;
-                left: 50%;
+                left: calc(50% + -50px);
             }
             #bigCircle{
                 border-radius: 100%;
-                margin-left: 100px;
                 margin-top: 100px;
                 z-index: -10;
                 background: #e3f0fb;
+                position: fixed;
             }
             #buttonContainer{
-                position: absolute;
+                position: fixed;
                 top: 0;
                 left: 0;
+                z-index: 100;
             }
             body{
                 display: flex;
