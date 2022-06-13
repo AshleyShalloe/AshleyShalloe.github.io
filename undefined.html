@@ -348,6 +348,12 @@ function sort_genomics_variant_call(variant_call_a, variant_call_b){
         return 0;
     }
 }
+
+function suppressResultIfInputIsBlank(){
+    if (document.getElementById("inputSeq").value == ''){
+        document.getElementById("resultContainer").innerHTML = ""
+    }
+}
 </script>
 <script>
 function init(){
@@ -355,6 +361,7 @@ function init(){
     read_params_and_set_seq();
     read_params_and_check_variants();
     run();
+    suppressResultIfInputIsBlank();
 }
 init();
 </script>
