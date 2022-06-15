@@ -248,31 +248,51 @@ function addWallpaperGridToDom(width, height){
 }
 
 function copyInputGridToWallpaperGrid(){
-    // iterate through cells in rows in wallpaper grid
-    // find out what state the pixel should be in for a repeating
-    // pattern with some modulo nonsense
-    var wp_gridWidth = document.getElementById("wallpaperGrid").rows[0].cells.length
-    var wp_gridHeight = document.getElementById("wallpaperGrid").rows.length
-    for (var h=0; h<wp_gridHeight; h++){
-        for (var w=0; w<wp_gridWidth; w++){
-            if (getStateOfInputGridWithWrappingCoords(w,h)){
-                document.getElementById("wallpaperGrid").rows[h].cells[w].classList.add("selectedSquare")
-            }
-            else{
-                document.getElementById("wallpaperGrid").rows[h].cells[w].classList.remove("selectedSquare")
-            }
-        }
-    }
+    toggleWallpaperGridCellsToUpdate()
     updateLinkModal();
 }
 
-function getStateOfInputGridWithWrappingCoords(x, y){
+function generateFullGridFromInputGrid(){
+    var in_grid = document.getElementById("inputPattern")
     var in_gridWidth = document.getElementById("inputPattern").rows[0].cells.length
     var in_gridHeight = document.getElementById("inputPattern").rows.length
-    var wrapped_x = x % in_gridWidth
-    var wrapped_y = y % in_gridHeight
-    var isSelected = document.getElementById("inputPattern").rows[wrapped_y].cells[wrapped_x].classList.contains("selectedSquare")
-    return isSelected
+    var out_gridWidth = document.getElementById("wallpaperGrid").rows[0].cells.length
+    var out_gridHeight = document.getElementById("wallpaperGrid").rows.length
+    var outArray = []
+    for (var h=0; h<out_gridHeight; h++){
+        for (var w=0; w<out_gridWidth; w++){
+            outArray.push(in_grid.rows[h%in_gridHeight].cells[w%in_gridWidth].classList.contains("selectedSquare"))
+        }
+    }
+    return outArray
+}
+
+function getCurrentFullGridStatus(){
+    var currentGrid = document.getElementById("wallpaperGrid")
+    var currentGridArray = []
+    for (var i=0; i<currentGrid.getElementsByTagName("td").length; i++){
+        currentGridArray.push(currentGrid.getElementsByTagName("td")[i].classList.contains("selectedSquare"))
+    }
+    return currentGridArray
+}
+
+function compareNewGridToCurrentGrid(){
+    var currentGrid = getCurrentFullGridStatus()
+    var newGrid = generateFullGridFromInputGrid()
+    var cellsToToggle = []
+    for (var i=0; i<currentGrid.length; i++){
+        cellsToToggle.push(currentGrid[i] != newGrid[i])
+    }
+    return cellsToToggle
+}
+
+function toggleWallpaperGridCellsToUpdate(){
+    var cellsToToggle = compareNewGridToCurrentGrid()
+    for (var i=0; i<cellsToToggle.length; i++){
+        if (cellsToToggle[i]){
+            document.getElementById("wallpaperGrid").getElementsByTagName("td")[i].classList.toggle("selectedSquare")
+        }
+    }
 }
 
 function read_url_params_and_apply(){
