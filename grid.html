@@ -277,20 +277,16 @@ function getCurrentFullGridStatus(currentGrid){
 function compareNewGridToCurrentGrid(in_grid, out_grid){
     var currentGrid = getCurrentFullGridStatus(out_grid)
     var newGrid = generateFullGridFromInputGrid(in_grid, out_grid)
-    var cellsToToggle = []
-    for (var i=0; i<currentGrid.length; i++){
-        cellsToToggle.push(currentGrid[i] != newGrid[i])
-    }
-    return cellsToToggle
+    gridWorker.postMessage([currentGrid, newGrid])
+    // var cellsToToggle = []
+    // for (var i=0; i<currentGrid.length; i++){
+    //     cellsToToggle.push(currentGrid[i] != newGrid[i])
+    // }
+    //return cellsToToggle
 }
 
 function toggleWallpaperGridCellsToUpdate(){
-    var cellsToToggle = compareNewGridToCurrentGrid(document.getElementById("inputPattern"), document.getElementById("wallpaperGrid"))
-    for (var i=0; i<cellsToToggle.length; i++){
-        if (cellsToToggle[i]){
-            document.getElementById("wallpaperGrid").getElementsByTagName("td")[i].classList.toggle("selectedSquare")
-        }
-    }
+    compareNewGridToCurrentGrid(document.getElementById("inputPattern"), document.getElementById("wallpaperGrid"))
 }
 
 function read_url_params_and_apply(){
@@ -573,5 +569,17 @@ function init(){
     makeModalsDraggable();
 }
 init();
+
+// setup worker for grid calculations
+// is this even faster? Who cares, it's neat
+var gridWorker = new Worker("res/grid_worker.js")
+gridWorker.onmessage = function(e) {
+        var cellsToToggle = e.data;
+        for (var i=0; i<cellsToToggle.length; i++){
+            if (cellsToToggle[i]){
+                document.getElementById("wallpaperGrid").getElementsByTagName("td")[i].classList.toggle("selectedSquare")
+            }
+        }
+    }
 </script>
 </html>
