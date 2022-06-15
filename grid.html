@@ -568,7 +568,6 @@ function init(){
     addCloseWindowEventToButtons();
     makeModalsDraggable();
 }
-init();
 
 // setup worker for grid calculations
 // is this even faster? Who cares, it's neat
@@ -581,5 +580,7 @@ gridWorker.onmessage = function(e) {
             }
         }
     }
+
+init();
 </script>
 </html>
