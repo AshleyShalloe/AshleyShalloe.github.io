@@ -252,12 +252,11 @@ function copyInputGridToWallpaperGrid(){
     updateLinkModal();
 }
 
-function generateFullGridFromInputGrid(){
-    var in_grid = document.getElementById("inputPattern")
-    var in_gridWidth = document.getElementById("inputPattern").rows[0].cells.length
-    var in_gridHeight = document.getElementById("inputPattern").rows.length
-    var out_gridWidth = document.getElementById("wallpaperGrid").rows[0].cells.length
-    var out_gridHeight = document.getElementById("wallpaperGrid").rows.length
+function generateFullGridFromInputGrid(in_grid, out_grid){
+    var in_gridWidth = in_grid.rows[0].cells.length
+    var in_gridHeight = in_grid.rows.length
+    var out_gridWidth = out_grid.rows[0].cells.length
+    var out_gridHeight = out_grid.rows.length
     var outArray = []
     for (var h=0; h<out_gridHeight; h++){
         for (var w=0; w<out_gridWidth; w++){
@@ -267,8 +266,7 @@ function generateFullGridFromInputGrid(){
     return outArray
 }
 
-function getCurrentFullGridStatus(){
-    var currentGrid = document.getElementById("wallpaperGrid")
+function getCurrentFullGridStatus(currentGrid){
     var currentGridArray = []
     for (var i=0; i<currentGrid.getElementsByTagName("td").length; i++){
         currentGridArray.push(currentGrid.getElementsByTagName("td")[i].classList.contains("selectedSquare"))
@@ -276,9 +274,9 @@ function getCurrentFullGridStatus(){
     return currentGridArray
 }
 
-function compareNewGridToCurrentGrid(){
-    var currentGrid = getCurrentFullGridStatus()
-    var newGrid = generateFullGridFromInputGrid()
+function compareNewGridToCurrentGrid(in_grid, out_grid){
+    var currentGrid = getCurrentFullGridStatus(out_grid)
+    var newGrid = generateFullGridFromInputGrid(in_grid, out_grid)
     var cellsToToggle = []
     for (var i=0; i<currentGrid.length; i++){
         cellsToToggle.push(currentGrid[i] != newGrid[i])
@@ -287,7 +285,7 @@ function compareNewGridToCurrentGrid(){
 }
 
 function toggleWallpaperGridCellsToUpdate(){
-    var cellsToToggle = compareNewGridToCurrentGrid()
+    var cellsToToggle = compareNewGridToCurrentGrid(document.getElementById("inputPattern"), document.getElementById("wallpaperGrid"))
     for (var i=0; i<cellsToToggle.length; i++){
         if (cellsToToggle[i]){
             document.getElementById("wallpaperGrid").getElementsByTagName("td")[i].classList.toggle("selectedSquare")
