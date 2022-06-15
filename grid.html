@@ -25,6 +25,7 @@
     }
     #wallpaperGrid{
         background: white;
+        table-layout: fixed;
     }
     #wallpaperGridContainer{
         border-radius: 15px;
@@ -137,26 +138,30 @@
 <div id="inputPatternContainer" class="modal">
     <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Pattern</div></div>
     <table id="inputPattern">
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
-        <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        <tbody>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+            <tr><td /><td /><td /><td /><td /><td /><td /><td /></tr>
+        </tbody>
     </table>
 </div>
 <div id="wallpaperGridContainer">
     <div id="menubar">
         <table>
-            <tr>
-                <td onclick="showHideModal(document.getElementById('appleModal'))"></td>
-                <td onclick="generateLinkModal()">File</td>
-                <td onclick="showHideModal(document.getElementById('inputPatternContainer'))">Edit</td>
-                <td onclick="showHideModal(document.getElementById('viewModal'))">View</td>
-                <td onclick="showHideModal(document.getElementById('specialModal'))">Special</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td onclick="showHideModal(document.getElementById('appleModal'))"></td>
+                    <td onclick="generateLinkModal()">File</td>
+                    <td onclick="showHideModal(document.getElementById('inputPatternContainer'))">Edit</td>
+                    <td onclick="showHideModal(document.getElementById('viewModal'))">View</td>
+                    <td onclick="showHideModal(document.getElementById('specialModal'))">Special</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
@@ -197,8 +202,10 @@
 <div id="specialModal" class="modal" style="display: none">
     <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Special</div></div>
     <table style="padding: 5px;">
-        <tr><td>Primary colour</td><td><input id="primaryCol" type="color" value="#ffffff" /></td></tr>
-        <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
+        <tbody>
+            <tr><td>Primary colour</td><td><input id="primaryCol" type="color" value="#ffffff" /></td></tr>
+            <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
+        </tbody>
     </table>
     <ul class="unstyledList buttonList">
         <li onclick="doColourOverride()">Apply</li>
@@ -219,7 +226,7 @@ function copyToClipboard(input){
 
 function generateWallpaperGrid(width, height){
     var tablehtml = []
-    tablehtml.push("<table id='wallpaperGrid'>")
+    tablehtml.push("<table id='wallpaperGrid'><tbody>")
     for (var j=0; j<height; j++){
         var rowhtml = []
         rowhtml.push("<tr>")
@@ -230,7 +237,7 @@ function generateWallpaperGrid(width, height){
         rowhtml = rowhtml.join("")
         tablehtml.push(rowhtml)
     }
-    tablehtml.push("</table>")
+    tablehtml.push("</tbody></table>")
     tablehtml = tablehtml.join("\n")
     return tablehtml
 }
@@ -260,11 +267,11 @@ function copyInputGridToWallpaperGrid(){
 }
 
 function getStateOfInputGridWithWrappingCoords(x, y){
-    var in_gridWidth = document.getElementById("inputPattern").getElementsByTagName("tr")[0].getElementsByTagName("td").length
-    var in_gridHeight = document.getElementById("inputPattern").getElementsByTagName("tr").length
+    var in_gridWidth = document.getElementById("inputPattern").rows[0].cells.length
+    var in_gridHeight = document.getElementById("inputPattern").rows.length
     var wrapped_x = x % in_gridWidth
     var wrapped_y = y % in_gridHeight
-    var isSelected = document.getElementById("inputPattern").getElementsByTagName("tr")[wrapped_y].getElementsByTagName("td")[wrapped_x].classList.contains("selectedSquare")
+    var isSelected = document.getElementById("inputPattern").rows[wrapped_y].cells[wrapped_x].classList.contains("selectedSquare")
     return isSelected
 }
 
@@ -283,8 +290,8 @@ function read_url_params_and_apply(){
         setPattern(pattern);
     }
     if (primaryCol || secondaryCol){
-       setPrimarySecondaryInputSelectorValues()
-       doColourOverride()
+        setPrimarySecondaryInputSelectorValues()
+        doColourOverride()
     }
 }
 
@@ -342,8 +349,8 @@ function getWidthAndHeightFromUrlParams(){
 }
 
 function getWidthAndHeightFromInputPattern(){
-    var width = document.getElementById("inputPattern").getElementsByTagName("tr")[0].getElementsByTagName("td").length
-    var height = document.getElementById("inputPattern").getElementsByTagName("tr").length
+    var width = document.getElementById("inputPattern").rows[0].cells.length
+    var height = document.getElementById("inputPattern").rows.length
     if ((width == 8) & (height == 8)){
         return {"width": undefined, "height": undefined}
     }
@@ -354,7 +361,7 @@ function getWidthAndHeightFromInputPattern(){
 
 function generateInputPatternTable(width, height){
     var tablehtml = []
-    tablehtml.push("<table>")
+    tablehtml.push("<table><tbody>")
     for (var h=0; h<height; h++){
         var rowhtml = []
         rowhtml.push("<tr>")
@@ -365,7 +372,7 @@ function generateInputPatternTable(width, height){
         rowhtml = rowhtml.join("")
         tablehtml.push(rowhtml)
     }
-    tablehtml.push("</table>")
+    tablehtml.push("</tbody></table>")
     tablehtml = tablehtml.join("\n")
     return tablehtml
 }
@@ -479,9 +486,9 @@ function loadPattern(patternName){
 }
 
 function overridePrimarySecondary(primary, secondary){
-     document.getElementById("secondaryColourOverride").innerHTML = `.selectedSquare{background: ${secondary};}`
-     document.getElementById("wallpaperGrid").style.background = primary
-     document.getElementById("inputPattern").style.background = primary
+    document.getElementById("secondaryColourOverride").innerHTML = `.selectedSquare{background: ${secondary};}`
+    document.getElementById("wallpaperGrid").style.background = primary
+    document.getElementById("inputPattern").style.background = primary
 }
 
 function doColourOverride(){
@@ -499,16 +506,16 @@ function makeModalsDraggable(){
 }
 
 function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id).getElementsByClassName("titlebar")[0]) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id).getElementsByClassName("titlebar")[0]) {
     // if present, the titlebar is where you move the DIV from:
     document.getElementById(elmnt.id).getElementsByClassName("titlebar")[0].onmousedown = dragMouseDown;
-  } else {
+    } else {
     // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
-  }
+    }
 
-  function dragMouseDown(e) {
+    function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
@@ -517,9 +524,9 @@ function dragElement(elmnt) {
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
-  }
+    }
 
-  function elementDrag(e) {
+    function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
@@ -530,13 +537,13 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
+    }
 
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
 }
 </script>
 <script>
