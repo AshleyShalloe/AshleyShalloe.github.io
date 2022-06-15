@@ -91,6 +91,10 @@
                 display: table-cell;
                 padding-right: 20px;
             }
+            h2 .button{
+                float: right; 
+                margin-right: 10px;
+            }
         </style>
         <script type="text/javascript" src="res/variant_definitions.js"></script>
         <script type="text/javascript" src="res/nc_045512.js"></script>
@@ -123,8 +127,8 @@
 <div id="definitionSelectorContainer" class="card">
     <h2>
         Definitions
-        <button style="float: right; margin-right: 10px" onclick="set_checked_variants('VOC')">VOCs only</button>
-        <button style="float: right; margin-right: 10px" onclick="set_checked_variants('21NOV-01|22JAN-01|SIM-BA3|22APR-0[2-4]|Omicron')">Omicron-like</button>
+        <button class="button" onclick="set_checked_variants('VOC')">VOCs only</button>
+        <button class="button" onclick="set_checked_variants('21NOV-01|22JAN-01|SIM-BA3|22APR-0[2-4]|Omicron')">Omicron-like</button>
     </h2>
     <div>
         <div id="definitionSelectorLeft"></div>
@@ -134,7 +138,11 @@
     <br>
 </div>
 <div id="resultContainerContainer" class="card">
-    <h2>Result</h2>
+    <h2>
+        Result
+        <button class="button" onclick="highlight_mixed_bases('#abd5ff')">Highlight mixed</button>
+        <button class="button" onclick="fade_n_bases(0.4)">Fade N</button>
+    </h2>
     <div id="resultContainer"></div>
     <br>
 </div>
@@ -352,6 +360,24 @@ function sort_genomics_variant_call(variant_call_a, variant_call_b){
 function suppressResultIfInputIsBlank(){
     if (document.getElementById("inputSeq").value == ''){
         document.getElementById("resultContainer").innerHTML = ""
+    }
+}
+
+function fade_n_bases(opacityValue){
+    for (var i=0; i<document.getElementById("resultContainer").getElementsByTagName("td").length; i++){
+        if (["N", "NN", "NNN"].includes(document.getElementById("resultContainer").getElementsByTagName("td")[i].innerText)){
+            document.getElementById("resultContainer").getElementsByTagName("td")[i].style.filter = `opacity(${opacityValue})`
+        }
+    }
+}
+
+function highlight_mixed_bases(highlightColour){
+    for (var i=0; i<document.getElementById("resultContainer").getElementsByTagName("td").length; i++){
+        if (
+            !(["A", "G", "C", "T", "-", "N"].includes(document.getElementById("resultContainer").getElementsByTagName("td")[i].innerText))
+            && (document.getElementById("resultContainer").getElementsByTagName("td")[i].innerText).length == 1){
+            document.getElementById("resultContainer").getElementsByTagName("td")[i].style.background = highlightColour
+        }
     }
 }
 </script>
