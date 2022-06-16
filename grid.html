@@ -2,6 +2,7 @@
 <head>
 <link rel="icon" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
 <title>Grid</title>
 <style>
     html{
@@ -155,7 +156,7 @@
         <table>
             <tbody>
                 <tr>
-                    <td onclick="showHideModal(document.getElementById('appleModal'))"></td>
+                    <td onclick="showHideModal(document.getElementById('appleModal'))" id="menubarLogo"></td>
                     <td onclick="generateLinkModal()">File</td>
                     <td onclick="showHideModal(document.getElementById('inputPatternContainer'))">Edit</td>
                     <td onclick="showHideModal(document.getElementById('viewModal'))">View</td>
@@ -523,6 +524,13 @@ function overridePrimarySecondary(primary, secondary){
 function doColourOverride(){
     overridePrimarySecondary(document.getElementById('primaryCol').value, document.getElementById('secondaryCol').value)
 }
+
+function replaceAppleLogoOnNonApplePlatforms(){
+    var replacementGlyph = "⁕"
+    if (!navigator.userAgent.includes("Mac OS X")){
+        document.getElementById("menubarLogo").innerText = replacementGlyph
+    }
+}
 </script>
 <script>
 // https://www.w3schools.com/howto/howto_js_draggable.asp
@@ -577,6 +585,7 @@ function dragElement(elmnt) {
 </script>
 <script>
 function init(){
+    replaceAppleLogoOnNonApplePlatforms();
     addWallpaperGridToDom(512,342);
     read_url_params_and_apply();
     addOnclickToInputGrid();
