@@ -202,15 +202,23 @@
 </div>
 <div id="specialModal" class="modal" style="display: none">
     <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Special</div></div>
-    <table style="padding: 5px;">
-        <tbody>
-            <tr><td>Primary colour</td><td><input id="primaryCol" type="color" value="#ffffff" /></td></tr>
-            <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
-        </tbody>
-    </table>
-    <ul class="unstyledList buttonList">
-        <li onclick="doColourOverride()">Apply</li>
-    </ul>
+    <div style="border: 1px solid black; margin: 5px;">
+        <table style="padding: 5px;">
+         <tbody>
+             <tr><td>Primary colour</td><td><input id="primaryCol" type="color" value="#ffffff" /></td></tr>
+             <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
+         </tbody>
+      </table>
+        <ul class="unstyledList buttonList">
+           <li onclick="doColourOverride()">Apply</li>
+        </ul>
+    </div>
+    <div style="border: 1px solid black; margin: 5px; padding: 5px; text-align: center;">
+        Life
+        <ul class="unstyledList buttonList">
+            <li onclick="toggleConway(this)">Start</li>
+        </ul>
+    </div>
 </div>
 </body>
 <script>
@@ -642,6 +650,20 @@ function conwayCurrentState(){
 function doConwayNextStep(){
     var nextStepString = conwayNextStep(conwayCurrentState()).join("")
     setPattern(nextStepString)
+}
+
+var refreshIntervalId = undefined
+
+function toggleConway(element){
+    if (!refreshIntervalId){
+        refreshIntervalId = setInterval(doConwayNextStep, 500)
+        element.innerText = "Stop"
+    }
+    else{
+        clearInterval(refreshIntervalId)
+        refreshIntervalId = undefined
+        element.innerText = "Start"
+    }
 }
 </script>
 <script>
