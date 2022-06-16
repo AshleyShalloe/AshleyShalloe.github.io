@@ -313,7 +313,7 @@ function read_url_params_and_apply(){
     var patternHeight = getWidthAndHeightFromUrlParams()["height"]
     var primaryCol = getPrimarySecondaryColParams()["primary"]
     var secondaryCol = getPrimarySecondaryColParams()["secondary"]
-    if (patternHeight & patternWidth){
+    if (patternHeight && patternWidth){
         document.getElementById("inputPattern").innerHTML = generateInputPatternTable(patternWidth, patternHeight)
     }
     if (pattern){
@@ -370,7 +370,7 @@ function getWidthAndHeightFromUrlParams(){
     var url = new URL(url_string)
     var patternWidth = url.searchParams.get("width")
     var patternHeight = url.searchParams.get("height")
-    if (patternWidth & patternHeight){
+    if (patternWidth && patternHeight){
         return {"width": patternWidth, "height": patternHeight}
     }
     else{
@@ -381,7 +381,7 @@ function getWidthAndHeightFromUrlParams(){
 function getWidthAndHeightFromInputPattern(){
     var width = document.getElementById("inputPattern").rows[0].cells.length
     var height = document.getElementById("inputPattern").rows.length
-    if ((width == 8) & (height == 8)){
+    if ((width == 8) && (height == 8)){
         return {"width": undefined, "height": undefined}
     }
     else{
@@ -421,7 +421,7 @@ function generateUrlFromInputPattern(){
         }
     }
     var wh_dict = getWidthAndHeightFromInputPattern()
-    if (wh_dict["width"] & wh_dict["height"]){
+    if (wh_dict["width"] && wh_dict["height"]){
         widthAndHeightParameters = `&width=${wh_dict["width"]}&height=${wh_dict["height"]}`
     }
     var primarySecondaryColourDict = getPrimarySecondaryColFromInput()
