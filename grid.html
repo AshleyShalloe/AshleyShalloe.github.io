@@ -180,6 +180,7 @@
         <li onclick="loadPattern(this.innerText)">Hearts</li>
         <li onclick="loadPattern(this.innerText)">Arecibo</li>
         <li onclick="loadPattern(this.innerText)">FeatherSword</li>
+        <li onclick="loadPattern(this.innerText)">Glider</li>
         <li onclick="loadPattern(this.innerText)">Blank</li>
         <li onclick="loadPattern(this.innerText)">16x16</li>
         <li onclick="loadPattern(this.innerText)">Floppy</li>
@@ -204,13 +205,13 @@
     <div class="titlebar"><div class="titlebarCloseButton"></div><div class="titlebarTitle">Special</div></div>
     <div style="border: 1px solid black; margin: 5px;">
         <table style="padding: 5px;">
-         <tbody>
-             <tr><td>Primary colour</td><td><input id="primaryCol" type="color" value="#ffffff" /></td></tr>
-             <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
-         </tbody>
-      </table>
+            <tbody>
+                <tr><td>Primary colour</td><td><input id="primaryCol" type="color" value="#ffffff" /></td></tr>
+                <tr><td>Secondary colour</td><td><input id="secondaryCol" type="color" value="#000000" /></td></tr>
+            </tbody>
+        </table>
         <ul class="unstyledList buttonList">
-           <li onclick="doColourOverride()">Apply</li>
+            <li onclick="doColourOverride()">Apply</li>
         </ul>
     </div>
     <div style="border: 1px solid black; margin: 5px; padding: 5px; text-align: center;">
@@ -224,11 +225,11 @@
 <script>
 'use strict'
 function debounce(func, timeout = 300){
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { func.apply(this, args); }, timeout);
-  };
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
 }
 
 function copyInputGridToWallpaperGrid(){
@@ -611,10 +612,10 @@ function conwayNextStep(currentState){
             var nswe_coords = {}
             var cellState = currentState[y][x]
             var nextCellState = 0
-            nswe_coords["north"] = ([x, (((y-1) % gridHeight) + gridHeight) % gridHeight])
-            nswe_coords["south"] = ([x, (y+1) % gridHeight])
-            nswe_coords["west"]  = ([(((x-1) % gridWidth) + gridWidth) % gridWidth, y])
-            nswe_coords["east"]  = ([(x+1) % gridWidth, y])
+            nswe_coords["north"] = [x, (((y-1) % gridHeight) + gridHeight) % gridHeight]
+            nswe_coords["south"] = [x, (y+1) % gridHeight]
+            nswe_coords["west"]  = [(((x-1) % gridWidth) + gridWidth) % gridWidth, y]
+            nswe_coords["east"]  = [(x+1) % gridWidth, y]
             nswe_coords["nw"] = [nswe_coords["west"][0], nswe_coords["north"][1]]
             nswe_coords["ne"] = [nswe_coords["east"][0], nswe_coords["north"][1]]
             nswe_coords["sw"] = [nswe_coords["west"][0], nswe_coords["south"][1]]
