@@ -235,7 +235,7 @@
         padding-right: 4px;
     }
     #startMenu{
-        display: table;
+        display: grid;
         left: 0;
         border-top: 2px solid white;
         border-left: 2px solid white;
@@ -247,7 +247,7 @@
       }
       #startMenuLeftBanner{
         background: linear-gradient(0deg, #5986d9, #b86ad2);
-        display: table-cell;
+        grid-column-start: 1;
         color: white;
         font-weight: bold;
         writing-mode: vertical-lr;
@@ -257,7 +257,7 @@
         user-select: none;
       }
       #startMenuList{
-        display: table-cell;
+        grid-column-start: 2;
         background: inherit;
       }
       #startMenuList li{
