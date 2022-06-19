@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
 <title>Whatever</title>
 <link rel="icon" href="favicon.svg" />
 <style>
@@ -36,7 +37,7 @@
         text-decoration: underline;
     }
     .cardContainer{
-        background-color: white;
+        background: white;
         border: 1px solid black;
         margin-top: 10px;
         margin-bottom: 20px;
@@ -311,6 +312,31 @@
       .submenu li{
         border: unset !important;
       }
+      #itIsNowSafe{
+        color: #c27f53;
+        text-align: center;
+        font-size: xxx-large;
+        user-select: none;
+      }
+      .modal{
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        border: 1px solid black;
+        position: fixed;
+        box-shadow: 5px 5px 5px #00000099;
+        text-align: center;
+        background: rgb(243 224 242 / 95%)
+      }
+      .hidden{
+        display: none;
+      }
+      .modalSection{
+        padding: 10px; 
+        margin: 10px; 
+        background: rgba(236, 236, 236, 0.798);
+        border: 1px solid black;
+      }
 </style>
 </head>
 <body>
@@ -377,8 +403,8 @@
         <li class="expandable">
             🗂 Programs
             <ul class="submenu">
-                <li>Hello world 1</li>
-                <li>Hello world 11</li>
+                <li>Check out the documents instead</li>
+                <li>That actually does something</li>
             </ul>
         </li>
         <li id="startMenuDocuments" class="expandable">
@@ -387,17 +413,30 @@
         <li class="expandable">
             ⚙️ Settings
             <ul class="submenu">
-                <li>Hello world 3</li>
-                <li>Hello world 33</li>
-                <li>Hello world 333</li>
+                <li>Nothing here</li>
+                <li>but us chickens</li>
+                <li>🐓🐓🐓</li>
             </ul>
         </li>
-        <li>🔍 Find</li>
-        <li>📕 Help</li>
-        <li>⏳ Run</li>
-        <li>🖥 Shut Down</li>
+        <li onclick="document.getElementById('findModal').classList.toggle('hidden'); closeStartMenu(); setTimeout(function(){document.getElementById('findModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">🔍 Find</li>
+        <li onclick="document.getElementById('helpModal').classList.toggle('hidden'); closeStartMenu(); closeStartMenu(); setTimeout(function(){document.getElementById('helpModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">📕 Help</li>
+        <li onclick="document.getElementById('runModal').classList.toggle('hidden'); closeStartMenu(); setTimeout(function(){document.getElementById('runModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">⏳ Run</li>
+        <li onclick="shutDown()">🖥 Shut Down</li>
     </ul>
 </div>
+<div id="runModal" class="modal hidden cardContainer">
+    <div class="cardHeader">Run</div>
+    <div class="modalSection">Who are you running from? &gt;:3</div>
+</div>
+<div id='helpModal' class='modal hidden cardContainer'>
+    <div class='cardHeader'>Help</div>
+    <div class="modalSection">There's no help for you</div>
+</div>
+<div id='findModal' class='modal hidden cardContainer'>
+    <div class='cardHeader'>Find</div>
+    <div class='modalSection'>I'm sure whatever you're looking for is right here</div>
+</div>
+    
 <div id="taskbar"><div id="startButton" onclick="startButtonAction()"><div class="sb-text">&#x2756;</div><div class="sb-text">Start</div></div><div id="windowButtonContainer"></div><div id="taskbarClock">13:37</div></div>
 </body>
 <script>
@@ -430,13 +469,23 @@ function buttonPress(buttonElement){
 function addWindowsToTaskbar(){
     var titleText = []
     for (var i=0; i<document.getElementsByClassName("cardHeader").length; i++){
-        titleText.push(document.getElementsByClassName("cardHeader")[i].innerText)
+        if (!document.getElementsByClassName("cardHeader")[i].parentElement.classList.contains("hidden")){
+            titleText.push(document.getElementsByClassName("cardHeader")[i].innerText)
+        }
     }
     for (var x in titleText){
         var tt = titleText[x];
         var windowButton = `<div class="windowButton">${tt}</div>`
         document.getElementById("windowButtonContainer").innerHTML += windowButton;
     }
+}
+
+function tempAddWindowToTaskbar(windowText, timeout){
+    let idString = self.crypto.randomUUID() // overkill
+    document.getElementById("windowButtonContainer").innerHTML += `<div class="windowButton" id='${idString}'>${windowText}</div>`
+    setTimeout(function(){
+        document.getElementById(idString).outerHTML = ""
+    }, timeout)
 }
 
 function startButtonAction(){
@@ -451,7 +500,7 @@ function startButtonAction(){
 var audio = undefined;
 var audioClockId = undefined
 
-function startRadio(station, url){
+function stopRadio(){
     if (audio){
         // try to avoid allowing more than one playback at a time...
         audio.pause();
@@ -460,6 +509,10 @@ function startRadio(station, url){
     if (audioClockId){
         clearInterval(audioClockId);
     }
+}
+
+function startRadio(station, url){
+    stopRadio();
     audio = new Audio(url);
     audio.play();
     audioClockId = setInterval(function(){
@@ -537,6 +590,16 @@ function startMenuInit(){
     startMenuCloseOnclickInit();
     generateStartMenuDocumentsList();
     generateStartMenuExpandModals();
+}
+
+function shutDown(){
+    document.getElementsByTagName("body")[0].innerHTML = "<div id='itIsNowSafe'>It's now safe to turn off<br>your computer.</div>";
+    document.getElementsByTagName("body")[0].style.background = "black";
+    document.getElementsByTagName("body")[0].style.display = "flex";
+    document.getElementsByTagName("body")[0].style.flexDirection = "row";
+    document.getElementsByTagName("body")[0].style.justifyContent = "center";
+    document.getElementsByTagName("body")[0].style.alignItems = "center";
+    stopRadio();
 }
 
 function init(){
