@@ -178,6 +178,7 @@
         display: inline-block;
         user-select: none;
         cursor: default;
+        white-space: nowrap;
         margin-right: 0.2em;
         height: 1.8em;
         padding-left: 4px;
@@ -377,14 +378,11 @@
             🗂 Programs
             <ul class="submenu">
                 <li>Hello world 1</li>
-                <li>Hello world11</li>
+                <li>Hello world 11</li>
             </ul>
         </li>
-        <li class="expandable">
+        <li id="startMenuDocuments" class="expandable">
             📂 Documents
-            <ul class="submenu">
-                <li>Hello world 2</li>
-            </ul>
         </li>
         <li class="expandable">
             ⚙️ Settings
@@ -442,14 +440,51 @@ function addWindowsToTaskbar(){
 }
 
 function startButtonAction(){
-    //var audio = new Audio('https://ice4.somafm.com/lush-128-mp3');
-    //audio.play();
     if (document.getElementById("startMenu").style.bottom == '2em'){
         closeStartMenu()
     }
     else{
         document.getElementById("startMenu").style.bottom = "2em"
     }
+}
+
+var audio = undefined;
+var audioClockId = undefined
+
+function startRadio(station, url){
+    if (audio){
+        // try to avoid allowing more than one playback at a time...
+        audio.pause();
+        audio.currentTime = 0;
+    }
+    if (audioClockId){
+        clearInterval(audioClockId);
+    }
+    audio = new Audio(url);
+    audio.play();
+    audioClockId = setInterval(function(){
+        document.getElementById("taskbarClock").innerText = station + " " + audio.currentTime.toFixed(1).toString()
+        }, 100)
+     document.getElementById("taskbarClock").style.fontFamily = "monospace"
+}
+
+function generateStartMenuDocumentsList(){
+    // so the documents list is just a bunch of internet radio
+    // populated from the internetRadioStations object below
+    var internetRadioStations = {
+        "Lush": "https://ice4.somafm.com/lush-128-mp3",
+        "The Trip": "https://ice2.somafm.com/thetrip-128-mp3",
+        "SceneSat": "http://oscar.scenesat.com:8000/scenesatmax",
+        "psyradio": "http://streamer.psyradio.org:8010/progressive/",
+        "KCRW": "http://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio",
+        "sf1033": "https://ice2.somafm.com/sf1033-128-mp3"
+    }
+    var list_elements_array = []
+    for (var stationName in internetRadioStations){
+        var stationUrl = internetRadioStations[stationName]
+        list_elements_array.push(`<li onclick='startRadio(this.innerText, "${stationUrl}"); closeStartMenu()'>${stationName}</li>`)
+    }
+    document.getElementById("startMenuDocuments").innerHTML += "<ul class='submenu'>" + list_elements_array.join("") + "</ul>"
 }
 
 function startMenuCloseOnclickInit(){
@@ -498,12 +533,17 @@ function generateStartMenuExpandModals(){
     }
 }
 
+function startMenuInit(){
+    startMenuCloseOnclickInit();
+    generateStartMenuDocumentsList();
+    generateStartMenuExpandModals();
+}
+
 function init(){
     setRandomEmoticon();
     addWindowsToTaskbar(); // run before adding titlebar buttons
     addTitlebarButtons();
-    startMenuCloseOnclickInit();
-    generateStartMenuExpandModals();
+    startMenuInit();
 }
 
 init();
