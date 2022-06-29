@@ -1,0 +1,108 @@
+<html>
+<head>
+	<style>
+	body{
+		background: black; 
+		color: white; 
+		font-family: sans-serif; 
+		font-weight: bold;
+		text-shadow: 0px 0px 3px red;
+		filter: blur(0.4px);
+	}
+	.container{
+		padding-left: 3px; 
+		padding-right: 3px; 
+		padding-top: 1px; 
+		padding-bottom: 1px; 
+		border: 3px solid white; 
+		border-radius: 10px; 
+		width: fit-content;
+		box-shadow: 0px 0px 7px red;
+	}
+	#container-top{
+		display: flex; 
+		margin-bottom: 0.5em; 
+		font-size: large; 
+		justify-content: space-around;
+	}
+	#container-bottom{
+		border-top: 2px solid white; 
+		transform: scale(1, 2); 
+		margin-bottom: 0.5em;
+	}
+	#subtext{
+		padding-left: 6px;
+	}
+	#vanished{
+		position: fixed;
+		bottom: 10px;
+		right: 10px;
+		font-size: x-large;
+		padding-top: 18px;
+		padding-bottom: 18px;
+		padding-left: 7px;
+		padding-right: 7px;
+	}
+	#vanished .vanished-text{
+		transform: scale(1,3);
+	}
+	#crosshair-container{
+		font-weight: 100;
+	}
+	.middle, .left, .bottom, .top, .centre, .right{
+		position: fixed;
+		transform: scale(1.5);
+	}
+	#crosshair-container .middle{
+		left: 50%;
+	}
+	#crosshair-container .left{
+		left: 20%;
+	}
+	#crosshair-container .right{
+		right: 20%;
+	}
+	#crosshair-container .top{
+		top: 20%;
+	}
+	#crosshair-container .bottom{
+		bottom: 20%;
+	}
+	#crosshair-container .middle{
+		left: 50%;
+	}
+	#crosshair-container .centre{
+		top: 50%;
+	}
+	#crosshair-container .centre.middle{
+		transform: scale(2);
+	}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div id="container-top">
+	OBJECT : <span style="font-size: x-large">&nbsp;EVA-01</span>
+	</div>
+	<div id="container-bottom">
+	ENTRY PUG: INTERIOR
+	</div>
+</div>
+<div id="subtext">
+<div style="font-size: x-large">LIVE</div>
+<div style="transform: scale(1,1.3); font-size: 0.76em;">DIRECT CONNECTION NO. 316</div>
+</div>
+<div id="vanished" class="container"><div class="vanished-text">PILOT VANISHED</div></div>
+<div id="crosshair-container">
+	<div class="top middle">+</div>
+	<div class="bottom middle">+</div>
+	<div class="centre left">+</div>
+	<div class="centre right">+</div>
+	<div class="centre middle">×</div>
+	<div class="bottom left" style="border-bottom:2px solid white; border-left: 2px solid white; height: 1em; width: 1em; margin-left: 10px; margin-bottom: 10px;"></div>
+	<div class="top right" style="border-top:2px solid white; border-right: 2px solid white; height: 1em; width: 1em; margin-right: 10px; margin-top: 10px;"></div>
+	<div class="bottom left" style="font-weight: bold; transform: rotate(45deg) scale(1,2); margin-left: -10px; margin-bottom: -15px">|</div>
+	<div class="top right" style="font-weight: bold; transform: rotate(45deg) scale(1,2); margin-right: -10px; margin-top: -15px">|</div>
+</div>
+</body>
+</html>
