@@ -77,6 +77,14 @@
 	#crosshair-container .centre.middle{
 		transform: scale(2);
 	}
+	.star{
+		width: 0.1vw;
+		height: 0.1vw;
+		background: white;
+		border-radius: 100%;
+		z-index: -20;
+		position: fixed;
+	}
 	</style>
 </head>
 <body>
@@ -112,6 +120,21 @@ function ifFirefox(){
 		document.getElementsByTagName("body")[0].style.height = "100%";
 	}
 }
-ifFirefox()
+	
+function generateStarField(numberOfStars){
+	for (var i=0; i<numberOfStars; i++){
+		var xPos = 100 * Math.random()
+		var yPos = 100 * Math.random()
+		var starHtml = `<div class='star' style='left: ${xPos}%; top: ${yPos}%'></div>`
+		document.getElementById("starfieldContainer").innerHTML += starHtml
+	}
+}
+
+function init(){
+	ifFirefox();
+	generateStarField(100);
+}
+
+init()
 </script>
 </html>
