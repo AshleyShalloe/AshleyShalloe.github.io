@@ -182,7 +182,6 @@ function compare_sequence_to_definition(input_id, input_sequence, input_definiti
 </script>
 <script>
 // populate the definitions div with a form
-// TODO: sort in a sane order
 function makeDefinitionForm(input_definitions){
     input_definitions = input_definitions.map(x => [(x["phe-label"] ? x["phe-label"] : x["unique-id"]), x["unique-id"]]).sort(sort_genomics_variant_call) // returns a sorted array of [phe-label, unique-id] arrays
     for (var v in input_definitions){
