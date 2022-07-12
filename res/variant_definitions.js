@@ -4820,5 +4820,117 @@ var variant_definitions = [{
     "Natalie Groves",
     "Aniruddha Pandit"
   ]
+},
+{
+  "unique-id": "BA.2.75_draft",
+  "phe-label": "BA.2.75_draft",
+  "belongs-to-lineage": [
+    {
+      "PANGO": "BA.2.75"
+    }
+  ],
+  "variants": [
+    {
+      "one-based-reference-position": 3796,
+      "predicted-effect": "synonymous",
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "T"
+    },
+    {
+      "one-based-reference-position": 3927,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "T"
+    },
+    {
+      "one-based-reference-position": 15451,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "A"
+    },
+    {
+      "one-based-reference-position": 22001,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "G"
+    },
+    {
+      "one-based-reference-position": 22016,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "C"
+    },
+    {
+      "one-based-reference-position": 22033,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "A"
+    },
+    {
+      "one-based-reference-position": 22190,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "G"
+    },
+    {
+      "one-based-reference-position": 22331,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "A"
+    },
+    {
+      "one-based-reference-position": 22577,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "C"
+    },
+    {
+      "one-based-reference-position": 22898,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "A"
+    },
+    {
+      "one-based-reference-position": 22942,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "G"
+    },
+    {
+      "one-based-reference-position": 26275,
+      "predicted-effect": "non-synonymous",
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "G"
+    }
+  ],
+  "calling-definition": {
+    "confirmed": {
+      "mutations-required": 12,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    },
+    "probable": {
+      "mutations-required": 7,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    },
+    "low-qc": {
+      "mutations-required": 0,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    }
+  }
 }
 ]
