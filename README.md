@@ -26,6 +26,10 @@ System 6 wallpaper pixel art
 
 * [grid.html](https://ashleyshalloe.github.io/grid.html)
 
+Convert an image (or any other file) to a base64 data URI
+
+* [img2base64.html](https://ashleyshalloe.github.io/img2base64.html)
+
 ## WIP
 
 Colour scheme generator

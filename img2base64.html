@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <link rel="icon" href="favicon.svg">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8"/>
+        <title>img2base64</title>
+        <style>
+            html{
+                font-family: sans-serif;
+            }
+            body{
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-width: 800px;
+                padding-left: 20px;
+                padding-right: 20px;
+                background: linear-gradient(0deg, #f1f1f1, #ffffff00);
+            }
+            .card{
+                padding: 10px;
+                margin: 10px;
+                border: 1px solid gray;
+                width: 100%;
+            }
+            .card:nth-child(6n){
+                background: #d3c3bb;
+            }
+            .card:nth-child(6n+2){
+                background: #d7c1cc;
+            }
+            .card:nth-child(6n+3){
+                background: #b5ccc1;
+            }
+            .card:nth-child(6n+4){
+                background: #c3b9b5;
+            }
+            .card:nth-child(6n+5){
+                background: #cac3d8;
+            }
+            .card:nth-child(6n+1){
+                background: rgb(209, 219, 224);
+            }
+            h1{
+                margin: 0;
+            }
+            h2{
+                margin-top: 0;
+            }
+            .card, textarea{
+                border-radius: 7px;
+            }
+            textarea{
+                width: 100%;
+            }
+            #resultCardHeader{
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+<body>
+<div class="card">
+    <h1>Convert image to base64</h1>
+    <p>Upload an image*, get the base64 data URI.</p>
+    <p style="font-size: x-small">*Actually works with any filetype.</p>
+</div>
+<div class="card">
+    <h2>Upload</h2>
+    <input type="file" id="file" oninput='readInputFileConvertToBase64()' autofocus />
+</div>
+<div class="card">
+    <h2 id="resultCardHeader">Result<button id="clipcopybutton" onclick="copyToClipboard(); this.innerText = 'Copied'">Copy to clipboard</button></h2>
+    <textarea id="encoded_result" rows="7"></textarea>
+</div>
+</body>
+<script>
+'use strict'
+
+function readInputFileConvertToBase64(){
+	if(document.querySelector("#file").value == '') {
+		document.getElementById("encoded_result").value = 'No file selected';
+		return;
+	}
+
+	var file = document.querySelector("#file").files[0];
+
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		document.getElementById("encoded_result").value = (e.target.result);
+	};
+	reader.onerror = function(e) {
+		document.getElementById("encoded_result").value = 'Error reading file';
+	};
+	reader.readAsDataURL(file);
+};
+
+function copyToClipboard(){
+    navigator.clipboard.writeText(document.getElementById("encoded_result").value)
+    setTimeout(function(){document.getElementById("clipcopybutton").innerText = "Copy to clipboard"}, 5000)
+}
+</script>
+</html>
