@@ -338,6 +338,19 @@
         background: rgba(236, 236, 236, 0.798);
         border: 1px solid black;
     }
+    @media (orientation: portrait) {
+        #vmModal iframe{
+            height: 60vw;
+            width: 80vw;
+       }
+    }
+     @media (orientation: landscape) {
+        #vmModal iframe{
+            height: 60vh;
+            width: 80vh;
+       }
+    }
+    
 </style>
 </head>
 <body>
@@ -410,8 +423,7 @@
         <li class="expandable">
             🗂 Programs
             <ul class="submenu">
-                <li>Check out the documents instead</li>
-                <li>That actually does something</li>
+                <li onclick="startVm(); tempAddWindowToTaskbar(this.innerText, 6000)">Virtual Machine</li>
             </ul>
         </li>
         <li id="startMenuDocuments" class="expandable">
@@ -442,6 +454,9 @@
 <div id='findModal' class='modal hidden cardContainer'>
     <div class='cardHeader'>Find</div>
     <div class='modalSection'>I'm sure whatever you're looking for is right here</div>
+</div>
+<div id='vmModal' class='modal hidden cardContainer'>
+    <div class='cardHeader'>Virtual Machine</div>
 </div>
     
 <div id="taskbar"><div id="startButton" onclick="startButtonAction()"><div class="sb-text">&#x2756;</div><div class="sb-text">Start</div></div><div id="windowButtonContainer"></div><div id="taskbarClock">13:37</div></div>
@@ -609,6 +624,28 @@ function shutDown(){
     document.getElementsByTagName("body")[0].style.height = "100%"; // specifically for firefox
     document.getElementsByTagName("body")[0].style.paddingBottom = "0"; // specifically for firefox
     stopRadio();
+}
+
+function startVm(){
+    closeStartMenu();
+    // only add the iframe if it isn't already there
+    if (!document.getElementById("vmModal").innerHTML.includes("modalSection")){
+        // nice try
+        var url_string = window.location.href
+        var url = new URL(url_string)
+        var nested = url.searchParams.get("nested")
+        if (nested){
+          document.getElementById("vmModal").innerHTML += `<div class='modalSection'>Nice try</div>`
+        }
+        else{
+            // probably breaks if you ever add other url params
+            document.getElementById("vmModal").innerHTML += `<iframe class='modalSection' src="${window.location.href}?nested=true"></iframe>`;
+        }
+    }
+
+    document.getElementById('vmModal').classList.toggle('hidden');
+
+    setTimeout(function(){document.getElementById('vmModal').classList.toggle('hidden'); document.getElementById('vmModal').getElementsByClassName('modalSection')[0].outerHTML = '';}, 6000)
 }
 
 function init(){
