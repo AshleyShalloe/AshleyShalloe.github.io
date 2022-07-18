@@ -1,0 +1,222 @@
+<html>
+    <head>
+        <link rel="icon" href="favicon.svg" />
+        <title>Stargazer</title>
+        <style>
+            html{
+                font-family: sans-serif;
+                background: #eef4ff;
+            }
+            .mutation_type, .obrp, .base{
+                display: block;
+            }
+            .scorpio_table{
+                color: black;
+                border-collapse: separate;
+            }
+            .scorpio_table th, .scorpio_table td{
+                text-align: center;
+                padding: 0;
+                border: 1px solid white !important;
+                background: white;
+            }
+            .scorpio_table th{
+                font-weight: bold;
+                font-size: x-small;
+            }
+            .scorpio_table td{
+                font-size: large;
+            }
+            .scorpio_table .mutation_type{
+                width: 100%;
+            }
+            .scorpio_table .mutation_type.aa{
+                background: black;
+                color: white;
+            }
+            .scorpio_table .mutation_type.snp{
+                background: #12594e;
+                color: white;
+            }
+            .scorpio_table .mutation_type.del_nt{
+                background: #4e1359;
+                color: white;
+            }
+            .scorpio_table .mutation_type.del_aa{
+                background: #593012;
+                color: white;
+            }
+            .scorpio_table .query_data_row td{
+                min-width: 2em;
+                height: 2em;
+            }
+            .match{
+                background: #9ec7a0 !important;
+            }
+            .mismatch{
+                background: #ff9191 !important;
+            }
+            .card{
+                box-shadow: 10px 10px 10px lightgray;
+                padding: 10px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+                border: 1px solid lightgray;
+                background: white;
+            }
+        </style>
+        <script type="text/javascript" src="res/SARS-CoV-2.js"></script>
+        <script type="text/javascript" src="res/constellations.js"></script>
+        <script type="text/javascript" src="res/stargazer.js"></script>
+    </head>
+<body>
+    <div class="card">
+        <h1>Stargazer</h1>
+        <p>Paste in a SARS-CoV-2 sequence, see how it does (or doesn't) meet the Scorpio constellations used by Pangolin.</p>
+        <p>Currently in proof-of-concept stage, but mostly working.</p>
+        <p>The constellations come from <a href="https://github.com/cov-lineages/constellations" target="_blank">cov-lineages/constellations</a> on GitHub</p>
+        <p>Some of the functions were forked from <a href="https://github.com/cov-lineages/scorpio" target="_blank">cov-lineages/scorpio</a> on GitHub and ported to JavaScript</p>
+        <p>This might get integrated into <a href="undefined.html" target="_blank">undefined.html</a> at some point the future, which essentially does the same thing but with UKHSA variant definitions.</p>
+    </div>
+    <div class="card">
+        <h2>Input sequence</h2>
+        <p>Just the sequence, no fasta header.</p>
+        <textarea style="width: 70%; height: 7em; display: block" id="query_seq"></textarea>
+    </div>
+    <div class="card">
+        <h2>Constellations</h2>
+        <div id="constellationSelectorContainer"></div>
+        <br>
+        <button onclick="document.getElementById('result').innerHTML = generateTableHtml(document.getElementById('query_seq').value, generateSliceRecord(constellationToDefinitionSitesDict[document.getElementById('constellationSelection').value])); highlightMatchMismatch();">Go</button>
+    </div>
+    <div class="card">
+        <h2>Result</h2>
+        <div id="result"></div>
+    </div>
+</body>
+<script>
+'use strict'
+
+function generateconstellationToDefinitionSitesDict(){
+    var features_dict = generateFeaturesDict(sarsCov2Ref)
+    var constellationToDefinitionSitesDict = {}
+
+    for (var constellationName in constellationsArray){
+        var constellationDict = constellationsArray[constellationName]
+        var constellationSites = constellationDict["sites"]
+        var definitionSites = []
+        for (var siteIndex in constellationSites){
+            var site = constellationSites[siteIndex]
+            var variantRecord = variant_to_variant_record(site, sarsCov2Ref["genome"], features_dict)
+            definitionSites.push(variantRecord)
+        }
+        constellationToDefinitionSitesDict[constellationName] = definitionSites
+    }
+    return constellationToDefinitionSitesDict
+}
+
+var constellationToDefinitionSitesDict = generateconstellationToDefinitionSitesDict()
+
+function generateSliceRecord(definition_sites){
+    var slice_records = [] // list of arrays with type, start co-ord, end co-ord, ref and alt
+
+    for (var ds_index in definition_sites){
+        var ds = definition_sites[ds_index]
+        var aa_snp_or_del = ((ds["type"] == "aa") || (ds["type"] == "snp" || (ds["type"] == "del"))) ? ds["type"]: false
+        var ref = ""
+        var alt = ""
+        var pos = 0
+        if (!aa_snp_or_del){
+            continue
+        }
+        if (aa_snp_or_del == "aa"){
+            var start = ds["ref_start"]
+            var ref = ds["ref_allele"]
+            var alt = ds["alt_allele"]
+            var length = ref.length // aa length, not nt length
+            var stop = start + (length*3) - 1 // the stop nucleotide position
+            //console.log("aa", start, stop, ref, alt)
+            slice_records.push(["aa", start, stop, ref, alt])
+        }
+        else if (aa_snp_or_del == "snp"){
+            var start = ds["ref_start"]
+            var ref = ds["ref_allele"]
+            var alt = ds["alt_allele"]
+            var length = ref.length // nt length
+            var stop = start + length - 1 // the stop nucleotide position
+            // console.log("snp", start, stop, ref, alt)
+            slice_records.push(["snp", start, stop, ref, alt])
+        }
+        else if (aa_snp_or_del == "del"){
+            var start = ds["ref_start"]
+            var ref = ds["ref_allele"]
+            var alt = "-"
+            var length = ds["length"] // potentially varies depending on the space key?
+            var del_aa_or_nt = ds["space"] == "aa" ? "aa": "nt"
+            var stop = del_aa_or_nt == "aa" ? (start + (length*3)): (start + length - 1) // the stop nucleotide position
+            //console.log("del", start, stop)
+            slice_records.push(["del_"+del_aa_or_nt, start, stop, ref, alt])
+        }
+        else{
+            console.error("how did we get here?") // unreachable?
+        }
+    // console.log("\n".join([str(x) for x in slice_records]))
+    }
+    return slice_records
+}
+
+function generateTableHtml(query_seq, slice_records){
+    var table_html = ["<table class='scorpio_table'>"]
+    var header_row_html = []
+    var row_html = []
+
+    // generate header row
+    for (var sr_index in slice_records){
+        var [mutation_type, start, stop, ref, alt] = slice_records[sr_index]
+        header_row_html.push(`<th><div class='mutation_type ${mutation_type}'>${mutation_type}</div><div class='obrp'>${start}</div><div class='base'>${alt}</div></th>`)
+    }
+        
+    header_row_html = "<tr class='ref_data_row'>" + header_row_html.join("\n") + "</tr>"
+
+    // generate rest of the rows
+    for (var sr_index in slice_records){
+        var [mutation_type, start, stop, ref, alt] = slice_records[sr_index]
+        var sequence_slice = query_seq.slice(start-1, stop)
+        if ((mutation_type == "aa") || (mutation_type == "del_aa")){
+            sequence_slice = translate_triplets(sequence_slice)
+        }
+        row_html.push(`<td><span class='base'>${sequence_slice}</span></td>`)
+    }
+        
+    row_html = "<tr class='query_data_row'>" + row_html.join("\n") + "</tr>"
+
+    // combine the rows into a table
+    table_html.push(header_row_html)
+    table_html.push(row_html)
+    table_html.push("</table>")
+    table_html = table_html.join("\n")
+    
+    return table_html
+}
+
+function constellationSelectorGenerator(){
+    var outhtml = "<select id='constellationSelection'><option disabled selected>Select a constellation</option>"
+    var caArray = Object.keys(constellationsArray).sort()
+
+    for (var ca_idx in caArray){
+        outhtml += `<option value='${caArray[ca_idx]}'>${caArray[ca_idx]}</option>`
+    }
+    outhtml += "</select>"
+    document.getElementById("constellationSelectorContainer").innerHTML += outhtml
+}
+
+function init(){
+    constellationSelectorGenerator()
+}
+
+init();
+</script>
+<script>
+'halfway between the gutter and the stars'
+</script>
+</html>
