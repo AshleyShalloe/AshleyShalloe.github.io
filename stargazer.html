@@ -313,25 +313,17 @@ function doThing(){
 
 function changeConstellation(direction=false){
     if (direction == "previous"){
-        document.getElementById('nextConst').disabled = false
         if (document.getElementById('constellationSelection').selectedIndex > 1){
             document.getElementById('constellationSelection').selectedIndex = document.getElementById('constellationSelection').selectedIndex - 1
         }
-        if (document.getElementById('constellationSelection').selectedIndex < 2){
-            document.getElementById('prevConst').disabled = true
-        }
-         doThing();
+        changeConstellation();
+        doThing();
     }
     else if (direction == "next"){
-        if (document.getElementById('constellationSelection').selectedIndex > 0){
-            document.getElementById('prevConst').disabled = false
-        }
         if (document.getElementById('constellationSelection').selectedIndex < document.getElementById('constellationSelection').getElementsByTagName("option").length){
             document.getElementById('constellationSelection').selectedIndex = document.getElementById('constellationSelection').selectedIndex + 1
         }
-        if (document.getElementById('constellationSelection').selectedIndex == document.getElementById('constellationSelection').getElementsByTagName("option").length - 1){
-            document.getElementById('nextConst').disabled = true
-        }
+        changeConstellation();
         doThing();
     }
     else{
