@@ -1,11 +1,16 @@
 <html>
     <head>
         <link rel="icon" href="favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Stargazer</title>
         <style>
             html{
                 font-family: sans-serif;
-                background: #eef4ff;
+                background: #00062f;
+                overflow-x: scroll;
+            }
+            body{
+                margin: 0 auto;
             }
             .mutation_type, .obrp, .base{
                 display: block;
@@ -57,12 +62,40 @@
                 background: #ff9191 !important;
             }
             .card{
-                box-shadow: 10px 10px 10px lightgray;
-                padding: 10px;
-                margin-top: 30px;
-                margin-bottom: 30px;
+                box-shadow: 0px 0px 6px lightgrey;
+                padding-left: 8px;
+                padding-right: 8px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                margin-left: 20px;
+                margin-right: 20px;
                 border: 1px solid lightgray;
                 background: white;
+                overflow-x: scroll;
+            }
+            .star{
+                width: 0.1vw;
+                height: 0.1vw;
+                background: white;
+                border-radius: 100%;
+                z-index: -20;
+                position: fixed;
+            }
+            #query_seq{
+                width: 100%;
+                height: 10em;
+                margin-bottom: 10px;
+            }
+            h1, h2, h3{
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .card button{
+                margin-bottom: 1em;
+            }
+            .scorpio_table{
+                padding-bottom: 1em;
+                padding-top: 0.5em;
             }
         </style>
         <script type="text/javascript" src="res/SARS-CoV-2.js"></script>
@@ -81,7 +114,7 @@
     <div class="card">
         <h2>Input sequence</h2>
         <p>Just the sequence, no fasta header.</p>
-        <textarea style="width: 70%; height: 7em; display: block" id="query_seq"></textarea>
+        <textarea id="query_seq"></textarea>
     </div>
     <div class="card">
         <h2>Constellations</h2>
@@ -89,10 +122,11 @@
         <br>
         <button onclick="document.getElementById('result').innerHTML = generateTableHtml(document.getElementById('query_seq').value, generateSliceRecord(constellationToDefinitionSitesDict[document.getElementById('constellationSelection').value])); highlightMatchMismatch();">Go</button>
     </div>
-    <div class="card">
+    <div class="card" id="resultCard">
         <h2>Result</h2>
         <div id="result"></div>
     </div>
+    <div id="starfieldContainer"></div>
 </body>
 <script>
 'use strict'
@@ -210,8 +244,19 @@ function constellationSelectorGenerator(){
     document.getElementById("constellationSelectorContainer").innerHTML += outhtml
 }
 
+function generateStarField(numberOfStars){
+	for (var i=0; i<numberOfStars; i++){
+		var xPos = 100 * Math.random()
+		var yPos = 100 * Math.random()
+		var starHtml = `<div class='star' style='left: ${xPos}%; top: ${yPos}%'></div>`
+		document.getElementById("starfieldContainer").innerHTML += starHtml
+	}
+}
+
+
 function init(){
-    constellationSelectorGenerator()
+    constellationSelectorGenerator();
+    generateStarField(100);
 }
 
 init();
