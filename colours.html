@@ -49,8 +49,17 @@ function randbetween(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+function leftpad(input_string, pad_string, target_length){
+    var outstring = input_string
+    while (outstring.length < target_length){
+        outstring = pad_string + outstring
+    }
+    return outstring
+}
+
 function randomColour(){
-    return "#" + randbetween(0,16777215).toString(16)
+    var rand_hex = randbetween(0,16777215).toString(16)
+    return "#" + leftpad(rand_hex, "0", 6)
 }
 
 function set_seed(seedColour){
