@@ -111,6 +111,7 @@
                 padding-right: 0.5em;
                 color: white !important;
                 text-decoration: none !important;
+                white-space: nowrap;
             }
             a:hover{
                 background: #061ed4;
@@ -123,6 +124,11 @@
                 margin-top: 10px;
                 margin-bottom: 10px;
             }
+            #pageHeading{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
         </style>
         <script type="text/javascript" src="res/SARS-CoV-2.js"></script>
         <script type="text/javascript" src="res/constellations.js"></script>
@@ -130,7 +136,7 @@
     </head>
 <body>
     <div class="card">
-        <h1>Stargazer</h1>
+        <h1 id="pageHeading">Stargazer<span style="white-space: nowrap; font-size: smaller;" id="emoticon">☆彡</span></h1>
         <div class="cardInner">
             <p>Paste in a SARS-CoV-2 sequence, see how it does (or doesn't) meet the Scorpio constellations used by Pangolin.</p>
             <p>Currently in proof-of-concept stage, but mostly working.</p>
