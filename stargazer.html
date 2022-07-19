@@ -8,6 +8,7 @@
                 font-family: sans-serif;
                 background: #00062f;
                 overflow-x: scroll;
+                padding-bottom: 20px;
             }
             body{
                 margin: 0 auto;
@@ -69,7 +70,7 @@
                 margin-bottom: 20px;
                 margin-left: 20px;
                 margin-right: 20px;
-                border: 1px solid lightgray;
+                border: 1px solid white;
                 background: white;
                 overflow-x: scroll;
             }
@@ -89,9 +90,15 @@
             h1, h2, h3{
                 margin-top: 5px;
                 margin-bottom: 5px;
+                border-bottom: 1px solid lightgray;
             }
             .card button{
                 margin-bottom: 1em;
+                padding: 0.5em;
+            }
+            .card select{
+                margin-top: 0.5em;
+                padding: 0.5em;
             }
             .scorpio_table{
                 padding-bottom: 1em;
@@ -108,6 +115,14 @@
             a:hover{
                 background: #061ed4;
             }
+            .cardInner{
+                background: #e6e6e6;
+                border: 1px solid gray;
+                border-radius: 10px;
+                padding: 10px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
         </style>
         <script type="text/javascript" src="res/SARS-CoV-2.js"></script>
         <script type="text/javascript" src="res/constellations.js"></script>
@@ -116,11 +131,13 @@
 <body>
     <div class="card">
         <h1>Stargazer</h1>
-        <p>Paste in a SARS-CoV-2 sequence, see how it does (or doesn't) meet the Scorpio constellations used by Pangolin.</p>
-        <p>Currently in proof-of-concept stage, but mostly working.</p>
-        <p>The constellations come from <a href="https://github.com/cov-lineages/constellations" target="_blank">cov-lineages/constellations</a> on GitHub</p>
-        <p>Some of the functions were forked from <a href="https://github.com/cov-lineages/scorpio" target="_blank">cov-lineages/scorpio</a> on GitHub and ported to JavaScript</p>
-        <p>This might get integrated into <a href="undefined.html" target="_blank">undefined.html</a> at some point the future, which essentially does the same thing but with UKHSA variant definitions.</p>
+        <div class="cardInner">
+            <p>Paste in a SARS-CoV-2 sequence, see how it does (or doesn't) meet the Scorpio constellations used by Pangolin.</p>
+            <p>Currently in proof-of-concept stage, but mostly working.</p>
+            <p>The constellations come from <a href="https://github.com/cov-lineages/constellations" target="_blank">cov-lineages/constellations</a> on GitHub</p>
+            <p>Some of the functions were forked from <a href="https://github.com/cov-lineages/scorpio" target="_blank">cov-lineages/scorpio</a> on GitHub and ported to JavaScript</p>
+          <p>This might get integrated into <a href="undefined.html" target="_blank">undefined.html</a> at some point the future, which essentially does the same thing but with UKHSA variant definitions.</p>
+        </div>
     </div>
     <div class="card">
         <h2>Input sequence</h2>
@@ -131,10 +148,10 @@
         <h2>Constellations</h2>
         <div id="constellationSelectorContainer"></div>
         <br>
-        <button onclick="document.getElementById('result').innerHTML = generateTableHtml(document.getElementById('query_seq').value, generateSliceRecord(constellationToDefinitionSitesDict[document.getElementById('constellationSelection').value])); highlightMatchMismatch();">Go</button>
+        <button onclick="doThing()")>Go</button>
     </div>
     <div class="card" id="resultCard">
-        <h2>Result</h2>
+        <h2><span id="resultConstellationName">Result</span></h2>
         <div id="result"></div>
     </div>
     <div id="starfieldContainer"></div>
@@ -264,6 +281,19 @@ function generateStarField(numberOfStars){
 	}
 }
 
+function doThing(){
+    // generate the table html and populate the card
+    document.getElementById('result').innerHTML = generateTableHtml(
+        document.getElementById('query_seq').value, 
+        generateSliceRecord(
+            constellationToDefinitionSitesDict[document.getElementById('constellationSelection').value]
+            )
+    ); 
+    // highlight matches/mismatches
+    highlightMatchMismatch(); 
+    // update the result card title with the constellation name
+    document.getElementById('resultConstellationName').innerText = document.getElementById('constellationSelection').value != 'Select a constellation' ? document.getElementById('constellationSelection').value: 'Result';
+}
 
 function init(){
     constellationSelectorGenerator();
