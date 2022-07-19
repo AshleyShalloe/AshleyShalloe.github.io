@@ -157,6 +157,7 @@
         <h2>Constellations</h2>
         <div id="constellationSelectorContainer">
             <button disabled title="Previous constellation" id="prevConst" onclick="changeConstellation('previous')")>&lt;</button>
+            <button disabled title="Reload" id="reloadButton" onclick="doThing()")>o</button>
             <button title="Next constellation" id="nextConst" onclick="changeConstellation('next')")>&gt;</button>
         </div>
     </div>
@@ -292,6 +293,11 @@ function generateStarField(numberOfStars){
 }
 
 function doThing(){
+    // enable reload button
+    document.getElementById("reloadButton").disabled = false;
+
+    changeConstellation();
+    
     // generate the table html and populate the card
     document.getElementById('result').innerHTML = generateTableHtml(
         document.getElementById('query_seq').value, 
@@ -305,7 +311,7 @@ function doThing(){
     document.getElementById('resultConstellationName').innerText = document.getElementById('constellationSelection').value != 'Select a constellation' ? document.getElementById('constellationSelection').value: 'Result';
 }
 
-function changeConstellation(direction){
+function changeConstellation(direction=false){
     if (direction == "previous"){
         document.getElementById('nextConst').disabled = false
         if (document.getElementById('constellationSelection').selectedIndex > 1){
@@ -314,17 +320,39 @@ function changeConstellation(direction){
         if (document.getElementById('constellationSelection').selectedIndex < 2){
             document.getElementById('prevConst').disabled = true
         }
+         doThing();
     }
     else if (direction == "next"){
-        document.getElementById('prevConst').disabled = false
+        if (document.getElementById('constellationSelection').selectedIndex > 0){
+            document.getElementById('prevConst').disabled = false
+        }
         if (document.getElementById('constellationSelection').selectedIndex < document.getElementById('constellationSelection').getElementsByTagName("option").length){
             document.getElementById('constellationSelection').selectedIndex = document.getElementById('constellationSelection').selectedIndex + 1
         }
         if (document.getElementById('constellationSelection').selectedIndex == document.getElementById('constellationSelection').getElementsByTagName("option").length - 1){
             document.getElementById('nextConst').disabled = true
         }
+        doThing();
     }
-    doThing();
+    else{
+        // else just check the state
+        // at the start
+        if (document.getElementById('constellationSelection').selectedIndex == 1){
+          document.getElementById('prevConst').disabled = true;
+          document.getElementById('nextConst').disabled = false;
+        }
+        // at the end
+        else if (document.getElementById('constellationSelection').selectedIndex == document.getElementById('constellationSelection').getElementsByTagName("option").length - 1){
+          document.getElementById('nextConst').disabled = true;
+          document.getElementById('prevConst').disabled = false;
+        }
+        // in the middle
+        else{
+            document.getElementById('prevConst').disabled = false;
+            document.getElementById('nextConst').disabled = false;
+        }
+    }
+   
 }
 
 function init(){
