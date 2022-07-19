@@ -14,6 +14,10 @@ A tool that compares an aligned SARS-CoV-2 sequence against variant definitions
 
 * [undefined.html](https://ashleyshalloe.github.io/undefined.html)
 
+A slightly different tool that compares an aligned SARS-CoV-2 sequence against constellations instead
+
+* [stargazer.html](https://ashleyshalloe.github.io/stargazer.html)
+
 Some fancy circles:
 
 * [circles.html](https://ashleyshalloe.github.io/circles.html)
