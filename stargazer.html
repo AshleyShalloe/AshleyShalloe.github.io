@@ -129,6 +129,9 @@
                 flex-direction: row;
                 justify-content: space-between;
             }
+            #prevConst{
+                margin-left: 4px;
+            }
         </style>
         <script type="text/javascript" src="res/SARS-CoV-2.js"></script>
         <script type="text/javascript" src="res/constellations.js"></script>
@@ -152,9 +155,10 @@
     </div>
     <div class="card">
         <h2>Constellations</h2>
-        <div id="constellationSelectorContainer"></div>
-        <br>
-        <button onclick="doThing()")>Go</button>
+        <div id="constellationSelectorContainer">
+            <button disabled title="Previous constellation" id="prevConst" onclick="changeConstellation('previous')")>&lt;</button>
+            <button title="Next constellation" id="nextConst" onclick="changeConstellation('next')")>&gt;</button>
+        </div>
     </div>
     <div class="card" id="resultCard">
         <h2><span id="resultConstellationName">Result</span></h2>
@@ -268,14 +272,14 @@ function generateTableHtml(query_seq, slice_records){
 }
 
 function constellationSelectorGenerator(){
-    var outhtml = "<select id='constellationSelection'><option disabled selected>Select a constellation</option>"
+    var outhtml = "<select onchange='doThing()' id='constellationSelection'><option disabled selected>Select a constellation</option>"
     var caArray = Object.keys(constellationsArray).sort()
 
     for (var ca_idx in caArray){
         outhtml += `<option value='${caArray[ca_idx]}'>${caArray[ca_idx]}</option>`
     }
     outhtml += "</select>"
-    document.getElementById("constellationSelectorContainer").innerHTML += outhtml
+    document.getElementById("constellationSelectorContainer").innerHTML = outhtml + document.getElementById("constellationSelectorContainer").innerHTML
 }
 
 function generateStarField(numberOfStars){
@@ -299,6 +303,28 @@ function doThing(){
     highlightMatchMismatch(); 
     // update the result card title with the constellation name
     document.getElementById('resultConstellationName').innerText = document.getElementById('constellationSelection').value != 'Select a constellation' ? document.getElementById('constellationSelection').value: 'Result';
+}
+
+function changeConstellation(direction){
+    if (direction == "previous"){
+        document.getElementById('nextConst').disabled = false
+        if (document.getElementById('constellationSelection').selectedIndex > 1){
+            document.getElementById('constellationSelection').selectedIndex = document.getElementById('constellationSelection').selectedIndex - 1
+        }
+        if (document.getElementById('constellationSelection').selectedIndex < 2){
+            document.getElementById('prevConst').disabled = true
+        }
+    }
+    else if (direction == "next"){
+        document.getElementById('prevConst').disabled = false
+        if (document.getElementById('constellationSelection').selectedIndex < document.getElementById('constellationSelection').getElementsByTagName("option").length){
+            document.getElementById('constellationSelection').selectedIndex = document.getElementById('constellationSelection').selectedIndex + 1
+        }
+        if (document.getElementById('constellationSelection').selectedIndex == document.getElementById('constellationSelection').getElementsByTagName("option").length - 1){
+            document.getElementById('nextConst').disabled = true
+        }
+    }
+    doThing();
 }
 
 function init(){
