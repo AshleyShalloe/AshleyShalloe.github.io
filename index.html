@@ -350,7 +350,15 @@
             width: 80vh;
        }
     }
-    
+    #ssModal{
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 0px;
+        pointer-events: none;
+    }
 </style>
 </head>
 <body>
@@ -436,6 +444,7 @@
             🗂 Programs
             <ul class="submenu">
                 <li onclick="startVm(); tempAddWindowToTaskbar(this.innerText, 6000)">Virtual Machine</li>
+                <li onclick="startScreensaver();">Start screensaver</li>
             </ul>
         </li>
         <li id="startMenuDocuments" class="expandable">
@@ -658,6 +667,19 @@ function startVm(){
     document.getElementById('vmModal').classList.toggle('hidden');
 
     setTimeout(function(){document.getElementById('vmModal').classList.toggle('hidden'); document.getElementById('vmModal').getElementsByClassName('modalSection')[0].outerHTML = '';}, 6000)
+}
+
+function startScreensaver(){
+    var ssModal = "<iframe id='ssModal' src='stars.html'></iframe>"
+    var gracePeriod = 1000 // period where mouse movements are ignored
+    document.getElementsByTagName("body")[0].innerHTML += ssModal;
+    setTimeout(function(){document.addEventListener('mousemove', stopScreensaver, {once: true})}, gracePeriod);
+    closeStartMenu();
+}
+
+function stopScreensaver(){
+    document.getElementById('ssModal').remove()
+    startMenuInit(); // reinit the startmenu to unbreak the listeners
 }
 
 function init(){
