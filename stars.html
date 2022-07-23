@@ -1,0 +1,153 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+	<title>Stars</title>
+	<link rel="icon" href="favicon.svg" />
+	<style>
+	body{
+		background: black; 
+		color: white; 
+		font-family: sans-serif; 
+	}
+	.starContainer{
+		z-index: -20;
+		position: fixed;
+	}
+	/* .star{
+		width: 2px;
+		height: 2px;
+		background: white;
+		border-radius: 100%;
+	} */
+	.star::after{
+		content: "."
+	}
+	</style>
+</head>
+<body>
+<div id="starfieldContainer"></div>
+</body>
+<script>
+async function makeStarFly(element){
+	`
+	Apply to a starContainer element to make it go
+	`
+	var xPos = parseFloat(element.style.left.replace("%",""))
+	var yPos = parseFloat(element.style.top.replace("%",""))
+	var magnitudeDivisor = 60
+	var xMag = Math.abs(xPos-50) / magnitudeDivisor
+	var yMag = Math.abs(yPos-50) / magnitudeDivisor
+	var updateSpeedInMs = 10
+	var scaleAdditionPerIteration = 0.01
+	xMag = xMag ? xMag : 1 // for the edge case where we're at exactly 50, I guess
+	yMag = yMag ? yMag : 1
+	if ((xPos < 50) && (yPos < 50)){
+		while (xPos > 0){
+			xPos -= xMag
+			element.style.left = `${xPos}%`
+			yPos -= yMag
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
+		}
+	}
+	else if ((xPos < 50) && (yPos > 50)){
+		while (xPos > 0){
+			xPos -= xMag
+			element.style.left = `${xPos}%`
+			yPos += yMag
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
+		}
+	}
+	else if  ((xPos > 50) && (yPos < 50)){
+		while (xPos < 100){
+			xPos += xMag
+			element.style.left = `${xPos}%`
+			yPos -= yMag
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
+		}
+	}
+	else{
+		while (xPos < 100){
+			xPos += xMag
+			element.style.left = `${xPos}%`
+			yPos += yMag
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
+		}
+	}
+	element.remove();
+}
+
+function moveIt(){
+	for (var i=0; i<document.getElementsByClassName("starContainer").length; i++){
+    	makeStarFly(document.getElementsByClassName("starContainer")[i]);
+	}
+}
+
+function guidGenerator(){
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
+function generateStar(){
+	var xPos = 100 * Math.random()
+	var yPos = 100 * Math.random()
+	var guid = guidGenerator()
+	var starHtml = `<div id='${guid}' class='starContainer' style='left: ${xPos}%; top: ${yPos}%; transform: scale(1);'><div class='star'></div></div>`
+	document.getElementById("starfieldContainer").innerHTML += starHtml
+	moveIt(document.getElementById(guid))
+}
+
+function generateNStars(n){
+	`
+	Arbitrarily and inefficiently attempts to keep the star count between 
+	the global min and max by speeding up and slowing down star creation.
+	`
+	var starCount = document.getElementsByClassName("star").length
+	if (starCount < starCountMin){
+		for (var i=0; i<n; i++){
+			generateStar();
+		}
+		starGenTicks = starGenTicks > 20 ? starGenTicks  - 10 : starGenTicks
+		setTimeout(generateNStars, starGenTicks, 2)
+	}
+	else if (starCount < starCountMax){
+		for (var i=0; i<n; i++){
+			generateStar();
+		}
+		starGenTicks = starGenTicks + 10
+		setTimeout(generateNStars, starGenTicks, 1)
+	}
+	//console.log(starGenTicks, starCount)
+}
+
+function removeNStars(n){
+	`
+	Removes the n oldest stars
+	`
+	for (var i=0; i<n; i++){
+		document.getElementsByClassName("starContainer")[0].remove()
+	}
+}
+
+// star generation parameters
+var starCountMax = 30
+var starCountMin = 10
+var starGenTicks = 120
+
+function init(){
+	generateNStars(1); // just one to kick it off
+}
+
+init()
+</script>
+</html>

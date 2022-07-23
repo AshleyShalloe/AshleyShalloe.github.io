@@ -43,3 +43,7 @@ Colour scheme generator
 Eva UI
 
 * [vanished.html](https://ashleyshalloe.github.io/vanished.html)
+
+JavaScript rendition of the starfield screensaver
+
+* [stars.html](https://ashleyshalloe.github.io/stars.html)
