@@ -10,7 +10,7 @@ def safe_load_yaml(path):
         return yaml.safe_load(infile)
 
 ## convert yaml to json strings
-in_yaml = glob("variant_definitions/variant_yaml/*.yml")
+in_yaml = glob("variant_definitions/variant_yaml/*.yml") + glob("res/*.yml")
 out_json = [json.dumps(safe_load_yaml(x), indent=2) for x in in_yaml]
 
 ## write out to file

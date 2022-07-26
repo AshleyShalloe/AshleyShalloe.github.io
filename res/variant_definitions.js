@@ -4932,5 +4932,97 @@ var variant_definitions = [{
       "allowed-wildtype": 0
     }
   }
+},
+{
+  "unique-id": "69-70",
+  "phe-label": "69-70del",
+  "description": "This is a 6 nucleotide deletion starting at 21765 and ending at 21770, mangled into a yaml file with mostly non-standard metadata to pretend it's a set of SNPs instead of a deletion. Caveat emptor",
+  "information-sources": [
+    null
+  ],
+  "variants": [
+    {
+      "codon-change": "ATA-ANA",
+      "gene": "S",
+      "one-based-reference-position": 21765,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 68,
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "ATA-ATN",
+      "gene": "S",
+      "one-based-reference-position": 21766,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 68,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "CAT-NAT",
+      "gene": "S",
+      "one-based-reference-position": 21767,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 69,
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "CAT-CNT",
+      "gene": "S",
+      "one-based-reference-position": 21768,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 69,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "CAT-CAN",
+      "gene": "S",
+      "one-based-reference-position": 21769,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 69,
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "GTC-NTC",
+      "gene": "S",
+      "one-based-reference-position": 21770,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 70,
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "-"
+    }
+  ],
+  "calling-definition": {
+    "confirmed": {
+      "mutations-required": 6,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    },
+    "low-qc": {
+      "mutations-required": 0,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    }
+  },
+  "acknowledgements": null,
+  "curators": [
+    "Ashley Shalloe"
+  ]
 }
 ]
