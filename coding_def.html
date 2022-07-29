@@ -585,7 +585,9 @@
     }
   
     if (metadata_array.length == 0){
-      metadata_array = ["Non-coding region<br><span style='font-size:small'>(or not labelled)</span>"]
+      var ref_base = nc_045512_2.slice(position-1, position)
+      var nt_html = ref_base ? `Nucleotide ${ref_base}${position}<br>` : ""
+      metadata_array = [`${nt_html}Non-coding region<br><span style='font-size:small'>(or not labelled)</span>`]
     }
     document.getElementById("metadata_output").innerHTML = metadata_array.join("<br>")
     
