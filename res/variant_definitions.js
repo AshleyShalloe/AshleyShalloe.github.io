@@ -2098,6 +2098,98 @@ var variant_definitions = [{
   ]
 },
 {
+  "unique-id": "69-70",
+  "phe-label": "69-70del",
+  "description": "This is a 6 nucleotide deletion starting at 21765 and ending at 21770, mangled into a yaml file with mostly non-standard metadata to pretend it's a set of SNPs instead of a deletion. Caveat emptor",
+  "information-sources": [
+    null
+  ],
+  "variants": [
+    {
+      "codon-change": "ATA-ANA",
+      "gene": "S",
+      "one-based-reference-position": 21765,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 68,
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "ATA-ATN",
+      "gene": "S",
+      "one-based-reference-position": 21766,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 68,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "CAT-NAT",
+      "gene": "S",
+      "one-based-reference-position": 21767,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 69,
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "CAT-CNT",
+      "gene": "S",
+      "one-based-reference-position": 21768,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 69,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "CAT-CAN",
+      "gene": "S",
+      "one-based-reference-position": 21769,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 69,
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "-"
+    },
+    {
+      "codon-change": "GTC-NTC",
+      "gene": "S",
+      "one-based-reference-position": 21770,
+      "predicted-effect": "non-synonymous",
+      "protein": "S",
+      "protein-codon-position": 70,
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "-"
+    }
+  ],
+  "calling-definition": {
+    "confirmed": {
+      "mutations-required": 6,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    },
+    "low-qc": {
+      "mutations-required": 0,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    }
+  },
+  "acknowledgements": null,
+  "curators": [
+    "Ashley Shalloe"
+  ]
+},
+{
   "unique-id": "empathy-serve",
   "phe-label": "VOC-21APR-02",
   "who-label": "Delta",
@@ -4596,6 +4688,171 @@ var variant_definitions = [{
   ]
 },
 {
+  "unique-id": "pampered-imagining",
+  "phe-label": "V-22JUL-01",
+  "who-label": "Omicron",
+  "alternate-names": [
+    null
+  ],
+  "belongs-to-lineage": [
+    {
+      "PANGO": "BA.2.75"
+    }
+  ],
+  "description": "This variant is a sublineage of B.1.1.529.2 (BA.2)",
+  "information-sources": [
+    "https://github.com/cov-lineages/pango-designation/issues/773"
+  ],
+  "requires": "plausible-scanner",
+  "variants": [
+    {
+      "codon-change": "GTC-GTT",
+      "gene": "ORF1ab",
+      "one-based-reference-position": 3796,
+      "predicted-effect": "synonymous",
+      "protein": "nsp3",
+      "protein-codon-position": 359,
+      "reference-base": "C",
+      "snp-codon-position": 3,
+      "type": "SNP",
+      "variant-base": "T"
+    },
+    {
+      "amino-acid-change": "S403L",
+      "codon-change": "TCA-TTA",
+      "gene": "ORF1ab",
+      "one-based-reference-position": 3927,
+      "predicted-effect": "non-synonymous",
+      "protein": "nsp3",
+      "protein-codon-position": 403,
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "T"
+    },
+    {
+      "codon-change": "CTA-TTA",
+      "gene": "ORF1ab",
+      "one-based-reference-position": 4586,
+      "predicted-effect": "synonymous",
+      "protein": "nsp3",
+      "protein-codon-position": 623,
+      "reference-base": "C",
+      "snp-codon-position": 1,
+      "type": "SNP",
+      "variant-base": "T"
+    },
+    {
+      "amino-acid-change": "P822S",
+      "codon-change": "CCT-TCT",
+      "gene": "ORF1ab",
+      "one-based-reference-position": 5183,
+      "predicted-effect": "non-synonymous",
+      "protein": "nsp3",
+      "protein-codon-position": 822,
+      "reference-base": "C",
+      "type": "SNP",
+      "variant-base": "T"
+    },
+    {
+      "amino-acid-change": "N118S",
+      "codon-change": "AAC-AGC",
+      "gene": "ORF1ab",
+      "one-based-reference-position": 12444,
+      "predicted-effect": "non-synonymous",
+      "protein": "nsp8",
+      "protein-codon-position": 118,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "G"
+    },
+    {
+      "amino-acid-change": "I210V",
+      "codon-change": "ATT-GTT",
+      "gene": "S",
+      "one-based-reference-position": 22190,
+      "predicted-effect": "non-synonymous",
+      "protein": "surface glycoprotein",
+      "protein-codon-position": 210,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "G"
+    },
+    {
+      "amino-acid-change": "G257S",
+      "codon-change": "GGT-AGT",
+      "gene": "S",
+      "one-based-reference-position": 22331,
+      "predicted-effect": "non-synonymous",
+      "protein": "surface glycoprotein",
+      "protein-codon-position": 257,
+      "reference-base": "G",
+      "type": "SNP",
+      "variant-base": "A"
+    },
+    {
+      "amino-acid-change": "G339H",
+      "codon-change": "GGT-CAT",
+      "gene": "S",
+      "one-based-reference-position": 22577,
+      "predicted-effect": "non-synonymous",
+      "protein": "surface glycoprotein",
+      "protein-codon-position": 339,
+      "reference-base": "GGT",
+      "type": "MNP",
+      "variant-base": "CAT"
+    },
+    {
+      "amino-acid-change": "N460K",
+      "codon-change": "AAT-AAG",
+      "gene": "S",
+      "one-based-reference-position": 22942,
+      "predicted-effect": "non-synonymous",
+      "protein": "surface glycoprotein",
+      "protein-codon-position": 460,
+      "reference-base": "T",
+      "type": "SNP",
+      "variant-base": "G"
+    },
+    {
+      "amino-acid-change": "T11A",
+      "codon-change": "ACG-GCG",
+      "gene": "E",
+      "one-based-reference-position": 26275,
+      "predicted-effect": "non-synonymous",
+      "protein": "envelope protein",
+      "protein-codon-position": 11,
+      "reference-base": "A",
+      "type": "SNP",
+      "variant-base": "G"
+    }
+  ],
+  "calling-definition": {
+    "confirmed": {
+      "mutations-required": 7,
+      "indels-required": 0,
+      "allowed-wildtype": 0
+    },
+    "probable": {
+      "mutations-required": 4,
+      "indels-required": 0,
+      "allowed-wildtype": 2
+    },
+    "low-qc": {
+      "mutations-required": 1,
+      "indels-required": 0,
+      "allowed-wildtype": 2
+    }
+  },
+  "acknowledgements": [
+    "Thomas Peacock, Imperial College, UK"
+  ],
+  "curators": [
+    "Natalie Groves",
+    "Ashley Shalloe",
+    "Mark Stewart"
+  ]
+},
+{
   "unique-id": "kelp-lesser",
   "phe-label": "V-21JUL-01",
   "who-label": null,
@@ -4819,210 +5076,6 @@ var variant_definitions = [{
   "curators": [
     "Natalie Groves",
     "Aniruddha Pandit"
-  ]
-},
-{
-  "unique-id": "BA.2.75_draft",
-  "phe-label": "BA.2.75_draft",
-  "belongs-to-lineage": [
-    {
-      "PANGO": "BA.2.75"
-    }
-  ],
-  "variants": [
-    {
-      "one-based-reference-position": 3796,
-      "predicted-effect": "synonymous",
-      "reference-base": "C",
-      "type": "SNP",
-      "variant-base": "T"
-    },
-    {
-      "one-based-reference-position": 3927,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "C",
-      "type": "SNP",
-      "variant-base": "T"
-    },
-    {
-      "one-based-reference-position": 15451,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "G",
-      "type": "SNP",
-      "variant-base": "A"
-    },
-    {
-      "one-based-reference-position": 22001,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "A",
-      "type": "SNP",
-      "variant-base": "G"
-    },
-    {
-      "one-based-reference-position": 22016,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "T",
-      "type": "SNP",
-      "variant-base": "C"
-    },
-    {
-      "one-based-reference-position": 22033,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "C",
-      "type": "SNP",
-      "variant-base": "A"
-    },
-    {
-      "one-based-reference-position": 22190,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "A",
-      "type": "SNP",
-      "variant-base": "G"
-    },
-    {
-      "one-based-reference-position": 22331,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "G",
-      "type": "SNP",
-      "variant-base": "A"
-    },
-    {
-      "one-based-reference-position": 22577,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "G",
-      "type": "SNP",
-      "variant-base": "C"
-    },
-    {
-      "one-based-reference-position": 22898,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "G",
-      "type": "SNP",
-      "variant-base": "A"
-    },
-    {
-      "one-based-reference-position": 22942,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "T",
-      "type": "SNP",
-      "variant-base": "G"
-    },
-    {
-      "one-based-reference-position": 26275,
-      "predicted-effect": "non-synonymous",
-      "reference-base": "A",
-      "type": "SNP",
-      "variant-base": "G"
-    }
-  ],
-  "calling-definition": {
-    "confirmed": {
-      "mutations-required": 12,
-      "indels-required": 0,
-      "allowed-wildtype": 0
-    },
-    "probable": {
-      "mutations-required": 7,
-      "indels-required": 0,
-      "allowed-wildtype": 0
-    },
-    "low-qc": {
-      "mutations-required": 0,
-      "indels-required": 0,
-      "allowed-wildtype": 0
-    }
-  }
-},
-{
-  "unique-id": "69-70",
-  "phe-label": "69-70del",
-  "description": "This is a 6 nucleotide deletion starting at 21765 and ending at 21770, mangled into a yaml file with mostly non-standard metadata to pretend it's a set of SNPs instead of a deletion. Caveat emptor",
-  "information-sources": [
-    null
-  ],
-  "variants": [
-    {
-      "codon-change": "ATA-ANA",
-      "gene": "S",
-      "one-based-reference-position": 21765,
-      "predicted-effect": "non-synonymous",
-      "protein": "S",
-      "protein-codon-position": 68,
-      "reference-base": "T",
-      "type": "SNP",
-      "variant-base": "-"
-    },
-    {
-      "codon-change": "ATA-ATN",
-      "gene": "S",
-      "one-based-reference-position": 21766,
-      "predicted-effect": "non-synonymous",
-      "protein": "S",
-      "protein-codon-position": 68,
-      "reference-base": "A",
-      "type": "SNP",
-      "variant-base": "-"
-    },
-    {
-      "codon-change": "CAT-NAT",
-      "gene": "S",
-      "one-based-reference-position": 21767,
-      "predicted-effect": "non-synonymous",
-      "protein": "S",
-      "protein-codon-position": 69,
-      "reference-base": "C",
-      "type": "SNP",
-      "variant-base": "-"
-    },
-    {
-      "codon-change": "CAT-CNT",
-      "gene": "S",
-      "one-based-reference-position": 21768,
-      "predicted-effect": "non-synonymous",
-      "protein": "S",
-      "protein-codon-position": 69,
-      "reference-base": "A",
-      "type": "SNP",
-      "variant-base": "-"
-    },
-    {
-      "codon-change": "CAT-CAN",
-      "gene": "S",
-      "one-based-reference-position": 21769,
-      "predicted-effect": "non-synonymous",
-      "protein": "S",
-      "protein-codon-position": 69,
-      "reference-base": "T",
-      "type": "SNP",
-      "variant-base": "-"
-    },
-    {
-      "codon-change": "GTC-NTC",
-      "gene": "S",
-      "one-based-reference-position": 21770,
-      "predicted-effect": "non-synonymous",
-      "protein": "S",
-      "protein-codon-position": 70,
-      "reference-base": "G",
-      "type": "SNP",
-      "variant-base": "-"
-    }
-  ],
-  "calling-definition": {
-    "confirmed": {
-      "mutations-required": 6,
-      "indels-required": 0,
-      "allowed-wildtype": 0
-    },
-    "low-qc": {
-      "mutations-required": 0,
-      "indels-required": 0,
-      "allowed-wildtype": 0
-    }
-  },
-  "acknowledgements": null,
-  "curators": [
-    "Ashley Shalloe"
   ]
 }
 ]
