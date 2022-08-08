@@ -134,7 +134,7 @@
     </div>
     <div id="buttonsDiv">
         <button onclick="chillMode(); this.remove()">Chill</button>
-        <button onclick="stopwatchMode();">Stopwatch</button>
+        <button onclick="window.location=`${window.location.href}?mode=stopwatch`">Stopwatch</button>
     </div>
 </body>
 <script>
@@ -269,6 +269,7 @@ function stopwatchMode(){
     buttonsHtml += "<button onclick='startStopwatch()'>Start</button>"
     buttonsHtml += `<button onclick="stopWithoutReset()">Stop</button>`
     buttonsHtml += "<button onclick='resetStopwatch()'>Reset</button>"
+    buttonsHtml += `<button onclick="window.location='${location.host + location.pathname}'">Clock</button>`
 
     document.getElementById("buttonsDiv").innerHTML = buttonsHtml
 }
