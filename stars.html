@@ -1,107 +1,110 @@
 <html>
 <head>
-<style>
-    #starfieldCanvas{
-        width: 100vw;
-        height: 100vh;
-    }
-    html{
-        background: black;
-        color: white;
-        font-family: sans-serif;
-    }
-    body{
-        margin: 0 auto;
-    }
-    #starCount{
-        text-align: center;
-    }
-</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+	<title>Stars</title>
+	<link rel="icon" href="favicon.svg" />
+	<style>
+	body{
+		background: black; 
+		color: white; 
+		font-family: sans-serif; 
+	}
+	.starContainer{
+		z-index: -20;
+		position: fixed;
+	}
+	/* .star{
+		width: 2px;
+		height: 2px;
+		background: white;
+		border-radius: 100%;
+	} */
+	.star::after{
+		content: "."
+	}
+	</style>
 </head>
 <body>
-<canvas id="starfieldCanvas" height="480" width="600"></canvas>
-<!-- <input type="number" id="starCount"></input> -->
+<div id="starfieldContainer"></div>
 </body>
 <script>
-async function drawAndMoveStar(){
-    var xPos = canvasWidth * Math.random()
-	var yPos = canvasHeight * Math.random()
-    var pixelWidth = 1
-    var pixelHeight = 1
-	var xMag = Math.abs(xPos - (0.5*canvasWidth)) / canvasWidth
-	var yMag = Math.abs(yPos - (0.5*canvasHeight)) / canvasHeight
+async function makeStarFly(element){
+	`
+	Apply to a starContainer element to make it go
+	`
+	var xPos = parseFloat(element.style.left.replace("%",""))
+	var yPos = parseFloat(element.style.top.replace("%",""))
+	var magnitudeDivisor = 60
+	var xMag = Math.abs(xPos-50) / magnitudeDivisor
+	var yMag = Math.abs(yPos-50) / magnitudeDivisor
 	var updateSpeedInMs = 10
-    var accelerationFactor = 1.02
-    var scaleFactorPerIteration = 1.005
-	xMag = xMag ? xMag : 1 // for the edge case where we're at exactly halfway, I guess
+	var scaleAdditionPerIteration = 0.01
+	xMag = xMag ? xMag : 1 // for the edge case where we're at exactly 50, I guess
 	yMag = yMag ? yMag : 1
-    if ((!xMag) || (!yMag)){ // stuck stars
-        drawAndMoveStar() // just try again
-        return 0;
-    }
-    // draw initial star
-    ctx.fillStyle = "white";
-    ctx.fillRect(Math.round(xPos), Math.round(yPos), pixelWidth, pixelHeight);
-    starCount += 1
-    if ((xPos <= (0.5 * canvasWidth)) && (yPos <= (0.5 * canvasHeight))){
-        // top left quadrant
-        while (xPos > 0){
-            ctx.clearRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth), Math.round(pixelHeight))
+	if ((xPos < 50) && (yPos < 50)){
+		while (xPos > 0){
 			xPos -= xMag
+			element.style.left = `${xPos}%`
 			yPos -= yMag
-            xMag = accelerationFactor * xMag
-            yMag = accelerationFactor * yMag
-            pixelWidth = pixelWidth * scaleFactorPerIteration
-            pixelHeight = pixelHeight * scaleFactorPerIteration
-			ctx.fillRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth)+trailFactor, Math.round(pixelHeight)+trailFactor)
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
 			await new Promise(r => setTimeout(r, updateSpeedInMs));
 		}
-    }
-    else if ((xPos <= (0.5 * canvasWidth)) && (yPos >= (0.5 * canvasHeight))){
-        // bottom left quadrant
+	}
+	else if ((xPos < 50) && (yPos > 50)){
 		while (xPos > 0){
-			ctx.clearRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth), Math.round(pixelHeight))
-            xPos -= xMag
+			xPos -= xMag
+			element.style.left = `${xPos}%`
 			yPos += yMag
-            xMag = accelerationFactor * xMag
-            yMag = accelerationFactor * yMag
-            pixelWidth = pixelWidth * scaleFactorPerIteration
-            pixelHeight = pixelHeight * scaleFactorPerIteration
-			ctx.fillRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth)+trailFactor, Math.round(pixelHeight)+trailFactor)
-            await new Promise(r => setTimeout(r, updateSpeedInMs));
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
 		}
 	}
-	else if  ((xPos >= (0.5 * canvasWidth)) && (yPos <= ( 0.5 * canvasHeight))){
-        // top right quadrant
-		while (xPos < canvasWidth){
-			ctx.clearRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth), Math.round(pixelHeight))
-            xPos += xMag
+	else if  ((xPos > 50) && (yPos < 50)){
+		while (xPos < 100){
+			xPos += xMag
+			element.style.left = `${xPos}%`
 			yPos -= yMag
-            xMag = accelerationFactor * xMag
-            yMag = accelerationFactor * yMag
-            pixelWidth = pixelWidth * scaleFactorPerIteration
-            pixelHeight = pixelHeight * scaleFactorPerIteration
-			ctx.fillRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth)+trailFactor, Math.round(pixelHeight)+trailFactor)
-            await new Promise(r => setTimeout(r, updateSpeedInMs));
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
 		}
 	}
 	else{
-        // bototm right quadrant
-		while (xPos < canvasWidth){
-			ctx.clearRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth), Math.round(pixelHeight))
-            xPos += xMag
+		while (xPos < 100){
+			xPos += xMag
+			element.style.left = `${xPos}%`
 			yPos += yMag
-            xMag = accelerationFactor * xMag
-            yMag = accelerationFactor * yMag
-            pixelWidth = pixelWidth * scaleFactorPerIteration
-            pixelHeight = pixelHeight * scaleFactorPerIteration
-			ctx.fillRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth)+trailFactor, Math.round(pixelHeight)+trailFactor)
-            await new Promise(r => setTimeout(r, updateSpeedInMs));
+			element.style.top = `${yPos}%`
+			element.style.transform = `scale(${parseFloat(element.style.transform.split('(')[1].split(')')[0])+scaleAdditionPerIteration})`
+			await new Promise(r => setTimeout(r, updateSpeedInMs));
 		}
 	}
-    ctx.clearRect(Math.round(xPos), Math.round(yPos), Math.round(pixelWidth), Math.round(pixelHeight))
-    starCount -= 1
-    // document.getElementById("starCount").value = starCount
+	element.remove();
+}
+
+function moveIt(){
+	for (var i=0; i<document.getElementsByClassName("starContainer").length; i++){
+    	makeStarFly(document.getElementsByClassName("starContainer")[i]);
+	}
+}
+
+function guidGenerator(){
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
+function generateStar(){
+	var xPos = 100 * Math.random()
+	var yPos = 100 * Math.random()
+	var guid = guidGenerator()
+	var starHtml = `<div id='${guid}' class='starContainer' style='left: ${xPos}%; top: ${yPos}%; transform: scale(1);'><div class='star'></div></div>`
+	document.getElementById("starfieldContainer").innerHTML += starHtml
+	moveIt(document.getElementById(guid))
 }
 
 function generateNStars(n){
@@ -109,16 +112,17 @@ function generateNStars(n){
 	Arbitrarily and inefficiently attempts to keep the star count between 
 	the global min and max by speeding up and slowing down star creation.
 	`
+	var starCount = document.getElementsByClassName("star").length
 	if (starCount < starCountMin){
 		for (var i=0; i<n; i++){
-			drawAndMoveStar();
+			generateStar();
 		}
 		starGenTicks = starGenTicks > 20 ? starGenTicks  - 10 : starGenTicks
 		setTimeout(generateNStars, starGenTicks, 2)
 	}
 	else if (starCount < starCountMax){
 		for (var i=0; i<n; i++){
-			drawAndMoveStar();
+			generateStar();
 		}
 		starGenTicks = starGenTicks + 10
 		setTimeout(generateNStars, starGenTicks, 1)
@@ -126,73 +130,24 @@ function generateNStars(n){
 	//console.log(starGenTicks, starCount)
 }
 
-function getWidth() {
-  return Math.max(
-    document.body.scrollWidth,
-    document.documentElement.scrollWidth,
-    document.body.offsetWidth,
-    document.documentElement.offsetWidth,
-    document.documentElement.clientWidth
-  );
-}
-
-function getHeight() {
-  return Math.max(
-    document.body.scrollHeight,
-    document.documentElement.scrollHeight,
-    document.body.offsetHeight,
-    document.documentElement.offsetHeight,
-    document.documentElement.clientHeight
-  );
-}
-
-function fixDimensions(){
-    document.getElementById("starfieldCanvas").width = getWidth();
-    document.getElementById("starfieldCanvas").height = getHeight();
-    canvasWidth = parseInt(document.getElementById("starfieldCanvas").width);
-    canvasHeight = parseInt(document.getElementById("starfieldCanvas").height);
-}
-
-function debounce(func, timeout = 300){
-    let timer;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
-}
-
-const debounceFixDimesions = debounce(() => fixDimensions());
-
-function clearCanvas(){
-    ctx.clearRect(0, 0, c.width, c.height)
-}
-
-function init(){
-    if (trailsOn){
-        trailFactor = 0.1
-    }
-    fixDimensions();
-    window.addEventListener('resize', function(event){debounceFixDimesions()});
-    generateNStars(20);
+function removeNStars(n){
+	`
+	Removes the n oldest stars
+	`
+	for (var i=0; i<n; i++){
+		document.getElementsByClassName("starContainer")[0].remove()
+	}
 }
 
 // star generation parameters
-var starCountMax = 200
-var starCountMin = 100
+var starCountMax = 30
+var starCountMin = 10
 var starGenTicks = 120
-var starCount = 0
-var trailFactor = 0
-var trailsOn = false
 
-// canvas setup
-var c = document.getElementById("starfieldCanvas");
-var ctx = c.getContext("2d");
-ctx.fillStyle = "white";
+function init(){
+	generateNStars(1); // just one to kick it off
+}
 
-// initial dimension setup
-var canvasWidth = parseInt(document.getElementById("starfieldCanvas").width);
-var canvasHeight = parseInt(document.getElementById("starfieldCanvas").height);
-
-init();
+init()
 </script>
 </html>
