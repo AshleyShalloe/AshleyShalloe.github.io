@@ -267,8 +267,8 @@ function stopwatchMode(){
 
     var buttonsHtml = ""
     buttonsHtml += "<button onclick='startStopwatch()'>Start</button>"
-    buttonsHtml += "<button onclick='resetStopwatch()'>Restart</button>"
     buttonsHtml += `<button onclick="stopWithoutReset()">Stop</button>`
+    buttonsHtml += "<button onclick='resetStopwatch()'>Reset</button>"
 
     document.getElementById("buttonsDiv").innerHTML = buttonsHtml
 }
