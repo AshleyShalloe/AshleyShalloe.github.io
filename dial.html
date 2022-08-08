@@ -105,6 +105,8 @@
             padding: 10px;
             transition: box-shadow 0.5s, color 0.5s;
             cursor: pointer;
+            margin-left: 5px;
+            margin-right: 5px;
         }
         #buttonsDiv button:hover{
             box-shadow: 0px 0px 5px gray;
@@ -132,6 +134,7 @@
     </div>
     <div id="buttonsDiv">
         <button onclick="chillMode(); this.remove()">Chill</button>
+        <button onclick="stopwatchMode();">Stopwatch</button>
     </div>
 </body>
 <script>
@@ -177,7 +180,7 @@ function startTheClock(){
         },
         20
     )
-    setInterval(
+    minuteHandTimer = setInterval(
         function(){
             setMinutesDialAngle(
                 (360 * getTime()["seconds"] / 60 / 60)
@@ -186,7 +189,7 @@ function startTheClock(){
         },
         60
     )
-    setInterval(
+    hourHandTimer = setInterval(
         function(){
             setHoursDialAngle(
                 (360 * getTime()["minutes"] / 60 / 60)
@@ -237,9 +240,67 @@ function readAndApplyUrlParams(){
     if (mode == "chill"){
         chillMode();
     }
+    if (mode == "stopwatch"){
+        stopwatchMode();
+    }
     if (hideButtons){
         document.getElementById("buttonsDiv").remove();
     }
+}
+
+function stopwatchMode(){
+    stopwatchEpoch = new Date();
+    getTime = function getTime(){
+        var currentTime = new Date()
+        var timediff = currentTime - stopwatchEpoch // miliseconds
+        var miliseconds = timediff % 1000;
+        var seconds = Math.floor(timediff / 1000) % 60;
+        var minutes = Math.floor(timediff / 1000 / 60) % 60;
+        var hours = Math.floor(timediff / 1000 / 60 / 60) % 60; // unverified
+        return {
+            "hours": hours,
+            "minutes": minutes,
+            "seconds": seconds,
+            "miliseconds": miliseconds
+        }
+    }
+
+    var buttonsHtml = ""
+    buttonsHtml += "<button onclick='startStopwatch()'>Start</button>"
+    buttonsHtml += "<button onclick='resetStopwatch()'>Restart</button>"
+    buttonsHtml += `<button onclick="stopWithoutReset()">Stop</button>`
+
+    document.getElementById("buttonsDiv").innerHTML = buttonsHtml
+}
+
+function clearTimers(){
+    milisecondHandTimer = clearInterval(milisecondHandTimer);
+    secondHandTimer = clearInterval(secondHandTimer);
+    minuteHandTimer = clearInterval(minuteHandTimer);
+    hourHandTimer = clearInterval(hourHandTimer);
+}
+
+function stopWithoutReset(){
+    if (milisecondHandTimer){
+        clearTimers();
+        var currentTime = new Date(); 
+        timeAtPause = currentTime - stopwatchEpoch; 
+    }
+}
+
+function resetStopwatch(){
+    clearTimers();
+    timeAtPause = 0;
+    setMilisecondsDialAngle(0);
+    setSecondsDialAngle(0);
+    setMinutesDialAngle(0);
+    setHoursDialAngle(0);
+}
+
+function startStopwatch(){
+    stopwatchEpoch = new Date();
+    stopwatchEpoch.setMilliseconds(stopwatchEpoch.getMilliseconds() - timeAtPause)
+    startTheClock();
 }
 
 function init(){
@@ -248,8 +309,12 @@ function init(){
     readAndApplyUrlParams();
 }
 
-var secondHandTimer
 var milisecondHandTimer
+var secondHandTimer
+var minuteHandTimer
+var hourHandTimer
+var stopwatchEpoch
+var timeAtPause = 0
 
 init();
 </script>
