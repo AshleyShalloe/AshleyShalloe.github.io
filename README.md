@@ -47,3 +47,7 @@ Eva UI
 JavaScript rendition of the starfield screensaver
 
 * [stars.html](https://ashleyshalloe.github.io/stars.html)
+
+It's a clock.
+
+* [dial.html](https://ashleyshalloe.github.io/dial.html)

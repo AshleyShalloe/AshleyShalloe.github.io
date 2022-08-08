@@ -445,6 +445,7 @@
             <ul class="submenu">
                 <li onclick="startVm(); tempAddWindowToTaskbar(this.innerText, 6000)">Virtual Machine</li>
                 <li onclick="startScreensaver();">Start screensaver</li>
+                <li onclick="startClock();">Clock</li>
             </ul>
         </li>
         <li id="startMenuDocuments" class="expandable">
@@ -478,6 +479,9 @@
 </div>
 <div id='vmModal' class='modal hidden cardContainer'>
     <div class='cardHeader'>Virtual Machine</div>
+</div>
+<div id='clockModal' class='modal hidden cardContainer'>
+    <div class='cardHeader'>Clock</div>
 </div>
     
 <div id="taskbar"><div id="startButton" onclick="startButtonAction()"><div class="sb-text">&#x2756;</div><div class="sb-text">Start</div></div><div id="windowButtonContainer"></div><div id="taskbarClock">13:37</div></div>
@@ -667,6 +671,19 @@ function startVm(){
     document.getElementById('vmModal').classList.toggle('hidden');
 
     setTimeout(function(){document.getElementById('vmModal').classList.toggle('hidden'); document.getElementById('vmModal').getElementsByClassName('modalSection')[0].outerHTML = '';}, 6000)
+}
+
+function startClock(){
+    closeStartMenu();
+    // only add the iframe if it isn't already there
+    if (!document.getElementById("clockModal").innerHTML.includes("modalSection")){
+        document.getElementById("clockModal").innerHTML += `<iframe class='modalSection' src="dial.html?mode=chill&hideButtons=true" style="height: 310px; width: 310px"></iframe>`;
+    }
+
+    document.getElementById('clockModal').classList.toggle('hidden');
+
+    // make the close button actually work instead of using a timeout
+    document.getElementById("clockModal").getElementsByClassName("titlebarButton")[0].onclick = function(){document.getElementById('clockModal').classList.toggle('hidden'); document.getElementById('clockModal').getElementsByClassName('modalSection')[0].outerHTML = '';}
 }
 
 function startScreensaver(){

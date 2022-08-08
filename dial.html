@@ -1,0 +1,256 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dial</title>
+    <link rel="icon" href="favicon.svg" />
+    <style>
+        body{
+            margin: 0 auto;
+        }
+        .dial:first-of-type{
+            box-shadow: 0px 0px 10px rgb(132, 132, 132);
+        }
+        .dial{
+            margin-left: calc(50vw - 150px);
+            margin-top: calc(50vh - 150px);
+            border-radius: 100%;
+            height: 300px;
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            align-items: flex-start;
+            transform: rotate(0deg);
+            position: fixed;
+        }
+        .hand{
+            height: calc((300px/2) - 0px);
+            width: 10px;
+            background: goldenrod;
+            box-shadow: 1px 1px 3px #23232373;
+            margin-top: 10px;
+        }
+        #hours .hand{
+            height: calc((300px/2) - 20px);
+            margin-top: 30px;
+            /* border-bottom: 40px solid black; */
+        }
+        #minutes .hand{
+            z-index: -100;
+            /* border-bottom: 40px solid black; */
+        }
+        #seconds .hand{
+            width: 3px;
+            background: rebeccapurple;
+            z-index: 800;
+            /* border-bottom: 40px solid red; */
+        }
+        #miliseconds .hand{
+            width: 3px;
+            background: teal;
+            z-index: 100;
+            /* border-bottom: 40px solid blue; */
+        }
+        #centreDot{
+            width: 10px;
+            height: 10px;
+            background: black;
+            border-radius: 100%;
+            margin-top: calc(50vh - 5px);
+            margin-left: calc(50vw - 5px);
+            position: fixed;
+            z-index: 500;
+        }
+        #centreDot::after{
+            width: 5px;
+            height: 5px;
+            background: rebeccapurple;
+            border-radius: 100%;
+            margin-top: 2.5px;
+            margin-left: 2.5px;
+            position: fixed;
+            z-index: 1100;
+            content: "";
+        }
+        #centreDot::before{
+            width: 10px;
+            height: 10px;
+            background: teal;
+            border-radius: 100%;
+            margin-top: 0px;
+            margin-left: 0px;
+            position: fixed;
+            z-index: 700;
+            content: "";
+        }
+        .segment{
+            height: 10px;
+            width: 2px;
+            background: black;
+            margin-top: 3px;
+        }
+        #buttonsDiv{
+            bottom: 0;
+            width: 100%;
+            position: fixed;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        #buttonsDiv button{
+            background: white;
+            color: lightgray;
+            border: 0px;
+            box-shadow: 0px 0px 5px lightgray;
+            padding: 10px;
+            transition: box-shadow 0.5s, color 0.5s;
+            cursor: pointer;
+        }
+        #buttonsDiv button:hover{
+            box-shadow: 0px 0px 5px gray;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="clocktainer">
+        <div id="miliseconds" class="dial" style="z-index: 100;">
+            <div class="hand"></div>
+        </div>
+        <div id="seconds" class="dial" style="z-index: 800;">
+            <div class="hand"></div>
+        </div>
+        <div id="minutes" class="dial" style="z-index: -100;">
+            <div class="hand"></div>
+        </div>
+        <div id="hours" class="dial" style="z-index: -1000;">
+            <div class="hand"></div>
+        </div>
+        <div id="segmentContainer">
+        </div>
+        <div id="centreDot"></div>
+    </div>
+    <div id="buttonsDiv">
+        <button onclick="chillMode(); this.remove()">Chill</button>
+    </div>
+</body>
+<script>
+'use strict'
+
+function setMilisecondsDialAngle(angleInDegrees){
+    document.getElementById("miliseconds").style.transform = `rotate(${angleInDegrees}deg)`
+}
+
+function setSecondsDialAngle(angleInDegrees){
+    document.getElementById("seconds").style.transform = `rotate(${angleInDegrees}deg)`
+}
+
+function setMinutesDialAngle(angleInDegrees){
+    document.getElementById("minutes").style.transform = `rotate(${angleInDegrees}deg)`
+}
+
+function setHoursDialAngle(angleInDegrees){
+    document.getElementById("hours").style.transform = `rotate(${angleInDegrees}deg)`
+}
+
+function getTime(){
+    var date = new Date();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    var miliseconds = date.getMilliseconds();
+    return {
+        "hours": hours,
+        "minutes": minutes,
+        "seconds": seconds,
+        "miliseconds": miliseconds
+    }
+}
+
+function startTheClock(){
+    secondHandTimer = setInterval(
+        function(){
+            setSecondsDialAngle(
+                (360 * getTime()["miliseconds"] / 1000 / 60)
+                + (360 * getTime()["seconds"] / 60)
+            )
+        },
+        20
+    )
+    setInterval(
+        function(){
+            setMinutesDialAngle(
+                (360 * getTime()["seconds"] / 60 / 60)
+                + (360 * getTime()["minutes"] / 60)
+            )
+        },
+        60
+    )
+    setInterval(
+        function(){
+            setHoursDialAngle(
+                (360 * getTime()["minutes"] / 60 / 60)
+                + (360 * getTime()["hours"] / 12)
+            )
+        },
+        300
+    )
+    milisecondHandTimer = setInterval(
+        function(){
+            setMilisecondsDialAngle(
+                (360 * getTime()["miliseconds"] / 1000)
+            )
+        },
+        10
+    )
+}
+
+function createSegments(){
+    var segmentHtml = "";
+    for (var i=0; i<60; i++){
+        var rotateAngle = i * 360/60;
+        var everyFive = i%5 == 0 ? "border-bottom: 10px solid darkred; background: darkred; filter:" : ""
+        segmentHtml += `<div class="dial" style="transform: rotate(${rotateAngle}deg); z-index: -2000;"><div class="segment" style="${everyFive}"></div></div>`
+    }
+    document.getElementById("segmentContainer").innerHTML += segmentHtml
+}
+
+function chillMode(){
+    clearInterval(secondHandTimer)
+    clearInterval(milisecondHandTimer)
+    secondHandTimer = setInterval(
+        function(){
+            setSecondsDialAngle(
+                360 * getTime()["seconds"] / 60
+            )
+        },
+        60
+    )
+    document.getElementById("miliseconds").remove();
+}
+
+function readAndApplyUrlParams(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var mode = url.searchParams.get("mode")
+    var hideButtons = url.searchParams.get("hideButtons")
+    if (mode == "chill"){
+        chillMode();
+    }
+    if (hideButtons){
+        document.getElementById("buttonsDiv").remove();
+    }
+}
+
+function init(){
+    startTheClock();
+    createSegments();
+    readAndApplyUrlParams();
+}
+
+var secondHandTimer
+var milisecondHandTimer
+
+init();
+</script>
+</html>
