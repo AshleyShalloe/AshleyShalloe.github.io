@@ -530,9 +530,12 @@ function addWindowsToTaskbar(){
 function tempAddWindowToTaskbar(windowText, timeout){
     let idString = self.crypto.randomUUID() // overkill
     document.getElementById("windowButtonContainer").innerHTML += `<div class="windowButton" id='${idString}'>${windowText}</div>`
-    setTimeout(function(){
-        document.getElementById(idString).outerHTML = ""
-    }, timeout)
+    if (timeout > 0){
+        setTimeout(function(){
+            document.getElementById(idString).outerHTML = ""
+        }, timeout)
+    }
+    return idString
 }
 
 function startButtonAction(){
@@ -675,6 +678,7 @@ function startVm(){
 
 function startClock(){
     closeStartMenu();
+
     // only add the iframe if it isn't already there
     if (!document.getElementById("clockModal").innerHTML.includes("modalSection")){
         document.getElementById("clockModal").innerHTML += `<iframe class='modalSection' src="dial.html?mode=chill&hideButtons=true" style="height: 310px; width: 310px"></iframe>`;
@@ -682,8 +686,21 @@ function startClock(){
 
     document.getElementById('clockModal').classList.toggle('hidden');
 
+    if (document.getElementById('clockModal').classList.contains("hidden")){
+        document.getElementById(document.getElementById('clockModal').dataset.taskbarId).remove();
+        document.getElementById('clockModal').dataset.taskbarId = ""
+    }
+    else{
+        document.getElementById('clockModal').dataset.taskbarId = tempAddWindowToTaskbar("Clock", -1)
+    }
+
     // make the close button actually work instead of using a timeout
-    document.getElementById("clockModal").getElementsByClassName("titlebarButton")[0].onclick = function(){document.getElementById('clockModal').classList.toggle('hidden'); document.getElementById('clockModal').getElementsByClassName('modalSection')[0].outerHTML = '';}
+    document.getElementById("clockModal").getElementsByClassName("titlebarButton")[0].onclick = function(){
+        document.getElementById('clockModal').classList.toggle('hidden');
+        document.getElementById('clockModal').getElementsByClassName('modalSection')[0].outerHTML = '';
+        document.getElementById(document.getElementById('clockModal').dataset.taskbarId).remove();
+        document.getElementById('clockModal').dataset.taskbarId = ""
+    }
 }
 
 function startScreensaver(){
