@@ -192,9 +192,9 @@ function startTheClock(){
     hourHandTimer = setInterval(
         function(){
             setHoursDialAngle(
-                (360 * getTime()["minutes"] / 60 / 60)
+                (360 * getTime()["minutes"] / 60 / 12)
                 + (360 * getTime()["hours"] / 12)
-            )
+            );
         },
         300
     )
@@ -256,7 +256,7 @@ function stopwatchMode(){
         var miliseconds = timediff % 1000;
         var seconds = Math.floor(timediff / 1000) % 60;
         var minutes = Math.floor(timediff / 1000 / 60) % 60;
-        var hours = (Math.floor(timediff / 1000 / 60 / 60) % 60) * 5 // hour divisions are every 5 ticks
+        var hours = Math.floor(timediff / (1000*60*60*60)) % 12;
         return {
             "hours": hours,
             "minutes": minutes,
