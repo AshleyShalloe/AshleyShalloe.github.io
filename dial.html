@@ -269,7 +269,7 @@ function stopwatchMode(){
     buttonsHtml += "<button onclick='startStopwatch()'>Start</button>"
     buttonsHtml += `<button onclick="stopWithoutReset()">Stop</button>`
     buttonsHtml += "<button onclick='resetStopwatch()'>Reset</button>"
-    buttonsHtml += `<button onclick="window.location='${location.host + location.pathname}'">Clock</button>`
+    buttonsHtml += `<button onclick="window.location='${location.protocol + "//" + location.host + location.pathname}'">Clock</button>`
 
     document.getElementById("buttonsDiv").innerHTML = buttonsHtml
 }
