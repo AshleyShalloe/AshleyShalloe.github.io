@@ -51,3 +51,7 @@ JavaScript rendition of the starfield screensaver
 It's a clock.
 
 * [dial.html](https://ashleyshalloe.github.io/dial.html)
+
+It's also a clock.
+
+* [digits.html](https://ashleyshalloe.github.io/digits.html)

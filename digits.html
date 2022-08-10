@@ -1,0 +1,531 @@
+<html>
+<head>
+<style>
+    body{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .segment{
+        background: #ededed;
+        margin: 0px;
+    }
+    .segmentLeft, .segmentRight{
+        width: 20px;
+        height: 90px;
+    }
+    .segmentTop, .segmentMiddle, .segmentBottom{
+        width: 90px;
+        height: 20px;
+    }
+    .segmentMiddle{
+        border-radius: 100%;
+    }
+    .segmentTop{
+        border-top-left-radius: 10%;
+        border-top-right-radius: 10%;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+    }
+    .segmentBottom{
+        border-top-left-radius: 50%;
+        border-top-right-radius: 50%;
+        border-bottom-left-radius: 10%;
+        border-bottom-right-radius: 10%;
+    }
+    .segmentRight{
+        border-top-left-radius: 50%;
+        border-top-right-radius: 10%;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 10%;
+    }
+    .segmentLeft{
+        border-top-left-radius: 10%;
+        border-top-right-radius: 50%;
+        border-bottom-left-radius: 10%;
+        border-bottom-right-radius: 50%;
+    }
+    .digit{
+        display: grid;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        width: fit-content;
+        grid-gap: 0px;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+    .digit .segmentLeft:nth-of-type(1){
+        grid-row-start: 1;
+        grid-row-end: 1;
+        grid-column-start: 1;
+        grid-column-end: 1;
+    }
+    .digit .segmentLeft:nth-of-type(2){
+        grid-row-start: 3;
+        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 1;
+    }
+    .digit .segmentRight:nth-of-type(3){
+        grid-row-start: 1;
+        grid-row-end: 1;
+        grid-column-start: 3;
+        grid-column-end: 3;
+    }
+    .digit .segmentRight:nth-of-type(4){
+        grid-row-start: 3;
+        grid-row-end: 3;
+        grid-column-start: 3;
+        grid-column-end: 3;
+    }
+    .digit .segmentMiddle{
+        grid-row-start: 2;
+        grid-column-start: 2;
+    }
+    .digit .segmentTop{
+        grid-row-start: 1;
+        grid-column-start: 2;
+    }
+    .digit .segmentBottom{
+        grid-row-start: 3;
+        grid-column-start: 2;
+        align-self: end;
+    }
+    .digit .on, .colon{
+        background: grey;
+        box-shadow: 3px 3px 3px #4d4d4d9c;
+    }
+    .digitContainer{
+        display: inline-block;
+    }
+    .colon{
+        display: inline-block;
+        width: 40px;
+    }
+    .colon::before{
+        content: "";
+        width: 20px;
+        height: 20px;
+        background: grey;
+        border-radius: 100%;
+        position: absolute;
+        margin-top: 60px;
+        margin-left: 10px;
+    }
+    .colon::after{
+        content: "";
+        width: 20px;
+        height: 20px;
+        background: grey;
+        border-radius: 100%;
+        position: absolute;
+        margin-top: -60px;
+        margin-left: 10px;
+    }
+    #clockContainer{
+        box-shadow: 0px 0px 10px grey;
+        padding: 30px 10px;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: fit-content;
+    }
+    #buttonsDiv{
+        bottom: 0;
+        width: 100%;
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    #buttonsDiv button{
+        background: white;
+        color: lightgray;
+        border: 0px;
+        box-shadow: 0px 0px 5px lightgray;
+        padding: 10px;
+        transition: box-shadow 0.5s, color 0.5s;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    #buttonsDiv button:hover{
+        box-shadow: 0px 0px 5px gray;
+        color: black;
+    }
+</style>
+</head>
+<body>
+<div id="clockContainer">
+    <div class="digitContainer">
+        <div id="firstDigit" class="digit">
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentTop"></div>
+            <div class="segment segmentMiddle"></div>
+            <div class="segment segmentBottom"></div>
+        </div>
+    </div>
+    <div class="digitContainer">
+        <div id="secondtDigit" class="digit">
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentTop"></div>
+            <div class="segment segmentMiddle"></div>
+            <div class="segment segmentBottom"></div>
+        </div>
+    </div>
+    <div class="colon"></div>
+    <div class="digitContainer">
+        <div id="thirdDigit" class="digit">
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentTop"></div>
+            <div class="segment segmentMiddle"></div>
+            <div class="segment segmentBottom"></div>
+        </div>
+    </div>
+    <div class="digitContainer">
+        <div id="fourthDigit" class="digit">
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentTop"></div>
+            <div class="segment segmentMiddle"></div>
+            <div class="segment segmentBottom"></div>
+        </div>
+    </div>
+    <div class="colon"></div>
+    <div class="digitContainer">
+        <div id="fifthDigit" class="digit">
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentTop"></div>
+            <div class="segment segmentMiddle"></div>
+            <div class="segment segmentBottom"></div>
+        </div>
+    </div>
+    <div class="digitContainer">
+        <div id="sixthDigit" class="digit">
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentLeft"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentRight"></div>
+            <div class="segment segmentTop"></div>
+            <div class="segment segmentMiddle"></div>
+            <div class="segment segmentBottom"></div>
+        </div>
+    </div>
+</div>
+<div id="buttonsDiv">
+    <button onclick="silly()">Silly</button>
+    <button onclick="var inputMessage = prompt('Input a message to scroll.\nInvalid chars get replaced with underscores'); scrollMessage(inputMessage);">Scroll</button>
+</div>
+</body>
+<script>
+'use strict'
+
+var digitCodes = {
+    0: [1,1,1,1,1,0,1],
+    1: [0,0,1,1,0,0,0],
+    2: [0,1,1,0,1,1,1],
+    3: [0,0,1,1,1,1,1],
+    4: [1,0,1,1,0,1,0],
+    5: [1,0,0,1,1,1,1],
+    6: [1,1,0,1,1,1,1],
+    7: [0,0,1,1,1,0,0],
+    8: [1,1,1,1,1,1,1],
+    9: [1,0,1,1,1,1,1],
+    "A": [1,1,1,1,1,1,0],
+    "B": [1,1,0,1,0,1,1],
+    "C": [1,1,0,0,1,0,1],
+    "D": [0,1,1,1,0,1,1],
+    "E": [1,1,0,0,1,1,1],
+    "F": [1,1,0,0,1,1,0],
+}
+
+var extendedDigitCodes = {
+    " ": [0,0,0,0,0,0,0],
+    "-": [0,0,0,0,0,1,0],
+    "a": [1,1,1,1,1,1,0], // upper case A
+    "b": [1,1,0,1,0,1,1], // lower case b
+    "c": [0,1,0,0,0,1,1], // little c
+    "d": [0,1,1,1,0,1,1], // lower case d
+    "e": [1,1,0,0,1,1,1], // upper case E
+    "f": [1,1,0,0,1,1,0], // upper case F
+    "H": [1,1,1,1,0,1,0],
+    "h": [1,1,1,1,0,1,0], // same as upper
+    "I": [0,0,1,1,0,0,0], // same as 1
+    "i": [0,0,0,1,0,0,0], // small i
+    "J": [0,0,1,1,0,0,1],
+    "j": [0,0,1,1,0,0,1], // same as upper
+    "L": [1,1,0,0,0,0,1],
+    "l": [1,1,0,0,0,0,1], // same as upper
+    "N": [1,1,1,1,1,0,0], // more like an upside down U
+    "n": [0,1,0,1,0,1,0], // small upside down u
+    "o": [0,1,0,1,0,1,1], // little o
+    "O": [1,1,1,1,1,0,1], // literally just 0
+    "P": [1,1,1,0,1,1,0],
+    "p": [1,1,1,0,1,1,0], // same as upper
+    "Q": [1,0,1,1,1,1,0],
+    "q": [1,0,1,1,1,1,0], // same as upper
+    "S": [1,0,0,1,1,1,1], // literally just 5
+    "s": [1,0,0,1,1,1,1], // same as upper
+    "U": [1,1,1,1,0,0,1], // big U
+    "u": [0,1,0,1,0,0,1], // little u
+    "v": [0,1,0,1,0,0,1], // just little u again
+    "Y": [1,0,1,1,0,1,1], // same as 4
+    "y": [1,0,1,1,0,1,1], // same as upper
+    "°": [1,0,1,0,1,1,0], // superscript little o
+    "_": [0,0,0,0,0,0,1]
+}
+
+var allDigitCodes = Object.assign(digitCodes, extendedDigitCodes)
+
+function setDigit(digitElement, number, font){
+    var digitCode = font[number]
+    for (var i=0; i<digitElement.getElementsByClassName("segment").length; i++){
+        var getState = digitElement.getElementsByClassName("segment")[i].classList.contains("on")
+        var setState = digitCode[i]
+        if (getState != setState){
+             digitElement.getElementsByClassName("segment")[i].classList.toggle("on")
+        }
+    }
+}
+
+function countHex(){
+    var digits = [0,1,2,3,4,5,6,7,8,9,"A","B","C","D","E","F"]
+    var digitIndex = 0
+
+    return setInterval(function(){
+        setDigit(document.getElementById("firstDigit"), digits[digitIndex], digitCodes);
+        digitIndex = (digitIndex + 1) % 16
+    }, 600)
+}
+
+function countNums(){
+    var digits = [0,1,2,3,4,5,6,7,8,9]
+    var digitIndex = 0
+
+    return setInterval(function(){
+        setDigit(document.getElementById("firstDigit"), digits[digitIndex], digitCodes);
+        digitIndex = (digitIndex + 1) % 10
+    }, 600)
+}
+
+function chase(digitElement, reverse=false){
+    var chaseCodes = {
+        0: [0,0,0,0,1,0,0],
+        1: [0,0,1,0,0,0,0],
+        2: [0,0,0,1,0,0,0],
+        3: [0,0,0,0,0,0,1],
+        4: [0,1,0,0,0,0,0],
+        5: [1,0,0,0,0,0,0]
+    }
+
+    if (reverse){
+        var reverseChaseCodes = {}
+        var j = 0
+        for (var i=Object.keys(chaseCodes).length - 1; i>= 0; i--){
+            reverseChaseCodes[j] = chaseCodes[i]
+            j += 1;
+        }
+        chaseCodes = reverseChaseCodes
+    }
+
+    var digitIndex = 0
+
+    return setInterval(function(){
+        setDigit(digitElement, digitIndex, chaseCodes);
+        digitIndex = (digitIndex + 1) % 6
+    }, 100)
+}
+
+function leftpad(input_string, target_length, padding_char){
+    var padded_string = input_string
+    while (padded_string.length < target_length){
+        padded_string = padding_char + padded_string
+    }
+    return padded_string
+}
+
+function setTime(){
+    var date = new Date()
+    var hours = leftpad(date.getHours().toString(), 2, 0)
+    var minutes = leftpad(date.getMinutes().toString(), 2, 0)
+    var seconds = leftpad(date.getSeconds().toString(), 2, 0)
+    var time = hours+minutes+seconds
+    for (var i=0; i<time.length; i++){
+        setDigit(document.getElementsByClassName("digit")[i], time[i], digitCodes)
+    }
+}
+
+function startClock(){
+    return setInterval(function(){
+        setTime();
+    }, 30)
+}
+
+function scaleClockToWidth(){
+    var clockWidth =  document.getElementById("clockContainer").offsetWidth
+    var viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    var largeScale = (0.9 * viewportWidth) / clockWidth
+    var smallScale = (0.5 * viewportWidth) / clockWidth
+    
+    if (viewportWidth > 500){
+        document.getElementById("clockContainer").style.transform = `scale(${smallScale})`
+    }
+    else{
+        document.getElementById("clockContainer").style.transform = `scale(${largeScale})`
+    }
+}
+
+function debounce(func, timeout = 100){
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}
+
+async function silly(reverse=false){
+    `
+    Silly animation instead of a clock
+    `
+    // only start if we're in clock mode
+    if (!clockIntervalId){
+        return 0
+    }
+
+    // stop the clock
+    clockIntervalId = clearInterval(clockIntervalId);
+
+    // do the thing
+    var chaseIntervals = []
+
+    for (var i=0; i<document.getElementsByClassName("digit").length; i++){
+        chaseIntervals.push(chase(document.getElementsByClassName("digit")[i], reverse))
+        await new Promise(r => setTimeout(r, 300)); // basically sleep 300 ms
+    }
+
+    await new Promise(r => setTimeout(r, 1000*3)); // 3 seconds
+
+    for (var i=0; i<chaseIntervals.length; i++){
+        clearInterval(chaseIntervals[i])
+    }
+
+    // restart the clock
+    clockIntervalId = startClock();
+}
+
+async function scrollMessage(message, repeats){
+    `
+    Shift register type thing.
+    Message can be any of the characters from digitCodes + extendedDigitCodes
+    `
+    // only start if we're in clock mode
+    if (!clockIntervalId){
+        return 0
+    }
+
+    // stop the clock
+    clockIntervalId = clearInterval(clockIntervalId);
+
+    // do the thing
+    // display message
+    var digitArray = [" ", " ", " ", " ", " ", " "] // blanks
+    for (var i=0; i<message.length; i++){
+        digitArray.shift() // removes first element
+        digitArray.push(message[i])
+        setMessage(digitArray.join(""))
+        await new Promise(r => setTimeout(r, 500)); // sleep 500 ms
+    }
+    // push message off screen
+    for (var i=0; i<6; i++){
+        digitArray.shift()
+        digitArray.push(" ")
+        setMessage(digitArray.join(""))
+        await new Promise(r => setTimeout(r, 500)); // sleep 500 ms
+    }
+
+    // restart the clock
+    clockIntervalId = startClock();
+}
+
+function setMessage(message){
+    `
+    Sets a 6 char message on the display
+    Message can be any of the characters from digitCodes + extendedDigitCodes
+    Does not return to the clock when done.
+    Avoid clashing with other routines that set the display.
+    `
+    // stop the clock if it's running
+    if (clockIntervalId){
+        clockIntervalId = clearInterval(clockIntervalId);
+    }
+
+    // truncate message if too long
+    if (message.length > 6){
+        message.slice(0,6)
+    }
+    // right pad message if too short
+    else if (message.length < 6){
+        while (message.length < 6){
+            message = message + " "
+        }
+    }
+
+    message = sanitiseMessage(message); // valid chars only
+    
+    for (var i=0; i<message.length; i++){
+        setDigit(
+            document.getElementById("clockContainer").getElementsByClassName("digit")[i], 
+            message[i], 
+            allDigitCodes
+        )
+    }
+}
+
+function sanitiseMessage(message, replaceChar="_"){
+    `
+    Replaces invalid message characters with replaceChar
+    `
+    var returnMessage = ""
+    for (var i=0; i<message.length; i++){
+        if (Object.keys(allDigitCodes).includes(message[i])){
+            returnMessage += message[i]
+        }
+        else{
+            returnMessage += replaceChar
+        }
+    }
+    return returnMessage
+}
+
+function init(){
+    clockIntervalId = startClock();
+    scaleClockToWidth();
+    const debounceScaleClockToWidth =  debounce(() => scaleClockToWidth());
+    window.addEventListener('resize', function(event){debounceScaleClockToWidth()});
+}
+
+// interval id for clock
+var clockIntervalId = false
+
+init();
+</script>
+</html>
