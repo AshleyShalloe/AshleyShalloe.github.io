@@ -50,7 +50,7 @@ JavaScript rendition of the starfield screensaver
 
 It's a clock.
 
-* [dial.html](https://ashleyshalloe.github.io/dial.html)
+* [dials.html](https://ashleyshalloe.github.io/dials.html)
 
 It's also a clock.
 

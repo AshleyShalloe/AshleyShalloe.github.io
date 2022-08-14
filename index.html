@@ -25,12 +25,24 @@
         padding-top: 10px;
         padding-bottom: 10px;
         border: 1px solid black;
-        margin-top: 15px;
-        margin-bottom: 15px;
         min-height: 80px;
+        font-family: monospace;
+    }
+    .card:nth-of-type(odd){
+        grid-column-start: 1;
+        grid-column-end: 1;
+        margin-left: 10px;
+    }
+    .card:nth-of-type(even){
+        grid-column-start: 2;
+        grid-column-end: 2;
+        margin-right: 10px;
+    }
+    .card:last-of-type.card:nth-of-type(odd){
+        grid-column-start: 1;
+        grid-column-end: 3;
         margin-left: 10px;
         margin-right: 10px;
-        font-family: monospace;
     }
     .card:hover{
         filter: brightness(1.2);
@@ -41,26 +53,21 @@
         border: 1px solid black;
         margin-top: 10px;
         margin-bottom: 20px;
-        display: flow-root;
+        display: grid;
+        grid-column-start: 1;
+        grid-column-end: 2;
         box-shadow: 5px 5px 5px rgba(60, 60, 60, 0.388);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        padding-bottom: 10px;
+        grid-auto-flow: column;
+        justify-items: stretch;
+        grid-template-columns: 50%;
     }
     .cardImg{
         max-height: 200px;
         display: block;
         border: 1px solid gray;
-    }
-    .leftcard{
-        float: left;
-        margin-left: 10px;
-        margin-right: unset;
-    }
-    .rightcard{
-        float: right;
-        margin-right: 10px;
-        margin-left: unset;
-    }
-    .leftcard, .rightcard{
-        width: 46%;
     }
     #header{
         border-left: 1px solid black;
@@ -101,6 +108,8 @@
         display: flex;
         justify-content: space-between;
         user-select: none;
+        grid-column-start: 1;
+        grid-column-end: 3;
     }
     .cardContainer:nth-child(4n-3) .cardHeader{
         background: #4C9B33;
@@ -337,6 +346,9 @@
         margin: 10px; 
         background: rgba(236, 236, 236, 0.798);
         border: 1px solid black;
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-column-end: 3;
     }
     @media (orientation: portrait) {
         #vmModal iframe{
@@ -359,6 +371,32 @@
         border: 0px;
         pointer-events: none;
     }
+    @media (max-width: 500px){
+        .card:nth-of-type(odd){
+            grid-column-start: 1;
+            grid-column-end: 2;
+            margin-left: 10px;
+            margin-right: 10px;
+    }
+        .card:nth-of-type(even){
+            grid-column-start: 1;
+            grid-column-end: 2;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .cardContainer{
+            grid-template-columns: 100%;
+        }
+        .cardHeader{
+            grid-column-end: 1;
+        }
+        .card:last-of-type.card:nth-of-type(odd){
+            grid-column-start: 1;
+            grid-column-end: 1;
+            margin-left: 10px;
+            margin-right: 10px;
+    }
+    }
 </style>
 </head>
 <body>
@@ -368,8 +406,8 @@
 </div>
 <div class="cardContainer">
     <div class="cardHeader">GitHub Repo</div>
-    <a href="https://github.com/AshleyShalloe/AshleyShalloe.github.io" target="_blank">
-        <div class="card">
+    <a class="card" href="https://github.com/AshleyShalloe/AshleyShalloe.github.io" target="_blank">
+        <div>
         &gt;GitHub Repo<br>
         Just a link to the repo where this GitHub Site is actually stored.
         </div>
@@ -377,20 +415,20 @@
 </div>
 <div class="cardContainer">
     <div class="cardHeader">SARS-CoV-2 stuff</div>
-    <a href="coding_def.html" target="_blank">
-        <div class="card leftcard">
+    <a class="card" href="coding_def.html" target="_blank">
+        <div>
         &gt;Coding definition<br>
         The SARS-CoV-2 genome annotated with coding regions, gene names, proteins, amino acids and amplicons.
         </div>
     </a>
-    <a href="undefined.html" target="_blank">
-        <div class="card rightcard">
+    <a class="card" href="undefined.html" target="_blank">
+        <div>
         &gt;Undefined<br>
         Compare a SARS-CoV-2 sequence against variant definitions to find out why it does or doesn't meet those definitions.
         </div>
     </a>
-    <a href="stargazer.html" target="_blank">
-        <div class="card leftcard">
+    <a class="card" href="stargazer.html" target="_blank">
+        <div>
         &gt;Stargazer<br>
         Gaze at (SARS-CoV-2) constellations. Essentially the same thing as Undefined, but with Scorpio constellations.
         </div>
@@ -398,50 +436,50 @@
 </div>
 <div class="cardContainer">
     <div class="cardHeader">Other stuff</div>
-    <a href="colours.html" target="_blank">
-        <div class="card leftcard">
+    <a class="card" href="colours.html" target="_blank">
+        <div>
         &gt;Colours<br>
         A colour palette generator. Random on every page load, see if you get something nice. Used to generate the colourscheme for this page...
         </div>
     </a>
-    <a href="circles.html" target="_blank">
-        <div class="card rightcard">
+    <a class="card" href="circles.html" target="_blank">
+        <div>
         &gt;Circles<br>
         Audio responsive circles. No real rhyme or reason, just for fun.
         </div>
     </a>
-    <a href="playback_speed.html" target="_blank">
-        <div class="card leftcard">
+    <a class="card" href="playback_speed.html" target="_blank">
+        <div>
         &gt;YouTube Overclocker<br>
         Enables playback speeds from 0x up to 16x on YouTube.
         </div>
     </a>
-    <a href="grid.html" target="_blank">
-        <div class="card rightcard">
+    <a class="card" href="grid.html" target="_blank">
+        <div>
         &gt;Grid<br>
         A homage to the System 6 desktop background pattern editor.
         </div>
     </a>
-    <a href="img2base64.html" target="_blank">
-        <div class="card leftcard">
+    <a class="card" href="img2base64.html" target="_blank">
+        <div>
         &gt;img2base64<br>
         Upload an image, get a base64 encoded data URI. Just a plain, straightforward implementation of a basic utility.
         </div>
     </a>
-    <a href="stars.html" target="_blank">
-        <div class="card rightcard">
+    <a class="card" href="stars.html" target="_blank">
+        <div>
         &gt;Stars<br>
         Fly through space like it's 1995.
         </div>
     </a>
-    <a href="dials.html" target="_blank">
-        <div class="card leftcard">
+    <a class="card" href="dials.html" target="_blank">
+        <div>
         &gt;dials<br>
         Analogue clock and stopwatch.
         </div>
     </a>
-    <a href="digits.html" target="_blank">
-        <div class="card rightcard">
+    <a class="card" href="digits.html" target="_blank">
+        <div>
         &gt;digits<br>
         Digital clock and scrolling marquee.
         </div>
