@@ -237,6 +237,7 @@
 <div id="buttonsDiv">
     <button onclick="silly()">Silly</button>
     <button onclick="var inputMessage = prompt('Input a message to scroll.\nInvalid chars get replaced with underscores'); scrollMessage(inputMessage);">Scroll</button>
+    <button onclick="toggleLights()">Toggle lights</button>
 </div>
 </body>
 <script>
@@ -523,6 +524,39 @@ function sanitiseMessage(message, replaceChar="_"){
         }
     }
     return returnMessage
+}
+
+function toggleLights(){
+    if (document.getElementById("darkModeStyle")){
+        document.getElementById("darkModeStyle").remove();
+    }
+    else{
+        var darkModeStyle = `
+            <style id="darkModeStyle">
+                body{
+                    background: black;
+                }
+                #clockContainer{
+                    box-shadow: 0px 0px 30px #007880;
+                    background: #007880;
+                }
+                .segment{
+                    background: #0000000f;
+                }
+                .segment.on{
+                    background: #000000a8;
+                    box-shadow: 3px 3px 3px #1414149c;
+                }
+                .colon::after, .colon::before{
+                    background: #000000a8;
+                }
+                #buttonsDiv{
+                    filter: invert(1);
+                }
+            </style>
+            `;
+        document.getElementsByTagName("body")[0].innerHTML += darkModeStyle;
+    }
 }
 
 function init(){
