@@ -737,7 +737,7 @@ function startClock(){
 
     // only add the iframe if it isn't already there
     if (!document.getElementById("clockModal").innerHTML.includes("modalSection")){
-        document.getElementById("clockModal").innerHTML += `<iframe class='modalSection' src="dials.html?mode=chill&hideButtons=true" style="height: 310px; width: 310px"></iframe>`;
+        document.getElementById("clockModal").innerHTML += `<iframe class='modalSection' src="dials.html?mode=chill&hideButtons=true&lights=on" style="height: 310px; width: 310px"></iframe>`;
     }
 
     document.getElementById('clockModal').classList.toggle('hidden');

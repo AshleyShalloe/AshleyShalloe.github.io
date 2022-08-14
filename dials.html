@@ -243,6 +243,7 @@ function readAndApplyUrlParams(){
     var url = new URL(url_string)
     var mode = url.searchParams.get("mode")
     var hideButtons = url.searchParams.get("hideButtons")
+    var lights = url.searchParams.get("lights")
     if (mode == "chill"){
         chillMode();
     }
@@ -251,6 +252,16 @@ function readAndApplyUrlParams(){
     }
     if (hideButtons){
         document.getElementById("buttonsDiv").remove();
+    }
+    // dark mode stuff
+    if (lights == "on"){
+        toggleLights("light")
+    }
+    else if (lights == "off"){
+        toggleLights("dark")
+    }
+    else{
+        readUserDarkModePrefAndSet();
     }
 }
 
@@ -347,12 +358,14 @@ function toggleLights(mode=false){
     }
 }
 
-function initDarkModeWatcher(){
+function readUserDarkModePrefAndSet(){
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         // dark mode
         toggleLights("dark"); // should set a URL parameter
     }
+}
 
+function initDarkModeWatcher(){
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
         const newColorScheme = event.matches ? "dark" : "light";
         toggleLights(newColorScheme);
