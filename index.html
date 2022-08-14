@@ -578,7 +578,13 @@ function addWindowsToTaskbar(){
 }
 
 function tempAddWindowToTaskbar(windowText, timeout){
-    let idString = self.crypto.randomUUID() // overkill
+    var idString
+    try {
+        idString = self.crypto.randomUUID() // overkill. doesn't work in firefox?
+    }
+    catch{
+        idString = Date.now() // unix timestamp
+    }
     document.getElementById("windowButtonContainer").innerHTML += `<div class="windowButton" id='${idString}'>${windowText}</div>`
     if (timeout > 0){
         setTimeout(function(){
