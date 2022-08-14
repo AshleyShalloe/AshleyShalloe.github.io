@@ -6,6 +6,7 @@
     <style>
         body{
             margin: 0 auto;
+            transition: background 0.5s;
         }
         .dial:first-of-type{
             box-shadow: 0px 0px 10px rgb(132, 132, 132);
@@ -112,6 +113,10 @@
             box-shadow: 0px 0px 5px gray;
             color: black;
         }
+        .segmentModFive{
+            border-bottom: 10px solid darkred; 
+            background: darkred;
+        }
     </style>
 </head>
 <body>
@@ -135,6 +140,7 @@
     <div id="buttonsDiv">
         <button onclick="chillMode(); this.remove()">Chill</button>
         <button onclick="window.location=`${window.location.href}?mode=stopwatch`">Stopwatch</button>
+        <button onclick="toggleLights()">Toggle lights</button>
     </div>
 </body>
 <script>
@@ -212,8 +218,8 @@ function createSegments(){
     var segmentHtml = "";
     for (var i=0; i<60; i++){
         var rotateAngle = i * 360/60;
-        var everyFive = i%5 == 0 ? "border-bottom: 10px solid darkred; background: darkred; filter:" : ""
-        segmentHtml += `<div class="dial" style="transform: rotate(${rotateAngle}deg); z-index: -2000;"><div class="segment" style="${everyFive}"></div></div>`
+        var everyFiveClass = i%5 == 0 ? " segmentModFive" : ""
+        segmentHtml += `<div class="dial" style="transform: rotate(${rotateAngle}deg); z-index: -2000;"><div class="segment${everyFiveClass}"></div></div>`
     }
     document.getElementById("segmentContainer").innerHTML += segmentHtml
 }
@@ -269,6 +275,7 @@ function stopwatchMode(){
     buttonsHtml += "<button onclick='startStopwatch()'>Start</button>"
     buttonsHtml += `<button onclick="stopWithoutReset()">Stop</button>`
     buttonsHtml += "<button onclick='resetStopwatch()'>Reset</button>"
+    buttonsHtml += `<button onclick="toggleLights()">Toggle lights</button>`
     buttonsHtml += `<button onclick="window.location='${location.protocol + "//" + location.host + location.pathname}'">Clock</button>`
 
     document.getElementById("buttonsDiv").innerHTML = buttonsHtml
@@ -304,10 +311,59 @@ function startStopwatch(){
     startTheClock();
 }
 
+function toggleLights(mode=false){
+    var currentMode = document.getElementById("darkModeStyle") ? "dark" : "light"
+    if (mode){
+        if (mode == currentMode){
+            return 0
+        }
+    }
+    if (currentMode == "dark"){
+        document.getElementById("darkModeStyle").remove();
+    }
+    else{
+        var darkModeStyle = `
+            <style id="darkModeStyle">
+                body{
+                    background: black;
+                }
+                .dial:first-of-type{
+                    box-shadow: 0px 0px 30px #007880;
+                }
+                .segment{
+                    background: white !important;
+                    
+                }
+                #buttonsDiv{
+                    filter: invert(1);
+                }
+                .segmentModFive{
+                    border-bottom: 10px solid white; 
+                    background: white;
+                }
+            </style>
+            `;
+        document.getElementsByTagName("body")[0].innerHTML += darkModeStyle;
+    }
+}
+
+function initDarkModeWatcher(){
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // dark mode
+        toggleLights("dark"); // should set a URL parameter
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        const newColorScheme = event.matches ? "dark" : "light";
+        toggleLights(newColorScheme);
+    });
+}
+
 function init(){
     startTheClock();
     createSegments();
     readAndApplyUrlParams();
+    initDarkModeWatcher();
 }
 
 var milisecondHandTimer
