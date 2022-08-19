@@ -16,6 +16,7 @@
         flex-direction: column;
         align-content: center;
         justify-content: center;
+        padding-bottom: 50px;
       }
   
       #position_input{
@@ -226,7 +227,6 @@
       <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Don't use yet</span>
     </div>
     <div id="input_container" class="card" style="box-shadow: 0px 0px 10px gray">
-      Nucleotide position<br>
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" pattern="[0-9]*" inputmode="numeric"></input>
       <input id="slidey" type="range" min="1" value="1" oninput="slide_position(); doThing()"/>
     </div>
@@ -247,7 +247,7 @@
         <div id="amino_pic"></div>
       </div>
     </div>
-    <div class="card card_left">
+    <div class="card card_left" style="display: none">
       <div id="amplicon_data"></div>
     </div>
     <div class="modal hiddenModal" id="explanationModal">
@@ -380,9 +380,7 @@
     var more_metadata = position_to_protein_info_deluge(position)
     var genbank_metadata_list = []
     for (i=0; i<more_metadata.length; i++){
-      if (more_metadata[i]["source"] == "Genbank"){
-        genbank_metadata_list.push(more_metadata[i]["protein_product_name"])
-      }
+      genbank_metadata_list.push(more_metadata[i])
     }
     document.getElementById("genbank_metadata").innerHTML = [...new Set(genbank_metadata_list)].join("<br>") // using sets to just get the unique stuff
 
@@ -408,12 +406,12 @@
   function position_to_protein_info_deluge(position){
     var output_array = []
     
-    for (i=0; i<mpx_def.length; i++){
-      var start = mpx_def[i]["start"];
-      var stop = mpx_def[i]["stop"];
+    for (var region_name in mpx_def){
+      var start = mpx_def[region_name]["start"];
+      var stop = mpx_def[region_name]["stop"];
       var region_range = range(start, stop+1);
       if (region_range.includes(position)){
-        output_array.push(mpx_def[i]);
+        output_array.push(mpx_def[region_name]["note"]);
       }
     }
     
