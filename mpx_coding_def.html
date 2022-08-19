@@ -225,6 +225,11 @@
   <body>
     <div class="card" style="z-index: 2000; background: #ffffffc4">
       <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Don't use yet</span>
+      <ul style="text-align: left;">
+        <li>Proteins on the other strand are supposed to go backwards</li>
+        <li>Many probable off by one errors</li>
+        <li>Some labelled regions not included (tandem repeats...)</li>
+      </ul>
     </div>
     <div id="input_container" class="card" style="box-shadow: 0px 0px 10px gray">
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" pattern="[0-9]*" inputmode="numeric"></input>
@@ -279,8 +284,8 @@
 
   function populate_region_to_pos_dict(){
     for (var region_name in mpx_def){
-      var start = mpx_def[region_name]["start"]
-      var stop = mpx_def[region_name]["stop"]
+      var start = mpx_def[region_name]["start"] + 1 // is there really an off-by-one?
+      var stop = mpx_def[region_name]["stop"] + 1 // is this really the solution??
       region_to_pos_dict[region_name] = [start, stop]
     }
   }
@@ -290,7 +295,8 @@
   // placeholder for monkeypox primers
   var primer_dict = {}
   
-  // possibly wrong; we need the bacterial version
+  // definitely the right dict for orthopoxvirus?
+  // it is for SARS-CoV-2, at least
   var codon_to_amino_acid_dict = {'TTT' : 'F', 'TTC' : 'F', 'TTA' : 'L', 'TTG' : 'L',
                 'CTT' : 'L', 'CTC' : 'L', 'CTA' : 'L', 'CTG' : 'L',
                 'ATT' : 'I', 'ATC' : 'I', 'ATA' : 'I', 'ATG' : 'M',
@@ -307,6 +313,18 @@
                 'CGT' : 'R', 'CGC' : 'R', 'CGA' : 'R', 'CGG' : 'R',
                 'AGT' : 'S', 'AGC' : 'S', 'AGA' : 'R', 'AGG' : 'R',
                 'GGT' : 'G', 'GGC' : 'G', 'GGA' : 'G', 'GGG' : 'G'}
+
+  function nucleotideComplement(inputString){
+    var complementDict = {
+      "A": "T",
+      "C": "G",
+      "G": "C",
+      "T": "A"
+    };
+    var returnString = "";
+    [...inputString].forEach(x => returnString += complementDict[x])
+    return returnString
+  }
   
   // https://stackoverflow.com/questions/8273047/javascript-function-similar-to-python-range
   function range(start, stop, step) {
@@ -339,8 +357,9 @@
       var region_range = range(region_start, region_end+1)
       var nt_pos_correction_factor = 0
       var aa_pos_correction_factor = 0
+      var strand = mpx_def[region_name]["strand"] // -1 or 1
   
-      // handle second region in orf1ab and nsp12
+      // handle second region if present
       if (!region_range.includes(position)){         // if the position is not in the region
         if (region_to_pos_dict[x].length == 4){      // then check whether the region has a second range
             region_start = region_to_pos_dict[x][2]
@@ -353,20 +372,30 @@
   
       if (region_range.includes(position)){
         var ref_base = ON563414_3.slice(position-1, position)
+
+        if (!strand){
+          ref_base = nucleotideComplement(ref_base)
+        }
+
         var region_position = 1 + position - region_start
         var amino_acid_codon_position = ((region_position + 2 )%3) + 1 // position in the codon, indexed from 1
         var amino_acid_position = Math.ceil(region_position/3)
         var codon_start = position - amino_acid_codon_position
         var codon_end = codon_start + 2
         var codon = ON563414_3.slice(codon_start, codon_end+1)
+
+        if (!strand){
+          codon = nucleotideComplement(codon);
+        }
+
         var translated_codon = codon_to_amino_acid_dict[codon]
         var fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, region_position+nt_pos_correction_factor, "</div>")
-        var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ")</div>")
+        var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ") (strand: ", strand, ")</div>")
         metadata_array.push([fancy_name, fancy_aa_position].join(""))
         amino_acid_array.push(translated_codon)
       }
       set_amplicon_metadata(position)
-      //highlight_region_if_that_is_where_we_are() // needs optimisation
+      //highlight_region_if_that_is_where_we_are() // needs optimisation (debounce and async?)
     }
   
     if (metadata_array.length == 0){
