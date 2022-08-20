@@ -78,10 +78,12 @@
             z-index: 10;
             line-height: 1em;
       }
-      /* .annotate_left{
-            right: 103%;
+      .annotate_left{
+            /* right: 103%; */
+            transform: translateX(-120%);
+            text-shadow: 1px 1px 2px white;
         }
-      .annotate_right{
+      /* .annotate_right{
             left: 103%;
       } */
       #genome_map_cursor{
@@ -590,7 +592,7 @@ function generate_aa_image_html(amino_acid){
       var region_width_percentage = 100 * region_width / genome_length
       var left_padding = 100 * region_start / genome_length
       annotation_side = "annotate_right"
-      if (region_end > (0.5 * genome_length)){
+      if (region_end > (0.8 * genome_length)){ // change annotation side at n% of the way through the genome
         annotation_side = "annotate_left"
       }
       // so the rationale here is that we want a div of width region_width_percentage
