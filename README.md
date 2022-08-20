@@ -55,3 +55,7 @@ It's a clock.
 It's also a clock.
 
 * [digits.html](https://ashleyshalloe.github.io/digits.html)
+
+Monkeypox version of coding_def (very work-in-progress).
+
+* [mpx_coding_def.html](https://ashleyshalloe.github.io/mpx_coding_def.html)
