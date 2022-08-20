@@ -17,6 +17,7 @@
         align-content: center;
         justify-content: center;
         padding-bottom: 50px;
+        overflow-x: hidden;
       }
   
       #position_input{
@@ -622,6 +623,7 @@ function generate_aa_image_html(amino_acid){
     var rdl_mod = Math.ceil(region_dict_length / (document.getElementsByClassName("genome_map_container").length - 1))
     var rdl_counter = 1
     var genome_map_container_target = 0
+    var skipGenes = 0
     for (x in region_to_pos_dict){
       rdl_counter += 1
       var region_name = x
@@ -629,6 +631,10 @@ function generate_aa_image_html(amino_acid){
       var region_end = region_to_pos_dict[x][1]
       if (region_to_pos_dict[x].length == 4){
         region_end = region_to_pos_dict[x][3] // overwrite if there's a second contig in the dict
+      }
+      if (skipGenes){
+        skipGenes -= 1
+        continue
       }
       if (range(region_start, region_end).includes(nt_pos)){
         document.getElementById(`genome_map_container_${genome_map_container_target}`).classList.add("unfaded")
@@ -638,6 +644,7 @@ function generate_aa_image_html(amino_acid){
            document.getElementsByClassName("genome_map_container")[y].classList.toggle("unfaded")
           }
         }
+        skipGenes = 1 // if we match something, skip checking the next gene for a match to avoid overlapping genes incrementing genome_map_container_target a second time. Will break if there are >2 overlapping genes, causing the wrong section to get highlighted
         genome_map_container_target += 1
         continue
       }
