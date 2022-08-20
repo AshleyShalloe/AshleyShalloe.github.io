@@ -260,25 +260,15 @@
     </style>
   </head>
   <body>
-    <div class="card">
-      <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Don't use yet</span>
-      <ul style="text-align: left;">
-        <li>
-          Proteins on the other strand are supposed to go backwards
-          <ul>
-            <li>Codon position is backwards</li>
-            <li>Needs to be clearer when we are displaying reverse complemented metadata</li>
-          </ul>
-        </li>
-        <li>Many probable off by one errors</li>
-        <li>Co-ordinates and translation totally off</li>
-        <li>Some labelled regions not included (tandem repeats...)</li>
-        <li>
-          Not aesthetically pleasing
-          <ul>
-            <li>Remove "MPXV" prefix?</li>
-          </ul>
-        </li>
+    <div class="card" style="display: flex; flex-direction: column; align-items: center;">
+      <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Has known bugs</span>
+      <ul style="text-align: left; font-size: smaller;">
+        <li>Needs to be clearer when we are displaying reverse complemented metadata</li>
+        <li>Amino acid positions need to be reverse indexed for reverse complemented genes</li>
+        <li>Co-ordinates and translation mostly correct.</li>
+        <li>Need to verify if more genbank-format features need to be implemented, particularly <span style="font-family: monospace">join()</span></li>
+        <li>Some labelled regions are not included (tandem repeats...)</li>
+        <li>Remove "MPXV" prefix? Use different labels?</li>
       </ul>
     </div>
      <div id="input_container" class="card">
