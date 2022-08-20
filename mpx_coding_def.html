@@ -657,7 +657,7 @@ function generate_aa_image_html(amino_acid){
     // switch it on
     if (!document.getElementById("genome_map_and_cursor_container").parentElement.style.width){
       document.getElementById("genome_map_and_cursor_container").parentElement.style.width = "500%"
-      zoomState = true
+      zoomState = true;
     }
     // switch it off
     else{
@@ -665,6 +665,7 @@ function generate_aa_image_html(amino_acid){
       document.getElementById("genome_map_and_cursor_container").parentElement.style.transform = "";
       zoomState = false
     }
+    set_genome_map_cursor_position();
   }
   </script>
   <script>
