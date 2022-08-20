@@ -253,7 +253,13 @@
     <div class="card">
       <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Don't use yet</span>
       <ul style="text-align: left;">
-        <li>Proteins on the other strand are supposed to go backwards</li>
+        <li>
+          Proteins on the other strand are supposed to go backwards
+          <ul>
+            <li>Reverse complement not yet implemented</li>
+            <li>Codon position is backwards</li>
+          </ul>
+        </li>
         <li>Many probable off by one errors</li>
         <li>Some labelled regions not included (tandem repeats...)</li>
         <li>
@@ -330,8 +336,8 @@
 
   function populate_region_to_pos_dict(){
     for (var region_name in mpx_def){
-      var start = mpx_def[region_name]["start"] + 1 // is there really an off-by-one?
-      var stop = mpx_def[region_name]["stop"] + 1 // is this really the solution??
+      var start = mpx_def[region_name]["start"]
+      var stop = mpx_def[region_name]["stop"]
       region_to_pos_dict[region_name] = [start, stop]
     }
   }
@@ -362,7 +368,7 @@
     'GGT' : 'G', 'GGC' : 'G', 'GGA' : 'G', 'GGG' : 'G'
   }
 
-  function nucleotideComplement(inputString){
+  function nucleotideComplement(inputString, reverse=false){
     var complementDict = {
       "A": "T",
       "C": "G",
@@ -371,6 +377,9 @@
     };
     var returnString = "";
     [...inputString].forEach(x => returnString += complementDict[x])
+    if (reverse){
+      returnString = [...returnString].reverse().join("")
+    }
     return returnString
   }
   
@@ -406,6 +415,7 @@
       var nt_pos_correction_factor = 0
       var aa_pos_correction_factor = 0
       var strand = mpx_def[region_name]["strand"] // -1 or 1
+      var strandBool = strand == 1
   
       // handle second region if present
       if (!region_range.includes(position)){         // if the position is not in the region
@@ -419,23 +429,13 @@
       }
   
       if (region_range.includes(position)){
-        var ref_base = ON563414_3.slice(position-1, position)
-
-        if (!strand){
-          ref_base = nucleotideComplement(ref_base)
-        }
-
+        var ref_base = strandBool ? ON563414_3.slice(position-1, position) : nucleotideComplement(ON563414_3.slice(position-1, position))
         var region_position = 1 + position - region_start
         var amino_acid_codon_position = ((region_position + 2 )%3) + 1 // position in the codon, indexed from 1
         var amino_acid_position = Math.ceil(region_position/3)
         var codon_start = position - amino_acid_codon_position
         var codon_end = codon_start + 2
-        var codon = ON563414_3.slice(codon_start, codon_end+1)
-
-        if (!strand){
-          codon = nucleotideComplement(codon);
-        }
-
+        var codon = strandBool ? ON563414_3.slice(codon_start, codon_end+1) : nucleotideComplement(ON563414_3.slice(codon_start, codon_end+1), true)
         var translated_codon = codon_to_amino_acid_dict[codon]
         var fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, region_position+nt_pos_correction_factor, "</div>")
         var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ") (strand: ", strand, ")</div>")
