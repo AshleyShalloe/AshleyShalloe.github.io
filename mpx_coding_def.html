@@ -78,12 +78,12 @@
             z-index: 10;
             line-height: 1em;
       }
-      .annotate_left{
+      /* .annotate_left{
             right: 103%;
         }
       .annotate_right{
             left: 103%;
-      }
+      } */
       #genome_map_cursor{
         border: 1px solid #00000047;
         width: 0px;
@@ -246,6 +246,12 @@
       }
       .rotate_text{
         width: max-content;
+      }
+      .strandPos{
+        clip-path: polygon(15% 0%, 100% 0%,  100% 100%, 15% 100%, 0% 50%);
+      }
+      .strandNeg{
+        clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
       }
     </style>
   </head>
@@ -574,6 +580,9 @@ function generate_aa_image_html(amino_acid){
       var region_name = x
       var region_start = region_to_pos_dict[x][0]
       var region_end = region_to_pos_dict[x][1]
+      var strand = mpx_def[region_name]["strand"] // -1 or 1
+      var strandBool = strand == 1
+      var strandClass = strandBool ? "strandPos" : "strandNeg"
       if (region_to_pos_dict[x].length == 4){
         region_end = region_to_pos_dict[x][3] // overwrite if there's a second contig in the dict
       }
@@ -588,13 +597,14 @@ function generate_aa_image_html(amino_acid){
       // and we want it spaced left_padding from the left, so it appears in the correct
       // relative position when each gene is displayed on a separate line
       var genome_html = "<div class='genome_map_spacer".concat("' style='width:", left_padding, "%'></div>")
-      genome_html += `<div id='genome_map_${region_name}' class='genome_map_gene' style='width: ${region_width_percentage}%'><span class='rotate_text ${annotation_side}'> ${region_name}</span></div><br>`
+      genome_html += `<div id='genome_map_${region_name}' class='genome_map_gene ${strandClass}' style='width: ${region_width_percentage}%'></div><span class='rotate_text ${annotation_side}'>${region_name}</span><br>`
       document.getElementById(`genome_map_container_${genome_map_container_target}`).innerHTML += genome_html
       if (rdl_counter%rdl_mod == 0){
         genome_map_container_target += 1
       }
     }
   }
+
   generate_genome_map()
 
   function onlyHighlightGenomeMapSectionWeAreIn(){
