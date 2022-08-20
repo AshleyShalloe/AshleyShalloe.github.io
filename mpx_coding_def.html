@@ -320,6 +320,10 @@
           Jump to MPXVgp136:41<br>
           <span class="code"><a href="mpx_coding_def.html?aa=MPXVgp136:41">mpx_coding_def.html?aa=MPXVgp136:41</a></span>
         </p>
+        <p>
+          Jump to nucleotide 9001 with zoom mode switched on<br>
+          <span class="code"><a href="mpx_coding_def.html?nt=9001&zoom=on">mpx_coding_def.html?nt=9001&zoom=on</a></span>
+        </p>
         <div class="modalButton" onclick="document.getElementById('explanationModal').classList.toggle('hiddenModal')">Close</div>
     </div>
     <div id="explanationModalShowHide" onclick="document.getElementById('explanationModal').classList.toggle('hiddenModal')">
@@ -807,6 +811,15 @@ function generate_aa_image_html(amino_acid){
     }
   }
 
+  function read_and_set_other_url_params(){
+    var url_string = window.location.href
+    var url = new URL(url_string)
+    var zoom = url.searchParams.get("zoom")
+    if (zoom == "on"){
+      zoomZoomZoom();
+    }
+  }
+
   // convert a region:amino acid position string input into a nt position
   function protein_to_nucleotide(inputString){
     var region = inputString.split(":")[0]
@@ -901,6 +914,7 @@ function generate_aa_image_html(amino_acid){
     // read and apply URL parameters
     read_nucleotide_param_and_set_pos();
     read_aa_param_and_set_pos();
+    read_and_set_other_url_params();
     // add scroll events
     document.getElementById("genome_map_and_cursor_container").onwheel = scrollCursor
     document.getElementById("position_input").onwheel = scrollCursor
