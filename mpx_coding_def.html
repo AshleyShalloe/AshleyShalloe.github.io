@@ -446,8 +446,13 @@
         var codon_end = codon_start + 2
         var codon = strandBool ? nucleotideComplement(ON563414_3.slice(codon_start, codon_end+1), true) : ON563414_3.slice(codon_start, codon_end+1) // reverse complement if on + strand, else just slice
         var translated_codon = codon_to_amino_acid_dict[codon]
+        var calculated_aa_pos = amino_acid_position + aa_pos_correction_factor
+        if (strandBool){
+          var last_aa_pos_in_region = Math.floor((region_end - region_start)/ 3) // will give incorrect result for regions not divisible by 3
+          var calculated_aa_pos = last_aa_pos_in_region + 2 - calculated_aa_pos // reverse index the aa
+        }
         var fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, region_position+nt_pos_correction_factor, "</div>")
-        var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, amino_acid_position+aa_pos_correction_factor, " (codon position ", amino_acid_codon_position, "/3, ", codon, ") (strand: ", strand, ")</div>")
+        var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, calculated_aa_pos, " (codon position ", amino_acid_codon_position, "/3, ", codon, ") (strand: ", strand, ")</div>")
         metadata_array.push([fancy_name, fancy_aa_position].join(""))
         amino_acid_array.push(translated_codon)
       }
