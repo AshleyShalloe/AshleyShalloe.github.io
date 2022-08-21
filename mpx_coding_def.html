@@ -264,11 +264,14 @@
       <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Has known bugs</span>
       <ul style="text-align: left; font-size: smaller;">
         <li>Needs to be clearer when we are displaying reverse complemented metadata</li>
-        <li>Amino acid positions need to be reverse indexed for reverse complemented genes</li>
         <li>Co-ordinates and translation mostly correct.</li>
         <li>Need to verify if more genbank-format features need to be implemented, particularly <span style="font-family: monospace">join()</span></li>
         <li>Some labelled regions are not included (tandem repeats...)</li>
         <li>Remove "MPXV" prefix? Use different labels?</li>
+        <li>
+          Figure out why some coding regions have stuff before the initial methionine, and include a bunch of stop codons at the end.
+          <br>This is annoying because it makes the indexing weird</li>
+        </li>
       </ul>
     </div>
      <div id="input_container" class="card">
@@ -447,11 +450,19 @@
         var codon = strandBool ? nucleotideComplement(ON563414_3.slice(codon_start, codon_end+1), true) : ON563414_3.slice(codon_start, codon_end+1) // reverse complement if on + strand, else just slice
         var translated_codon = codon_to_amino_acid_dict[codon]
         var calculated_aa_pos = amino_acid_position + aa_pos_correction_factor
+        var calculated_nt_pos = region_position+nt_pos_correction_factor
         if (strandBool){
+          if (!Number.isInteger((region_end - region_start)/ 3)){
+            console.error("Region", region_name, "length not a multiple of 3. Co-ordinates may be incorrect")
+          }
           var last_aa_pos_in_region = Math.floor((region_end - region_start)/ 3) // will give incorrect result for regions not divisible by 3
-          var calculated_aa_pos = last_aa_pos_in_region + 2 - calculated_aa_pos // reverse index the aa
+          var calculated_aa_pos = last_aa_pos_in_region + 1 - calculated_aa_pos // reverse index the aa
+          amino_acid_codon_position = 3 + 1 - amino_acid_codon_position
         }
-        var fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, region_position+nt_pos_correction_factor, "</div>")
+        if (calculated_aa_pos == 0){
+          console.warn("Zero index at nucleotide", calculated_nt_pos, "(", region_name, ")") // I blame the genbank format for being incomprehensible. Even XML would be better. Should we just suppress these?
+        }
+        var fancy_name = "<div class='nt_metadata'>Nucleotide ".concat(region_name, ":", ref_base, calculated_nt_pos, "</div>")
         var fancy_aa_position = "<div class='aa_metadata'>Amino acid ".concat("<span class='region_name'>", region_name, "</span>:", translated_codon, calculated_aa_pos, " (codon position ", amino_acid_codon_position, "/3, ", codon, ") (strand: ", strand, ")</div>")
         metadata_array.push([fancy_name, fancy_aa_position].join(""))
         amino_acid_array.push(translated_codon)
