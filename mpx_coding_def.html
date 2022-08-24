@@ -265,16 +265,14 @@
       <ul style="text-align: left; font-size: smaller;">
         <li>Needs to be clearer when we are displaying reverse complemented metadata</li>
         <li>Co-ordinates and translation mostly correct.</li>
-        <li>Need to verify if more genbank-format features need to be implemented, particularly <span style="font-family: monospace">join()</span></li>
+        <li>mpx_genbank_to_json.py needs to throw errors if it encounters any genbank syntax it can't handle</li>
         <li>Some labelled regions are not included (tandem repeats...)</li>
         <li>Remove "MPXV" prefix? Use different labels?</li>
-        <li>
-          Figure out why some coding regions have stuff before the initial methionine, and include a bunch of stop codons at the end.
-          <br>This is annoying because it makes the indexing weird</li>
+        <li>Consider switching from ON563414.3 to MT903340.1 as the reference (or have both?)</li>
         </li>
       </ul>
     </div>
-     <div id="input_container" class="card">
+      <div id="input_container" class="card">
       Nucleotide position<br>
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903" pattern="[0-9]*" inputmode="numeric"></input>
     </div>
@@ -651,7 +649,7 @@ function generate_aa_image_html(amino_acid){
         // unfade everything that isn't this
         for (var y=0; y<document.getElementsByClassName("genome_map_container").length; y++){
           if ((y != genome_map_container_target) && (document.getElementsByClassName("genome_map_container")[y].classList.contains("unfaded"))){
-           document.getElementsByClassName("genome_map_container")[y].classList.toggle("unfaded")
+            document.getElementsByClassName("genome_map_container")[y].classList.toggle("unfaded")
           }
         }
         skipGenes = 1 // if we match something, skip checking the next gene for a match to avoid overlapping genes incrementing genome_map_container_target a second time. Will break if there are >2 overlapping genes, causing the wrong section to get highlighted
