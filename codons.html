@@ -192,7 +192,7 @@
         box-shadow: 0px 0px 4px blue;
       }
       #explanationModalShowHide:hover{
-        filter: opacity(1)
+        filter: opacity(1);
       }
       .hiddenModal{
         display: none;
@@ -274,7 +274,7 @@
     var fullName = single_letter_to_full_name[singleLetter]
 
     translatedCodonElement.getElementsByClassName("AAsingleLetter")[0].innerText = singleLetter
-    translatedCodonElement.getElementsByClassName("AAfullName")[0].innerText = fullName
+    translatedCodonElement.getElementsByClassName("AAfullName")[0].innerText = fullName ? fullName : "stop"
 
   }
 
