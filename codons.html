@@ -450,7 +450,17 @@ function generate_aa_image_html(amino_acid){
 
   </script>
   <script>
-  
+  function initKeyboardEvents(){
+    // basically treats the codon spinners as a shift register
+    document.addEventListener('keydown', function(event) {
+      var nucleotideBase = event.code == "KeyA" ? "A" : event.code == "KeyC" ? "C" : event.code == "KeyG" ? "G" : event.code == "KeyT" ? "T" : false;
+      var currentCodon = getCodon();
+      var nextCodon = currentCodon.slice(1,3) + nucleotideBase;
+      if (nucleotideBase){
+        setCodon(nextCodon);
+      }
+    });
+  }
   </script>
   <script>
   // function to read url parameters and jump to a specific nucleotide
@@ -481,6 +491,7 @@ function generate_aa_image_html(amino_acid){
     read_aa_param_and_set_pos();
     decorate_codons_with_arrows()
     setCodon(getCodon());
+    initKeyboardEvents();
   }
 
   init();
