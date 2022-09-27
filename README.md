@@ -34,6 +34,10 @@ Convert an image (or any other file) to a base64 data URI
 
 * [img2base64.html](https://ashleyshalloe.github.io/img2base64.html)
 
+Basic tool for translating a single codon:
+
+* [codons.html](https://ashleyshalloe.github.io/codons.html)
+
 ## WIP
 
 Colour scheme generator
