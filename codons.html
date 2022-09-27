@@ -340,6 +340,15 @@
   }
 
   function setCodon(codon){
+    // basic input validation
+    if (codon.length != 3){
+      return console.error("Codon should be a triplet")
+    }
+    if (codon.replaceAll("A", "").replaceAll("C", "").replaceAll("G", "").replaceAll("T", "").length){
+      return console.error("Codon can only contain A, C, G or T")
+    }
+
+    // do the thing
     for (var i=0; i<document.getElementsByClassName("base").length; i++){
       document.getElementsByClassName("base")[i].innerText = codon[i];
     }
@@ -467,33 +476,21 @@ function generate_aa_image_html(amino_acid){
   </script>
   <script>
   // function to read url parameters and jump to a specific nucleotide
-  function read_nucleotide_param_and_set_pos(){
+  function read_and_set_codon_from_url_param(){
     var url_string = window.location.href
     var url = new URL(url_string)
-    var nt = url.searchParams.get("nt")
-    if (nt){
-      document.getElementById("position_input").value = nt
-      doThing()
-      set_slide_position()
+    var codon = url.searchParams.get("codon")
+    if (codon){
+      setCodon(codon);
+      return true;
     }
+    return false;
   }
 
-  function read_aa_param_and_set_pos(){
-    var url_string = window.location.href
-    var url = new URL(url_string)
-    var aa = url.searchParams.get("aa")
-    if (aa){
-      document.getElementById("position_input").value = protein_to_nucleotide(aa)
-      doThing()
-      set_slide_position()
-    }
-  }
   function init(){
     // read and apply URL parameters
-    read_nucleotide_param_and_set_pos();
-    read_aa_param_and_set_pos();
     decorate_codons_with_arrows()
-    setCodon(getCodon());
+    read_and_set_codon_from_url_param() ? true : setCodon(getCodon());
     initKeyboardEvents();
   }
 
