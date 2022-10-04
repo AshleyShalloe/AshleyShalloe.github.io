@@ -449,7 +449,7 @@
     var url = new URL(url_string)
     var codon = url.searchParams.get("codon")
     if (codon){
-      setCodon(codon);
+      setCodon(codon.toUpperCase());
       return true;
     }
     return false;
