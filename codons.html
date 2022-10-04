@@ -209,6 +209,9 @@
       .skeuButton:hover{
         border: 1px solid rgb(217, 217, 217);
       }
+      .aa_name{
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -232,6 +235,9 @@
         <div class="AAthreeLetter"></div>
       </div>
     </div>
+    <div class="card">
+      <div class="amino_pic"></div>
+    </div>
   </body>
   <script>
   'use strict';
@@ -242,10 +248,15 @@
     var singleLetter = codon_to_amino_acid_dict[codon]
     var fullName = single_letter_to_full_name[singleLetter]
     var threeLetter = single_letter_to_three_letter[singleLetter]
+    var amino_acid_html = generate_aa_image_html(singleLetter)
 
     translatedCodonElement.getElementsByClassName("AAsingleLetter")[0].innerText = singleLetter
     translatedCodonElement.getElementsByClassName("AAfullName")[0].innerText = fullName ? fullName : "stop"
     translatedCodonElement.getElementsByClassName("AAthreeLetter")[0].innerText = threeLetter ? threeLetter : ""
+    
+    document.getElementsByClassName("amino_pic")[0].innerHTML = amino_acid_html ? amino_acid_html : ""
+    
+    amino_acid_html ? document.getElementsByClassName("amino_pic")[0].parentElement.style.display = "block" : document.getElementsByClassName("amino_pic")[0].parentElement.style.display = "none"
 
   }
 
