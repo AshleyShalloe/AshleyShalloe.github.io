@@ -229,6 +229,7 @@
       <div class="translatedCodon">
         <div class="AAsingleLetter"></div>
         <div class="AAfullName"></div>
+        <div class="AAthreeLetter"></div>
       </div>
     </div>
   </body>
@@ -240,9 +241,11 @@
     }
     var singleLetter = codon_to_amino_acid_dict[codon]
     var fullName = single_letter_to_full_name[singleLetter]
+    var threeLetter = single_letter_to_three_letter[singleLetter]
 
     translatedCodonElement.getElementsByClassName("AAsingleLetter")[0].innerText = singleLetter
     translatedCodonElement.getElementsByClassName("AAfullName")[0].innerText = fullName ? fullName : "stop"
+    translatedCodonElement.getElementsByClassName("AAthreeLetter")[0].innerText = threeLetter ? threeLetter : ""
 
   }
 
@@ -397,26 +400,49 @@
   }
 
   var single_letter_to_full_name = {
-        'Y': 'Tyrosine',
-        'H': 'Histidine',
-        'T': 'Threonine',
-        'M': 'Methionine',
-        'G': 'Glycine',
-        'F': 'Phenyalanine',
-        'K': 'Lysine',
-        'C': 'Cysteine',
-        'E': 'Glutamic Acid',
-        'S': 'Serine',
-        'V': 'Valine',
-        'W': 'Typtophan',
-        'R': 'Arginine',
-        'L': 'Leucine',
-        'A': 'Alanine',
-        'P': 'Proline',
-        'D': 'Aspartic Acid',
-        'I': 'Isoleucine',
-        'Q': 'Glutamine',
-        'N': 'Asparagine'
+    'Y': 'Tyrosine',
+    'H': 'Histidine',
+    'T': 'Threonine',
+    'M': 'Methionine',
+    'G': 'Glycine',
+    'F': 'Phenyalanine',
+    'K': 'Lysine',
+    'C': 'Cysteine',
+    'E': 'Glutamic Acid',
+    'S': 'Serine',
+    'V': 'Valine',
+    'W': 'Typtophan',
+    'R': 'Arginine',
+    'L': 'Leucine',
+    'A': 'Alanine',
+    'P': 'Proline',
+    'D': 'Aspartic Acid',
+    'I': 'Isoleucine',
+    'Q': 'Glutamine',
+    'N': 'Asparagine'
+  }
+
+  var single_letter_to_three_letter = {
+    'A': 'Ala',
+    'C': 'Cys',
+    'D': 'Asp',
+    'E': 'Glu',
+    'F': 'Phe',
+    'G': 'Gly',
+    'H': 'His',
+    'I': 'Ile',
+    'K': 'Lys',
+    'L': 'Leu',
+    'M': 'Met',
+    'N': 'Asn',
+    'P': 'Pro',
+    'Q': 'Gln',
+    'R': 'Arg',
+    'S': 'Ser',
+    'T': 'Thr',
+    'V': 'Val',
+    'W': 'Trp',
+    'Y': 'Tyr'
   }
 
   function generate_aa_image_html(amino_acid){
