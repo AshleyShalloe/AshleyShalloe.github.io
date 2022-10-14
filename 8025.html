@@ -49,13 +49,34 @@ function read_and_set_url_param(){
     }
     // clear the initial text
     var clearInit = url.searchParams.get("clearInit")
-    if (clearInit){
+    if (parseInt(clearInit)){
       clearInitMessage(document.getElementById("term"))
     }
     // replace the initial text with something else
     var initText = url.searchParams.get("initText")
     if (initText){
       document.getElementById("term").innerText = initText
+    }
+    // set foreground colour
+    var fg = url.searchParams.get("fg")
+    if (fg){
+      document.getElementById("term").style.color = fg;
+      document.getElementById("term").style.textShadow = `0px 0px 2px ${fg}`;
+    }
+    // set background colour
+    var bg = url.searchParams.get("bg")
+    if (bg){
+      document.getElementById("term").style.background = bg
+    }
+    // disable text shadow (set to 1)
+    var noshadow = url.searchParams.get("noshadow")
+    if (parseInt(noshadow)){
+      document.getElementById("term").style.textShadow = "0px 0px 0px";
+    }
+    // set body colour
+    var bodycol = url.searchParams.get("bodycol")
+    if (bodycol){
+      document.getElementsByTagName("body")[0].style.background = bodycol;
     }
   }
 
