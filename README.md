@@ -38,6 +38,10 @@ Basic tool for translating a single codon:
 
 * [codons.html](https://ashleyshalloe.github.io/codons.html)
 
+An 80x25 textarea for notes. Featureless.
+
+* [8025.html](https://ashleyshalloe.github.io/8025.html)
+
 ## WIP
 
 Colour scheme generator

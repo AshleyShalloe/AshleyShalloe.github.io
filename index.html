@@ -496,6 +496,12 @@
         Digital clock and scrolling marquee.
         </div>
     </a>
+    <a class="card" href="8025.html" target="_blank">
+        <div>
+        &gt;Eighty-twenty-five<br>
+        A basic 80x25 textarea for notes. Featureless.
+        </div>
+    </a>
 </div>
 <div id="startMenu" style="bottom: -500px;">
     <div id="startMenuLeftBanner">
@@ -508,6 +514,7 @@
                 <li onclick="startVm(); tempAddWindowToTaskbar(this.innerText, 6000)">Virtual Machine</li>
                 <li onclick="startScreensaver();">Start screensaver</li>
                 <li onclick="startClock();">Clock</li>
+                <li onclick="startTerm();">Command Prompt</li>
             </ul>
         </li>
         <li id="startMenuDocuments" class="expandable">
@@ -544,6 +551,9 @@
 </div>
 <div id='clockModal' class='modal hidden cardContainer'>
     <div class='cardHeader'>Clock</div>
+</div>
+<div id='termModal' class='modal hidden cardContainer' style="width: 60vw">
+    <div class='cardHeader'>Command Prompt</div>
 </div>
     
 <div id="taskbar"><div id="startButton" onclick="startButtonAction()"><div class="sb-text">&#x2756;</div><div class="sb-text">Start</div></div><div id="windowButtonContainer"></div><div id="taskbarClock">13:37</div></div>
@@ -768,6 +778,33 @@ function startClock(){
         document.getElementById('clockModal').getElementsByClassName('modalSection')[0].outerHTML = '';
         document.getElementById(document.getElementById('clockModal').dataset.taskbarId).remove();
         document.getElementById('clockModal').dataset.taskbarId = ""
+    }
+}
+
+function startTerm(){
+    closeStartMenu();
+
+    // only add the iframe if it isn't already there
+    if (!document.getElementById("termModal").innerHTML.includes("modalSection")){
+        document.getElementById("termModal").innerHTML += `<iframe class='modalSection' src="8025.html?borderless=1&initText=C:\\>_" style="height: 25vw; overflow-x: hidden"></iframe>`; // overflow-x is a stopgap to make the portait mode look less broken
+    }
+
+    document.getElementById('termModal').classList.toggle('hidden');
+
+    if (document.getElementById('termModal').classList.contains("hidden")){
+        document.getElementById(document.getElementById('termModal').dataset.taskbarId).remove();
+        document.getElementById('termModal').dataset.taskbarId = ""
+    }
+    else{
+        document.getElementById('termModal').dataset.taskbarId = tempAddWindowToTaskbar("Command Prompt", -1)
+    }
+
+    // make the close button actually work instead of using a timeout
+    document.getElementById("termModal").getElementsByClassName("titlebarButton")[0].onclick = function(){
+        document.getElementById('termModal').classList.toggle('hidden');
+        document.getElementById('termModal').getElementsByClassName('modalSection')[0].outerHTML = '';
+        document.getElementById(document.getElementById('termModal').dataset.taskbarId).remove();
+        document.getElementById('termModal').dataset.taskbarId = ""
     }
 }
 
