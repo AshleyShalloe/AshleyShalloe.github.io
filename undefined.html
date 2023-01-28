@@ -324,8 +324,8 @@ function sort_genomics_variant_call(variant_call_a, variant_call_b){
     // input is an array of [phe-label, unique-id] arrays
     // usage: [["VOC-21APR-02", "empathy-serve", ["VOC-22JAN-01", "imagines-viewable"]].sort(sort_genomics_variant_call)
     var month_num = {
-        'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
-        'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12
+        'JAN': '01', 'FEB': '02', 'MAR': '03', 'APR': '04', 'MAY': '05', 'JUN': '06',
+        'JUL': '07', 'AUG': '08', 'SEP': '09', 'OCT': '10', 'NOV': '11', 'DEC': '12'
     }
     variant_calls = [variant_call_a[0], variant_call_b[0]]
     for (var i=0; i<2; i++){
