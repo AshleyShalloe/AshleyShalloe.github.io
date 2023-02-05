@@ -260,18 +260,6 @@
     </style>
   </head>
   <body>
-    <div class="card" style="display: flex; flex-direction: column; align-items: center;">
-      <span style="font-size: x-large; color: darkred; font-weight: bold;">Work in progress // Has known bugs</span>
-      <ul style="text-align: left; font-size: smaller;">
-        <li>Needs to be clearer when we are displaying reverse complemented metadata</li>
-        <li>Co-ordinates and translation mostly correct.</li>
-        <li>mpx_genbank_to_json.py needs to throw errors if it encounters any genbank syntax it can't handle</li>
-        <li>Some labelled regions are not included (tandem repeats...)</li>
-        <li>Remove "MPXV" prefix? Use different labels?</li>
-        <li>Consider switching from ON563414.3 to MT903340.1 as the reference (or have both?)</li>
-        </li>
-      </ul>
-    </div>
       <div id="input_container" class="card">
       Nucleotide position<br>
       <input id="position_input" oninput="doThing(); set_slide_position();" type="number" min="0" max="29903" pattern="[0-9]*" inputmode="numeric"></input>
