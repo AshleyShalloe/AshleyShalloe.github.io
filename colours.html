@@ -1,95 +1,139 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Colours</title>
-        <link rel="icon" href="favicon.svg" />
-        <style>
-           html{
-                font-family: sans-serif;
-            }
-            .colourSquare{
-                height: 100px;
-                width: 100px;
-                border: 1px solid lightgray;
-                display: inline-block;
-            }
-        </style>
-    </head>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colours</title>
+    <link rel="icon" href="favicon.svg" />
+    <style>
+        html {
+            font-family: sans-serif;
+            background: #e6e7e8;
+        }
+
+        body {
+            margin: 0 auto;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 5px 5px 5px lightgrey;
+            text-align: left;
+            position: relative;
+            border-radius: 0.4em;
+        }
+
+        h2 {
+            font-size: min(2.5vh, 1.5em);
+            margin-bottom: 10px;
+            margin-top: 0px;
+        }
+
+        .colourSquare {
+            height: min(9vh, 100px);
+            width: min(9vh, 100px);
+            border: 1px solid lightgray;
+            display: inline-block;
+        }
+
+        #analagousAngle{
+            margin-left: 1em;
+        }
+    </style>
+</head>
+
 <body>
-<h2>Seed</h2>
-<div id="seedColour" class="colourSquare"></div>
-<input type="color" id="colourPicker" onchange="set_seed(this.value)" value="#ffffff">
+    <div class="card">
+        <h2>Seed</h2>
+        <div id="seedColour" class="colourSquare"></div>
+        <input type="color" id="colourPicker" onchange="set_seed(this.value)" value="#ffffff">
+    </div>
 
-<h2>Complementary</h2>
-<div class="colourSquare"></div>
-<div id="complementaryColour" class="colourSquare"></div>
+    <div class="card">
+        <h2>Complementary</h2>
+        <div class="colourSquare"></div>
+        <div id="complementaryColour" class="colourSquare"></div>
+    </div>
 
-<h2>Opposite</h2>
-<div class="colourSquare"></div>
-<div id="oppositeColourNeg" class="colourSquare"></div>
-<div id="oppositeColourPos" class="colourSquare"></div>
+    <div class="card">
+        <h2>Opposite</h2>
+        <div class="colourSquare"></div>
+        <div id="oppositeColourNeg" class="colourSquare"></div>
+        <div id="oppositeColourPos" class="colourSquare"></div>
+    </div>
 
-<h2>Analogous</h2>
-<input id="analagousAngle" type="range" min=0 max=360 value=60 oninput="analagousAngle(this.value)">
-<br>
-<div class="colourSquare"></div>
-<div id="analogousLeft" class="colourSquare"></div>
-<div id="analogousRight" class="colourSquare"></div>
+    <div class="card">
+        <h2>Analogous<input id="analagousAngle" type="range" min=0 max=360 value=60 oninput="analagousAngle(this.value)"></h2>
+        <div class="colourSquare"></div>
+        <div id="analogousLeft" class="colourSquare"></div>
+        <div id="analogousRight" class="colourSquare"></div>
+    </div>
 
-<h2>Shades</h2>
-<div id="shade1" class="colourSquare shade"></div>
-<div id="shade2" class="colourSquare shade"></div>
-<div id="shade3" class="colourSquare shade"></div>
-<div id="shade4" class="colourSquare shade"></div>
+    <div class="card">
+        <h2>Shades</h2>
+        <div id="shade1" class="colourSquare shade"></div>
+        <div id="shade2" class="colourSquare shade"></div>
+        <div id="shade3" class="colourSquare shade"></div>
+        <div id="shade4" class="colourSquare shade"></div>
+    </div>
+
 </body>
 <script>
-'use strict'
-// thanks stackoverflow
-function randbetween(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function leftpad(input_string, pad_string, target_length){
-    var outstring = input_string
-    while (outstring.length < target_length){
-        outstring = pad_string + outstring
+    'use strict'
+    // thanks stackoverflow
+    function randbetween(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
     }
-    return outstring
-}
 
-function randomColour(){
-    var rand_hex = randbetween(0,16777215).toString(16)
-    return "#" + leftpad(rand_hex, "0", 6)
-}
-
-function set_seed(seedColour){
-    for (var i=0; i<document.getElementsByClassName("colourSquare").length; i++){
-        document.getElementsByClassName("colourSquare")[i].style.background = seedColour
+    function leftpad(input_string, pad_string, target_length) {
+        var outstring = input_string
+        while (outstring.length < target_length) {
+            outstring = pad_string + outstring
+        }
+        return outstring
     }
-}
 
-function analagousAngle(angle=60){
-    document.getElementById("analogousLeft").style.filter = `hue-rotate(-${angle}deg)`
-    document.getElementById("analogousRight").style.filter = `hue-rotate(${angle}deg)`
-}
-
-function shadeTheShades(){
-    for (var i=0; i<document.getElementsByClassName("shade").length; i++){
-        document.getElementsByClassName("shade")[i].style.filter = `brightness(${0.5+i*0.5})`
+    function randomColour() {
+        var rand_hex = randbetween(0, 16777215).toString(16)
+        return "#" + leftpad(rand_hex, "0", 6)
     }
-}
 
-function init(){
-    var random_colour = randomColour()
-    set_seed(random_colour)
-    document.getElementById("colourPicker").value = random_colour
-    shadeTheShades()
-    analagousAngle()
-    document.getElementById("complementaryColour").style.filter = "hue-rotate(180deg)"
-    document.getElementById("oppositeColourNeg").style.filter = "hue-rotate(-120deg)"
-    document.getElementById("oppositeColourPos").style.filter = "hue-rotate(120deg)"
-}
+    function set_seed(seedColour) {
+        for (var i = 0; i < document.getElementsByClassName("colourSquare").length; i++) {
+            document.getElementsByClassName("colourSquare")[i].style.background = seedColour
+        }
+    }
 
-init()
+    function analagousAngle(angle = 60) {
+        document.getElementById("analogousLeft").style.filter = `hue-rotate(-${angle}deg)`
+        document.getElementById("analogousRight").style.filter = `hue-rotate(${angle}deg)`
+    }
+
+    function shadeTheShades() {
+        for (var i = 0; i < document.getElementsByClassName("shade").length; i++) {
+            document.getElementsByClassName("shade")[i].style.filter = `brightness(${0.5 + i * 0.5})`
+        }
+    }
+
+    function init() {
+        var random_colour = randomColour()
+        set_seed(random_colour)
+        document.getElementById("colourPicker").value = random_colour
+        shadeTheShades()
+        analagousAngle()
+        document.getElementById("complementaryColour").style.filter = "hue-rotate(180deg)"
+        document.getElementById("oppositeColourNeg").style.filter = "hue-rotate(-120deg)"
+        document.getElementById("oppositeColourPos").style.filter = "hue-rotate(120deg)"
+    }
+
+    init()
 </script>
+
 </html>
