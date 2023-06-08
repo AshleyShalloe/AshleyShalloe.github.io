@@ -134,15 +134,14 @@ var constellationsArray = {
       "nuc:A20055G",
       "spike:T19I",
       "del:21633:9",
-      "nuc:T22200G",
+      "spike:V213G",
       "spike:S371F",
       "spike:T376A",
       "spike:D405N",
-      "spike:R408S",
       "spike:Q493R",
+      "orf3a:T223I",
       "nuc:C25000T",
       "nuc:C25584T",
-      "nuc:C26060T",
       "nuc:C26858T",
       "orf6:D61L",
       "n:RG203KR",
@@ -151,11 +150,8 @@ var constellationsArray = {
     "note": "Unique mutations for sublineage",
     "rules": {
       "default": {
-        "min_alt": 27,
-        "max_ref": 3,
-        "spike:Q493": "alt",
-        "n:P151": "ref",
-        "nuc:G27788": "ref"
+        "min_alt": 23,
+        "max_ref": 4
       }
     }
   },
@@ -420,8 +416,8 @@ var constellationsArray = {
     "note": "Unique mutations for sublineage",
     "rules": {
       "default": {
-        "min_alt": 27,
-        "max_ref": 5,
+        "min_alt": 25,
+        "max_ref": 4,
         "s:Q493": "ref",
         "nuc:C26858": "ref",
         "nuc:G27788": "ref",
@@ -458,7 +454,6 @@ var constellationsArray = {
       "spike:G339D",
       "spike:S373P",
       "spike:S375F",
-      "spike:K417N",
       "spike:N440K",
       "spike:S477N",
       "spike:T478K",
@@ -487,7 +482,7 @@ var constellationsArray = {
     "rules": {
       "default": {
         "min_alt": 22,
-        "max_ref": 2,
+        "max_ref": 3,
         "spike:D614G": "not ref"
       },
       "Probable": {
@@ -536,6 +531,60 @@ var constellationsArray = {
       "min_alt": 5,
       "max_ref": 3,
       "S:E484K": "alt"
+    }
+  },
+  "XBB-parent2": {
+    "label": "XBB-parent2",
+    "description": "Minority parent of XBB recombinant lineage",
+    "sources": [],
+    "type": "variant",
+    "variant": {
+      "mrca_lineage": "",
+      "lineage_name": "XBB-parent2",
+      "parent_lineage": "XBB-parent1",
+      "representative_genome": ""
+    },
+    "tags": [
+      "XBB"
+    ],
+    "note": "Likely breakpoint: ~ S:446",
+    "sites": [
+      "orf1b:S959P"
+    ],
+    "rules": {
+      "default": {
+        "min_alt": 0,
+        "max_ref": 1
+      }
+    }
+  },
+  "Omicron (XBB.1-like)": {
+    "label": "Omicron (XBB.1-like)",
+    "description": "XBB.1 lineage defining mutations",
+    "sources": [],
+    "type": "variant",
+    "variant": {
+      "Pango_lineages": [
+        "XBB.1"
+      ],
+      "WHO_label": "Omicron",
+      "parent_lineage": "XBB",
+      "mrca_lineage": "XBB.1",
+      "lineage_name": "XBB.1",
+      "representative_genome": ""
+    },
+    "tags": [
+      "XBB.1"
+    ],
+    "note": "Unique mutations for XBB.1 sublineage",
+    "sites": [
+      "spike:R408S",
+      "spike:K417N",
+      "orf8:G8*"
+    ],
+    "rules": {
+      "min_alt": 2,
+      "max_ref": 0
     }
   },
   "B.1.1.318-like": {
@@ -672,6 +721,37 @@ var constellationsArray = {
       "max_ref": 3
     }
   },
+  "Omicron (XBB.1.16-like)": {
+    "label": "Omicron (XBB.1.16-like)",
+    "description": "XBB.1.16 lineage defining mutations",
+    "sources": [],
+    "type": "variant",
+    "variant": {
+      "Pango_lineages": [
+        "XBB.1.16"
+      ],
+      "WHO_label": "Omicron",
+      "parent_lineage": "XBB.1",
+      "mrca_lineage": "XBB.1.16",
+      "lineage_name": "XBB.1.16",
+      "representative_genome": ""
+    },
+    "tags": [
+      "XBB.1.16"
+    ],
+    "note": "Unique mutations for XBB.1.16 sublineage",
+    "sites": [
+      "orf1b:D1746Y",
+      "spike:E180V",
+      "nuc:T28297C",
+      "nuc:A28447G",
+      "nuc:C29386T"
+    ],
+    "rules": {
+      "min_alt": 3,
+      "max_ref": 1
+    }
+  },
   "Omicron (XE-like)": {
     "label": "Omicron (XE-like)",
     "description": "XE recombinant lineage defining mutations",
@@ -703,7 +783,7 @@ var constellationsArray = {
       "nuc:C14599T"
     ],
     "rules": {
-      "min_alt": 2,
+      "min_alt": 3,
       "max_ref": 0
     }
   },
@@ -927,6 +1007,35 @@ var constellationsArray = {
     "rules": {
       "min_alt": 11,
       "max_ref": 7
+    }
+  },
+  "XBB-parent1": {
+    "label": "XBB-parent1",
+    "description": "Majority parent of XBB recombinant lineage",
+    "sources": [],
+    "type": "variant",
+    "variant": {
+      "mrca_lineage": "",
+      "lineage_name": "XBB-parent1",
+      "parent_lineage": "BA.2",
+      "representative_genome": ""
+    },
+    "tags": [
+      "XBB"
+    ],
+    "note": "Likely breakpoint: ~ S:446",
+    "sites": [
+      "spike:G339H",
+      "spike:G446S",
+      "spike:N460K",
+      "e:T11A",
+      "nuc:C25416T"
+    ],
+    "rules": {
+      "default": {
+        "min_alt": 2,
+        "max_ref": 2
+      }
     }
   },
   "Delta (B.1.617.2-like) +K417N": {
@@ -1315,6 +1424,75 @@ var constellationsArray = {
     "rules": {
       "min_alt": 8,
       "max_ref": 3
+    }
+  },
+  "Omicron (XBB-like)": {
+    "label": "Omicron (XBB-like)",
+    "description": "XBB recombinant lineage defining mutations",
+    "sources": [],
+    "type": "variant",
+    "variant": {
+      "Pango_lineages": [
+        "XBB"
+      ],
+      "WHO_label": "Omicron",
+      "parent_lineage": "XBB-parent2",
+      "mrca_lineage": "XBB",
+      "lineage_name": "XBB",
+      "representative_genome": ""
+    },
+    "tags": [
+      "XBB"
+    ],
+    "note": "Unique mutations for XBB sublineage",
+    "sites": [
+      "spike:V83A",
+      "spike:Y144-",
+      "spike:H146Q",
+      "spike:Q183E",
+      "spike:V213E",
+      "spike:R346T",
+      "spike:L368I",
+      "spike:V445P",
+      "spike:F486S",
+      "spike:F490S",
+      "nuc:C15738T",
+      "nuc:T15939C",
+      "nuc:T17859C"
+    ],
+    "rules": {
+      "min_alt": 5,
+      "max_ref": 3
+    }
+  },
+  "Omicron (XBB.1.5-like)": {
+    "label": "Omicron (XBB.1.5-like)",
+    "description": "XBB.1.5 lineage defining mutations",
+    "sources": [],
+    "type": "variant",
+    "variant": {
+      "Pango_lineages": [
+        "XBB.1.5"
+      ],
+      "WHO_label": "Omicron",
+      "parent_lineage": "XBB.1",
+      "mrca_lineage": "XBB.1.5",
+      "lineage_name": "XBB.1.5",
+      "representative_genome": ""
+    },
+    "tags": [
+      "XBB.1.5"
+    ],
+    "note": "Unique mutations for XBB.1.5 sublineage",
+    "sites": [
+      "nuc:T17124C",
+      "spike:G252V",
+      "spike:F486P"
+    ],
+    "rules": {
+      "min_alt": 2,
+      "max_ref": 0,
+      "spike:F486": "alt"
     }
   },
   "XE-parent1": {
