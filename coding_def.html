@@ -355,7 +355,7 @@
   }
 
   // definition for primers in V4.1 primers
-  var primer_dict = {
+  var primer_dict_4_1 = {
     '1_LEFT': [25, 50],
     '2_LEFT': [324, 344],
     '1_RIGHT': [408, 431],
@@ -1058,7 +1058,7 @@
   }
 
   // let's not run this more than once per scheme
-  var amplicon_dict_4_1 = generate_amplicon_dict(primer_dict)
+  var amplicon_dict_4_1 = generate_amplicon_dict(primer_dict_4_1)
   var amplicon_dict_5_3_2 = generate_amplicon_dict(primer_dict_5_3_2)
 
   // actually update the DOM
@@ -1066,16 +1066,19 @@
     var schemes = {
       "V4.1": {
         "data": amplicon_dict_4_1,
-        targetId: "amplicon_data"
+        "primers": primer_dict_4_1,
+        "targetId": "amplicon_data"
       },
       "V5.3.2": {
         "data": amplicon_dict_5_3_2,
-        targetId: "amplicon_data_5_3_2"
+        "primers": primer_dict_5_3_2,
+        "targetId": "amplicon_data_5_3_2"
       }
     }
 
     for (var scheme in schemes) {
       var amplicon_dict = schemes[scheme].data
+      var primer_dict = schemes[scheme].primers
       var target = schemes[scheme].targetId
       var amplicon_html = []
 
