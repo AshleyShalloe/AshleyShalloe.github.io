@@ -1,91 +1,110 @@
 <html>
+
 <head>
-    <title>Eighty-twenty-five</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8"/>
-    <link rel="icon" href="favicon.svg" />
-    <style>
-        body{
-            margin: 0 auto;
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            background: grey;
-        }
-        #term{
-            background: black;
-            color: white;
-            font-family: monospace;
-            border: 0px;
-            box-shadow: 0px 0px 10px black;
-            padding: 5px;
-            text-shadow: 0px 0px 2px white;
-            grid-row-start: 1;
-            grid-column-start: 1;
-            font-size: 1.5vw;
-        }
-    </style>
+  <title>Eighty-twenty-five</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.svg" />
+  <style>
+    body {
+      margin: 0 auto;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      background: grey;
+    }
+
+    #term {
+      background: black;
+      color: white;
+      font-family: monospace;
+      border: 0px;
+      box-shadow: 0px 0px 10px black;
+      padding: 5px;
+      text-shadow: 0px 0px 2px white;
+      grid-row-start: 1;
+      grid-column-start: 1;
+      font-size: 1.5vw;
+    }
+  </style>
 </head>
+
 <body>
 
-<textarea id="term" rows="25" cols="80" onclick="clearInitMessage(this)">This is a basic 80x25 notepad.
+  <textarea id="term" rows="25" cols="80" onclick="clearInitMessage(this)">This is a basic 80x25 notepad.
 It has no features at all, and that's essentially the point.
 </textarea>
 
 </body>
 <script>
-'use strict'
+  'use strict'
 
-function clearInitMessage(element){
+  function clearInitMessage(element) {
     element.innerText = "";
     element.onclick = "";
-}
+  }
 
-function read_and_set_url_param(){
+  function read_and_set_url_param() {
     var url_string = window.location.href
     var url = new URL(url_string)
     // remove borders, intended for iframe embeds
     var borderless = url.searchParams.get("borderless")
-    if (borderless){
+    if (borderless) {
       document.getElementsByTagName("body")[0].innerHTML += "<style>#term{width: 100vw; height: 100vh</style>"
     }
     // clear the initial text
     var clearInit = url.searchParams.get("clearInit")
-    if (parseInt(clearInit)){
+    if (parseInt(clearInit)) {
       clearInitMessage(document.getElementById("term"))
     }
     // replace the initial text with something else
     var initText = url.searchParams.get("initText")
-    if (initText){
+    if (initText) {
       document.getElementById("term").innerText = initText
     }
     // set foreground colour
     var fg = url.searchParams.get("fg")
-    if (fg){
+    if (fg) {
       document.getElementById("term").style.color = fg;
       document.getElementById("term").style.textShadow = `0px 0px 2px ${fg}`;
     }
     // set background colour
     var bg = url.searchParams.get("bg")
-    if (bg){
+    if (bg) {
       document.getElementById("term").style.background = bg
     }
     // disable text shadow (set to 1)
     var noshadow = url.searchParams.get("noshadow")
-    if (parseInt(noshadow)){
+    if (parseInt(noshadow)) {
       document.getElementById("term").style.textShadow = "0px 0px 0px";
     }
     // set body colour
     var bodycol = url.searchParams.get("bodycol")
-    if (bodycol){
+    if (bodycol) {
       document.getElementsByTagName("body")[0].style.background = bodycol;
     }
   }
 
-function init(){
-    read_and_set_url_param();
-}
+  function isFirefox() {
+    return navigator.userAgent.match(/firefox/i)
+  }
 
-init();
+  function firefoxQuirks() {
+    if (isFirefox()) {
+      // set viewport height to 100vh
+      var element = document.createElement('style');
+      element.innerHTML = "body{height: 100vh}";
+      document.head.appendChild(element);
+
+    }
+  }
+
+  function init() {
+    read_and_set_url_param();
+    firefoxQuirks();
+  }
+
+  init();
 </script>
+
 </html>

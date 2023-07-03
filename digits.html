@@ -561,7 +561,22 @@ function toggleLights(){
     }
 }
 
+function isFirefox(){
+    return navigator.userAgent.match(/firefox/i)
+}
+
+function firefoxQuirks(){
+    if (isFirefox()){
+        // set viewport height to 100vh
+        var element = document.createElement('style');
+        element.innerHTML = "body{height: 100vh}";
+        document.head.appendChild(element);
+        
+    }
+}
+
 function init(){
+    firefoxQuirks();
     clockIntervalId = startClock();
     scaleClockToWidth();
     const debounceScaleClockToWidth =  debounce(() => scaleClockToWidth());
