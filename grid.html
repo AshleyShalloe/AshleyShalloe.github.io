@@ -364,12 +364,13 @@ function getPrimarySecondaryColFromInput(){
 }
 
 function setPattern(patternString){
-    for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
+    var gridCells = document.getElementById("inputPattern").getElementsByTagName("td")
+    for (var i=0; i<gridCells.length; i++){
         if (parseInt(patternString[i])){
-            document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.add("selectedSquare")
+            gridCells[i].classList.add("selectedSquare")
         }
         else{
-            document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.remove("selectedSquare")
+            gridCells[i].classList.remove("selectedSquare")
         }
     }
     copyInputGridToWallpaperGrid();
@@ -422,8 +423,9 @@ function generateUrlFromInputPattern(){
     var widthAndHeightParameters = ""
     var primaryColParameter = ""
     var secondaryColParameter = ""
-    for (var i=0; i<document.getElementById("inputPattern").getElementsByTagName("td").length; i++){
-        if (document.getElementById("inputPattern").getElementsByTagName("td")[i].classList.contains("selectedSquare")){
+    var cellElements = document.getElementById("inputPattern").getElementsByTagName("td")
+    for (var i=0; i<cellElements.length; i++){
+        if (cellElements[i].classList.contains("selectedSquare")){
             patternParameter += "1"
         }
         else{
@@ -644,10 +646,11 @@ function conwayNextStep(currentState){
 
 function conwayCurrentState(){
     var currentState = []
-    for (var i=0; i<document.getElementById("inputPattern").rows.length; i++){
+    var inputPatternElement = document.getElementById("inputPattern")
+    for (var i=0; i<inputPatternElement.rows.length; i++){
         var rowState = []
-        for (var j=0; j<document.getElementById("inputPattern").rows[i].cells.length; j++){
-            rowState.push(document.getElementById("inputPattern").rows[i].cells[j].classList.contains("selectedSquare"))
+        for (var j=0; j<inputPatternElement.rows[i].cells.length; j++){
+            rowState.push(inputPatternElement.rows[i].cells[j].classList.contains("selectedSquare"))
         }
         currentState.push(rowState)
     }
@@ -660,10 +663,11 @@ function doConwayNextStep(){
 }
 
 var refreshIntervalId = undefined
+var conwayInterval = 500
 
 function toggleConway(element){
     if (!refreshIntervalId){
-        refreshIntervalId = setInterval(doConwayNextStep, 500)
+        refreshIntervalId = setInterval(doConwayNextStep, conwayInterval)
         element.innerText = "Stop"
     }
     else{
@@ -672,6 +676,15 @@ function toggleConway(element){
         element.innerText = "Start"
     }
 }
+
+function restartConway(){
+    if (refreshIntervalId){
+        clearInterval(refreshIntervalId)
+        refreshIntervalId = undefined
+        refreshIntervalId = setInterval(doConwayNextStep, conwayInterval)
+    }
+}
+
 </script>
 <script>
 function init(){
