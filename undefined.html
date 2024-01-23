@@ -213,27 +213,30 @@ function generateFastaDropdown(){
         header = fastaHeaders[x]
         dropdownHtml.push(`<option value='${header}'>${header}</option>`)
     }
-    document.getElementById("fastaHeaderList").innerHTML = dropdownHtml.join("\n")
-    document.getElementById("fastaHeaderList").getElementsByTagName("option")[0].selected = true;
+    var fastaHeaderList = document.getElementById("fastaHeaderList")
+    fastaHeaderList.innerHTML = dropdownHtml.join("\n")
+    fastaHeaderList.getElementsByTagName("option")[0].selected = true;
 }
 </script>
 <script>
 function run(){
-    document.getElementById("resultContainer").innerHTML = ""
+    var resultContainerElm = document.getElementById("resultContainer")
+    resultContainerElm.innerHTML = ""
     parsedFasta = parseFastaToObject(document.getElementById("inputSeq").value)
     var f_id = document.getElementById("fastaHeaderList").value
     var f_fas = parsedFasta[f_id]
     var variant_definitions_to_include = []
-    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
-        if (document.getElementsByClassName("definitionCheckbox")[i].checked){
+    var checkBoxes = document.getElementsByClassName("definitionCheckbox")
+    for (var i=0; i<checkBoxes.length; i++){
+        if (checkBoxes[i].checked){
             for (x in variant_definitions){
-                if (variant_definitions[x]["unique-id"] == document.getElementsByClassName("definitionCheckbox")[i].value)
+                if (variant_definitions[x]["unique-id"] == checkBoxes[i].value)
                 variant_definitions_to_include.push(variant_definitions[x])
             }
         }
     }
     for (x in variant_definitions_to_include){
-        document.getElementById("resultContainer").innerHTML += compare_sequence_to_definition(f_id, f_fas, variant_definitions_to_include[x])
+        resultContainerElm.innerHTML += compare_sequence_to_definition(f_id, f_fas, variant_definitions_to_include[x])
     }
 }
 </script>
@@ -303,19 +306,18 @@ function read_params_and_check_variants(){
 }
 
 function set_all_variants_to_checked(){
-    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
-        document.getElementsByClassName("definitionCheckbox")[i].checked = true
-    }
+    [...document.getElementsByClassName("definitionCheckbox")].forEach(x => x.checked = true)
 }
 
 function set_checked_variants(regexString){
     // so we set all the variants to checked, then we uncheck the ones that don't match the regex
     set_all_variants_to_checked()
-    for (var i=0; i<document.getElementsByClassName("definitionCheckbox").length; i++){
-        var unique_id = document.getElementsByClassName("definitionCheckbox")[i].value
+    var checkBoxes = document.getElementsByClassName("definitionCheckbox")
+    for (var i=0; i<checkBoxes.length; i++){
+        var unique_id = checkBoxes[i].value
         var phe_label = get_unique_id_to_phe_label_dict()[unique_id]
         if (!phe_label.match(regexString)){
-            document.getElementsByClassName("definitionCheckbox")[i].checked = false
+            checkBoxes[i].checked = false
         }
     }
     run();
@@ -369,19 +371,21 @@ function suppressResultIfInputIsBlank(){
 }
 
 function fade_n_bases(opacityValue){
-    for (var i=0; i<document.getElementById("resultContainer").getElementsByTagName("td").length; i++){
-        if (["N", "NN", "NNN"].includes(document.getElementById("resultContainer").getElementsByTagName("td")[i].innerText)){
-            document.getElementById("resultContainer").getElementsByTagName("td")[i].style.filter = `opacity(${opacityValue})`
+    var resultContainerCells = document.getElementById("resultContainer").getElementsByTagName("td")
+    for (var i=0; i<resultContainerCells.length; i++){
+        if (["N", "NN", "NNN"].includes(resultContainerCells[i].innerText)){
+            resultContainerCells[i].style.filter = `opacity(${opacityValue})`
         }
     }
 }
 
 function highlight_mixed_bases(highlightColour){
-    for (var i=0; i<document.getElementById("resultContainer").getElementsByTagName("td").length; i++){
+    var resultContainerCells = document.getElementById("resultContainer").getElementsByTagName("td")
+    for (var i=0; i<resultContainerCells.length; i++){
         if (
-            !(["A", "G", "C", "T", "-", "N"].includes(document.getElementById("resultContainer").getElementsByTagName("td")[i].innerText))
-            && (document.getElementById("resultContainer").getElementsByTagName("td")[i].innerText).length == 1){
-            document.getElementById("resultContainer").getElementsByTagName("td")[i].style.background = highlightColour
+            !(["A", "G", "C", "T", "-", "N"].includes(resultContainerCells[i].innerText))
+            && (resultContainerCells[i].innerText).length == 1){
+            resultContainerCells[i].style.background = highlightColour
         }
     }
 }
