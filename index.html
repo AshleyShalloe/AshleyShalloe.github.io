@@ -486,7 +486,7 @@
         Enables playback speeds from 0x up to 16x on YouTube.
         </div>
     </a>
-    <a class="card" href="grid.html" target="_blank">
+    <a class="card" href="grid/index.html" target="_blank">
         <div>
         &gt;Grid<br>
         A homage to the System 6 desktop background pattern editor.
@@ -797,7 +797,7 @@ function startVm(){
         var url = new URL(url_string)
         var nested = url.searchParams.get("nested")
         if (nested){
-          document.getElementById("vmModal").innerHTML += `<div class='modalSection'>Nice try</div>`
+            document.getElementById("vmModal").innerHTML += `<div class='modalSection'>Nice try</div>`
         }
         else{
             // probably breaks if you ever add other url params
