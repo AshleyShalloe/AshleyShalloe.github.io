@@ -64,6 +64,6 @@ It's also a clock.
 
 * [digits.html](https://ashleyshalloe.github.io/digits.html)
 
-Monkeypox version of coding_def (very work-in-progress).
+Mpox version of coding_def.
 
-* [mpx_coding_def.html](https://ashleyshalloe.github.io/mpx_coding_def.html)
+* [mpox-genome/index.html](https://ashleyshalloe.github.io/mpox-genome/index.html)
