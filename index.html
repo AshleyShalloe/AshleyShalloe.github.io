@@ -1,889 +1,961 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8"/>
-<meta name="description" content="A collection of random scripts - bioinformatics or otherwise. Whatever it is Ashley's up to" />
-<title>Whatever</title>
-<link rel="icon" href="favicon.svg" />
-<style>
-    html{
-        font-family: Arial,sans-serif;
-    }
-    body{
-        background: #95C7FF;
-        color: black;
-        max-width: 750px;
-        margin: 0 auto;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 3em;
-    }
-    .card{
-        background: rgb(236, 236, 236);
-        color: black;
-        padding-left: 5px;
-        padding-right: 5px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border: 1px solid black;
-        min-height: 80px;
-        font-family: monospace;
-    }
-    .card:nth-of-type(odd){
-        grid-column-start: 1;
-        grid-column-end: 1;
-        margin-left: 10px;
-    }
-    .card:nth-of-type(even){
-        grid-column-start: 2;
-        grid-column-end: 2;
-        margin-right: 10px;
-    }
-    .card:last-of-type.card:nth-of-type(odd){
-        grid-column-start: 1;
-        grid-column-end: 3;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-    .card:hover{
-        filter: brightness(1.2);
-        text-decoration: underline;
-    }
-    .cardContainer{
-        background: white;
-        border: 1px solid black;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        display: grid;
-        grid-column-start: 1;
-        grid-column-end: 2;
-        box-shadow: 5px 5px 5px rgba(60, 60, 60, 0.388);
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-        padding-bottom: 10px;
-        grid-auto-flow: column;
-        justify-items: stretch;
-        grid-template-columns: 50%;
-    }
-    .cardImg{
-        max-height: 200px;
-        display: block;
-        border: 1px solid gray;
-    }
-    #header{
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        border-bottom: 1px solid black;
-        padding-bottom: 10px;
-        padding-top: 10px;
-        padding-left: 5px;
-        padding-right: 5px;
-        font-size: x-large;
-        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.344);
-        margin-bottom: 20px;
-        background: #5986D9;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        user-select: none;
-    }
-    @media only screen and (max-width: 650px){
-        div.leftcard, div.rightcard{
-            float: none;
-            width: unset;
-            margin-left: 10px;
-            margin-right: 10px;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="description" content="A collection of random scripts - bioinformatics or otherwise. Whatever it is Ashley's up to" />
+    <title>Whatever</title>
+    <link rel="icon" href="favicon.svg" />
+    <style>
+        html {
+            font-family: Arial, sans-serif;
         }
-        .cardContainer > .card{
-            height: unset;
+
+        body {
+            background: #95C7FF;
+            color: black;
+            max-width: 750px;
+            margin: 0 auto;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 3em;
         }
-    }
-    .cardHeader{
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-left: 5px;
-        padding-right: 5px;
-        font-size: larger;
-        border-bottom: 1px solid black;
-        font-weight: lighter;
-        display: flex;
-        justify-content: space-between;
-        user-select: none;
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
-    .cardContainer:nth-child(4n-3) .cardHeader{
-        background: #4C9B33;
-        color: white;
-    }
-    .cardContainer:nth-child(4n-2) .cardHeader{
-        background: #E2677B;
-        color: white;
-    }
-    .cardContainer:nth-child(4n-1) .cardHeader{
-        background: #239E8A;
-        color: white;
-    }
-    .cardContainer:nth-child(4n) .cardHeader{
-        background: #B96AD2;
-        color: white;
-    }
-    a{
-        text-decoration: none;
-    }
-    .titlebarButton{
-        border: 1px solid black; 
-        height: 1em; 
-        width: 1em; 
-        background: #e3e3e3;
-        text-align: center;
-        line-height: 1em;
-        font-weight: 400;
-        box-shadow: inset 0.04em 0.04em 0.04em 0 rgb(255 255 255 / 50%), inset -0.04em -0.04em 0.04em 0 rgb(0 0 0 / 50%);
-        color: black;
-        cursor: pointer;
-        overflow: hidden;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-    }
-    .titlebarButton:hover{
-        filter: brightness(1.2);
-    }
-    #taskbar{
-        position: fixed;
-        user-select: none;
-        bottom: 0;
-        left: 0;
-        height: 2em;
-        background: #e1e1e1;
-        display: flex;
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-content: space-between;
-        align-items: center;
-    }
-    #startButton{
-        display: inline-block;
-        user-select: none;
-        white-space: nowrap;
-        background: #e1e1e1;
-        height: 1.8em;
-        width: 4em;
-        margin-top: 0.1em;
-        margin-bottom: 0.1em;
-        margin-right: 0.3em;
-        line-height: 1.8em;
-        padding-left: 8px;
-        padding-right: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: inset 0.1em 0.1em 0.1em 0 rgb(255 255 255 / 50%), inset -0.1em -0.1em 0.1em 0 rgb(0 0 0 / 50%);
-    }
-    #startButton:hover{
-        filter: brightness(1.2);
-    }
-    #taskbarClock{
-        display: inline-block;
-        user-select: none;
-        cursor: default;
-        white-space: nowrap;
-        margin-right: 0.2em;
-        height: 1.8em;
-        padding-left: 4px;
-        padding-right: 4px;
-        line-height: 1.8em;
-        margin-top: 0.1em;
-        margin-bottom: 0.1em;
-        box-shadow: inset 0.05em 0.05em 0.05em 0 rgb(46 46 46 / 50%), inset -0.05em -0.05em 0.05em 0 rgb(205 205 205 / 50%)
-    }
-    #windowButtonContainer{
-        width: -webkit-fill-available;
-        width: -moz-available;
-        white-space: nowrap;
-        overflow-x: scroll;
-    }
-    #windowButtonContainer::-webkit-scrollbar{
-        display: none;
-    }
-    .windowButton{
-        display: inline-block;
-        user-select: none;
-        width: 150px;
-        margin-left: 0.2em;
-        margin-right: 0.2em;
-        background: #e1e1e1;
-        cursor: default;
-        padding-left: 0.4em;
-        padding-right: 0.4em;
-        height: 1.8em;
-        margin-top: 0.1em;
-        margin-bottom: 0.1em;
-        line-height: 1.8em;
-        box-shadow: inset 0.05em 0.05em 0.05em 0 rgb(255 255 255), inset -0.05em -0.05em 0.05em 0 rgb(0 0 0 / 50%)
-    }
-    .windowButton:hover{
-        filter: brightness(1.5) saturate(0.5);
-    }
-    .windowButton:nth-child(4n):hover{
-        background: #4C9B33;
-    }
-    .windowButton:nth-child(4n-3):hover{
-        background: #E2677B;
-    }
-    .windowButton:nth-child(4n-2):hover{
-        background: #239E8A;
-    }
-    .windowButton:nth-child(4n-1):hover{
-        background: #B96AD2;
-    }
-    #startButton .sb-text{
-        display: inline-block;
-    }
-    #startButton .sb-text:first-child{
-        padding-right: 4px;
-    }
-    #startMenu{
-        display: grid;
-        left: 0;
-        border-top: 2px solid white;
-        border-left: 2px solid white;
-        background: #e1e1e1;
-        position: fixed;
-        transition: bottom 0.2s;
-        cursor: default;
-        box-shadow: inset 0.1em 0.1em 0.1em 0 rgb(255 255 255 / 50%), inset -0.1em -0.1em 0.1em 0 rgb(0 0 0 / 50%);
-    }
-    #startMenuLeftBanner{
-        background: linear-gradient(0deg, #5986d9, #b86ad2);
-        grid-column-start: 1;
-        color: white;
-        font-weight: bold;
-        writing-mode: vertical-lr;
-        transform: rotate(180deg);
-        padding: 7px 2px 3px 2px;
-        font-size: large;
-        user-select: none;
-    }
-    #startMenuList{
-        grid-column-start: 2;
-        background: inherit;
-    }
-    #startMenuList li{
-        padding: 7px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-left: 2px;
-        margin-right: 4px;
-        user-select: none;
-        background: inherit;
-    }
-    #startMenuList li:hover{
-        background: #5986d9;
-        color: white;
-    }
-    #startMenuList li.expandable::after{
-        content: "▸";
-        margin-left: 10px;
-        transform: translateX(7px);
-    }
-    #startMenuList li:nth-last-child(2){
-        border-bottom: 1px solid #cdcdcd;
-    }
-    #startMenuList li:last-child{
-        border-top: 1px solid white;
-    }
-    .unstyledList{
-        list-style-type: none;
-        margin: 0;
-        padding-inline-start: 0;
-        margin-block-start: 0;
-        margin-block-end: 0;
-        margin-inline-start: 0;
-        margin-inline-end: 0;
-    }
-    .submenu{
-        display: none;
-        position: absolute;
-        left: 100%;
-        background: #e1e1e1;
-        color: black;
-        padding: 2px;
-        transform: translateY(-9px);
-        margin: 0;
-        width: 100%;
-        border-bottom: 2px solid #cdcdcd;
-        border-top: 2px solid white;
-        border-left: 2px solid white;
-        border-right: 2px solid #cdcdcd;
-    }
-    .submenu li{
-        border: unset !important;
-    }
-    #itIsNowSafe{
-        color: #c27f53;
-        text-align: center;
-        font-size: xxx-large;
-        user-select: none;
-    }
-    .modal{
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        border: 1px solid black;
-        position: fixed;
-        box-shadow: 5px 5px 5px #00000099;
-        text-align: center;
-        background: rgb(243 224 242 / 95%)
-    }
-    .hidden{
-        display: none;
-    }
-    .modalSection{
-        padding: 10px; 
-        margin: 10px; 
-        background: rgba(236, 236, 236, 0.798);
-        border: 1px solid black;
-        grid-row-start: 2;
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
-    @media (orientation: portrait) {
-        #vmModal iframe{
-            height: 60vw;
-            width: 80vw;
+
+        .card {
+            background: rgb(236, 236, 236);
+            color: black;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 1px solid black;
+            min-height: 80px;
+            font-family: monospace;
         }
-    }
-    @media (orientation: landscape) {
-        #vmModal iframe{
-            height: 60vh;
-            width: 80vh;
-        }
-    }
-    #ssModal{
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        border: 0px;
-        pointer-events: none;
-    }
-    @media (max-width: 500px){
-        .card:nth-of-type(odd){
-            grid-column-start: 1;
-            grid-column-end: 2;
-            margin-left: 10px;
-            margin-right: 10px;
-    }
-        .card:nth-of-type(even){
-            grid-column-start: 1;
-            grid-column-end: 2;
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-        .cardContainer{
-            grid-template-columns: 100%;
-        }
-        .cardHeader{
-            grid-column-end: 1;
-        }
-        .card:last-of-type.card:nth-of-type(odd){
+
+        .card:nth-of-type(odd) {
             grid-column-start: 1;
             grid-column-end: 1;
             margin-left: 10px;
+        }
+
+        .card:nth-of-type(even) {
+            grid-column-start: 2;
+            grid-column-end: 2;
             margin-right: 10px;
-    }
-    }
-</style>
+        }
+
+        .card:last-of-type.card:nth-of-type(odd) {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .card:hover {
+            filter: brightness(1.2);
+            text-decoration: underline;
+        }
+
+        .cardContainer {
+            background: white;
+            border: 1px solid black;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-column-start: 1;
+            grid-column-end: 2;
+            box-shadow: 5px 5px 5px rgba(60, 60, 60, 0.388);
+            grid-column-gap: 10px;
+            grid-row-gap: 10px;
+            padding-bottom: 10px;
+            grid-auto-flow: column;
+            justify-items: stretch;
+            grid-template-columns: 50%;
+        }
+
+        .cardImg {
+            max-height: 200px;
+            display: block;
+            border: 1px solid gray;
+        }
+
+        #header {
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size: x-large;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.344);
+            margin-bottom: 20px;
+            background: #5986D9;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        @media only screen and (max-width: 650px) {
+
+            div.leftcard,
+            div.rightcard {
+                float: none;
+                width: unset;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .cardContainer>.card {
+                height: unset;
+            }
+        }
+
+        .cardHeader {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size: larger;
+            border-bottom: 1px solid black;
+            font-weight: lighter;
+            display: flex;
+            justify-content: space-between;
+            user-select: none;
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        .cardContainer:nth-child(4n-3) .cardHeader {
+            background: #4C9B33;
+            color: white;
+        }
+
+        .cardContainer:nth-child(4n-2) .cardHeader {
+            background: #E2677B;
+            color: white;
+        }
+
+        .cardContainer:nth-child(4n-1) .cardHeader {
+            background: #239E8A;
+            color: white;
+        }
+
+        .cardContainer:nth-child(4n) .cardHeader {
+            background: #B96AD2;
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .titlebarButton {
+            border: 1px solid black;
+            height: 1em;
+            width: 1em;
+            background: #e3e3e3;
+            text-align: center;
+            line-height: 1em;
+            font-weight: 400;
+            box-shadow: inset 0.04em 0.04em 0.04em 0 rgb(255 255 255 / 50%), inset -0.04em -0.04em 0.04em 0 rgb(0 0 0 / 50%);
+            color: black;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            justify-content: center;
+        }
+
+        .titlebarButton:hover {
+            filter: brightness(1.2);
+        }
+
+        #taskbar {
+            position: fixed;
+            user-select: none;
+            bottom: 0;
+            left: 0;
+            height: 2em;
+            background: #e1e1e1;
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            align-content: space-between;
+            align-items: center;
+        }
+
+        #startButton {
+            display: inline-block;
+            user-select: none;
+            white-space: nowrap;
+            background: #e1e1e1;
+            height: 1.8em;
+            width: 4em;
+            margin-top: 0.1em;
+            margin-bottom: 0.1em;
+            margin-right: 0.3em;
+            line-height: 1.8em;
+            padding-left: 8px;
+            padding-right: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: inset 0.1em 0.1em 0.1em 0 rgb(255 255 255 / 50%), inset -0.1em -0.1em 0.1em 0 rgb(0 0 0 / 50%);
+        }
+
+        #startButton:hover {
+            filter: brightness(1.2);
+        }
+
+        #taskbarClock {
+            display: inline-block;
+            user-select: none;
+            cursor: default;
+            white-space: nowrap;
+            margin-right: 0.2em;
+            height: 1.8em;
+            padding-left: 4px;
+            padding-right: 4px;
+            line-height: 1.8em;
+            margin-top: 0.1em;
+            margin-bottom: 0.1em;
+            box-shadow: inset 0.05em 0.05em 0.05em 0 rgb(46 46 46 / 50%), inset -0.05em -0.05em 0.05em 0 rgb(205 205 205 / 50%)
+        }
+
+        #windowButtonContainer {
+            width: -webkit-fill-available;
+            width: -moz-available;
+            white-space: nowrap;
+            overflow-x: scroll;
+        }
+
+        #windowButtonContainer::-webkit-scrollbar {
+            display: none;
+        }
+
+        .windowButton {
+            display: inline-block;
+            user-select: none;
+            width: 150px;
+            margin-left: 0.2em;
+            margin-right: 0.2em;
+            background: #e1e1e1;
+            cursor: default;
+            padding-left: 0.4em;
+            padding-right: 0.4em;
+            height: 1.8em;
+            margin-top: 0.1em;
+            margin-bottom: 0.1em;
+            line-height: 1.8em;
+            box-shadow: inset 0.05em 0.05em 0.05em 0 rgb(255 255 255), inset -0.05em -0.05em 0.05em 0 rgb(0 0 0 / 50%)
+        }
+
+        .windowButton:hover {
+            filter: brightness(1.5) saturate(0.5);
+        }
+
+        .windowButton:nth-child(4n):hover {
+            background: #4C9B33;
+        }
+
+        .windowButton:nth-child(4n-3):hover {
+            background: #E2677B;
+        }
+
+        .windowButton:nth-child(4n-2):hover {
+            background: #239E8A;
+        }
+
+        .windowButton:nth-child(4n-1):hover {
+            background: #B96AD2;
+        }
+
+        #startButton .sb-text {
+            display: inline-block;
+        }
+
+        #startButton .sb-text:first-child {
+            padding-right: 4px;
+        }
+
+        #startMenu {
+            display: grid;
+            left: 0;
+            border-top: 2px solid white;
+            border-left: 2px solid white;
+            background: #e1e1e1;
+            position: fixed;
+            transition: bottom 0.2s;
+            cursor: default;
+            box-shadow: inset 0.1em 0.1em 0.1em 0 rgb(255 255 255 / 50%), inset -0.1em -0.1em 0.1em 0 rgb(0 0 0 / 50%);
+        }
+
+        #startMenuLeftBanner {
+            background: linear-gradient(0deg, #5986d9, #b86ad2);
+            grid-column-start: 1;
+            color: white;
+            font-weight: bold;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            padding: 7px 2px 3px 2px;
+            font-size: large;
+            user-select: none;
+        }
+
+        #startMenuList {
+            grid-column-start: 2;
+            background: inherit;
+        }
+
+        #startMenuList li {
+            padding: 7px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 2px;
+            margin-right: 4px;
+            user-select: none;
+            background: inherit;
+        }
+
+        #startMenuList li:hover {
+            background: #5986d9;
+            color: white;
+        }
+
+        #startMenuList li.expandable::after {
+            content: "▸";
+            margin-left: 10px;
+            transform: translateX(7px);
+        }
+
+        #startMenuList li:nth-last-child(2) {
+            border-bottom: 1px solid #cdcdcd;
+        }
+
+        #startMenuList li:last-child {
+            border-top: 1px solid white;
+        }
+
+        .unstyledList {
+            list-style-type: none;
+            margin: 0;
+            padding-inline-start: 0;
+            margin-block-start: 0;
+            margin-block-end: 0;
+            margin-inline-start: 0;
+            margin-inline-end: 0;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            background: #e1e1e1;
+            color: black;
+            padding: 2px;
+            transform: translateY(-9px);
+            margin: 0;
+            width: 100%;
+            border-bottom: 2px solid #cdcdcd;
+            border-top: 2px solid white;
+            border-left: 2px solid white;
+            border-right: 2px solid #cdcdcd;
+        }
+
+        .submenu li {
+            border: unset !important;
+        }
+
+        #itIsNowSafe {
+            color: #c27f53;
+            text-align: center;
+            font-size: xxx-large;
+            user-select: none;
+        }
+
+        .modal {
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            border: 1px solid black;
+            position: fixed;
+            box-shadow: 5px 5px 5px #00000099;
+            text-align: center;
+            background: rgb(243 224 242 / 95%)
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modalSection {
+            padding: 10px;
+            margin: 10px;
+            background: rgba(236, 236, 236, 0.798);
+            border: 1px solid black;
+            grid-row-start: 2;
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        @media (orientation: portrait) {
+            #vmModal iframe {
+                height: 60vw;
+                width: 80vw;
+            }
+        }
+
+        @media (orientation: landscape) {
+            #vmModal iframe {
+                height: 60vh;
+                width: 80vh;
+            }
+        }
+
+        #ssModal {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: 0px;
+            pointer-events: none;
+        }
+
+        @media (max-width: 500px) {
+            .card:nth-of-type(odd) {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .card:nth-of-type(even) {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .cardContainer {
+                grid-template-columns: 100%;
+            }
+
+            .cardHeader {
+                grid-column-end: 1;
+            }
+
+            .card:last-of-type.card:nth-of-type(odd) {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div id="header">
-    <span>Whatever it is that Ashley's up to</span>
-    <span style="white-space: nowrap; font-size: smaller;" id="emoticon"></span>
-</div>
-<div class="cardContainer">
-    <div class="cardHeader">GitHub Repo</div>
-    <a class="card" href="https://github.com/AshleyShalloe/AshleyShalloe.github.io" target="_blank">
-        <div>
-        &gt;GitHub Repo<br>
-        Just a link to the repo where this GitHub Site is actually stored.
-        </div>
-    </a>
-    <a class="card" href="https://github.com/AshleyShalloe" target="_blank">
-        <div>
-        &gt;GitHub Profile<br>
-        One level above the site repo.
-        </div>
-    </a>
-</div>
-<div class="cardContainer">
-    <div class="cardHeader">Bioinformatics stuff</div>
-    <a class="card" href="coding_def.html" target="_blank">
-        <div>
-        &gt;Coding definition<br>
-        The SARS-CoV-2 genome annotated with coding regions, gene names, proteins, amino acids and amplicons.
-        </div>
-    </a>
-    <a class="card" href="undefined.html" target="_blank">
-        <div>
-        &gt;Undefined<br>
-        Compare a SARS-CoV-2 sequence against variant definitions to find out why it does or doesn't meet those definitions.
-        </div>
-    </a>
-    <a class="card" href="stargazer.html" target="_blank">
-        <div>
-        &gt;Stargazer<br>
-        Gaze at (SARS-CoV-2) constellations. Essentially the same thing as Undefined, but with Scorpio constellations.
-        </div>
-    </a>
-    <a class="card" href="mpx_coding_def.html" target="_blank">
-        <div>
-        &gt;Monkeypox coding definition<br>
-        A fork of the SARS-CoV-2 coding def page, but for mpx instead
-        </div>
-    </a>
-    <a class="card" href="codons.html" target="_blank">
-        <div>
-        &gt;Codons<br>
-        Really simple tool for translating a single codon. 
-        </div>
-    </a>
-    <a class="card" href="aliases/index.html" target="_blank">
-        <div>
-        &gt;Aliases<br>
-        Complementary to the lineages list, this gives you the list of aliases for a lineage.
-        </div>
-    </a>
-</div>
-<div class="cardContainer">
-    <div class="cardHeader">Other stuff</div>
-    <a class="card" href="colours.html" target="_blank">
-        <div>
-        &gt;Colours<br>
-        A colour palette generator. Random on every page load, see if you get something nice. Used to generate the colourscheme for this page...
-        </div>
-    </a>
-    <a class="card" href="sunrise_sunset/index.html" target="_blank">
-        <div>
-        &gt;Sunrise/Sunset<br>
-        The sun'll come out, tomorrow. But when precisely? This answers that!
-        </div>
-    </a>
-    <a class="card" href="circles.html" target="_blank">
-        <div>
-        &gt;Circles<br>
-        Audio responsive circles. No real rhyme or reason, just for fun.
-        </div>
-    </a>
-    <a class="card" href="playback_speed.html" target="_blank">
-        <div>
-        &gt;YouTube Overclocker<br>
-        Enables playback speeds from 0x up to 16x on YouTube.
-        </div>
-    </a>
-    <a class="card" href="grid/index.html" target="_blank">
-        <div>
-        &gt;Grid<br>
-        A homage to the System 6 desktop background pattern editor.
-        </div>
-    </a>
-    <a class="card" href="img2base64.html" target="_blank">
-        <div>
-        &gt;img2base64<br>
-        Upload an image, get a base64 encoded data URI. Just a plain, straightforward implementation of a basic utility.
-        </div>
-    </a>
-    <a class="card" href="stars.html" target="_blank">
-        <div>
-        &gt;Stars<br>
-        Fly through space like it's 1995.
-        </div>
-    </a>
-    <a class="card" href="dials.html" target="_blank">
-        <div>
-        &gt;dials<br>
-        Analogue clock and stopwatch.
-        </div>
-    </a>
-    <a class="card" href="digits.html" target="_blank">
-        <div>
-        &gt;digits<br>
-        Digital clock and scrolling marquee.
-        </div>
-    </a>
-    <a class="card" href="8025.html" target="_blank">
-        <div>
-        &gt;Eighty-twenty-five<br>
-        A basic 80x25 textarea for notes. Featureless.
-        </div>
-    </a>
-    <a class="card" href="orbit/orbit.html" target="_blank">
-        <div>
-        &gt;Orbit<br>
-        Planetary orbits from an arbitrary syzygy. watchOS inspired!
-        </div>
-    </a>
-    <a class="card" href="sudoku/index.html" target="_blank">
-        <div>
-        &gt;Sudoku [WIP]<br>
-        A work-in-progress Sudoku game. Currently just a grid that you can put numbers in...
-        </div>
-    </a>
-    <a class="card" href="alphanumeric/alphanumeric.html" target="_blank">
-        <div>
-        &gt;Alphanumeric<br>
-        Sort of like a railway station split-flap display, except you're allowed to play with it
-        </div>
-    </a>
-    <a class="card" href="sprinkles/index.html" target="_blank">
-        <div>
-        &gt;Sprinkles [WIP]<br>
-        Recreation of the WatchOS Pride 2023 watchface
-        </div>
-    </a>
-    <a class="card" href="tone/index.html" target="_blank">
-        <div>
-        &gt;Tone<br>
-        Basic sort of musical-y thingy
-        </div>
-    </a>
-    <a class="card" href="scope/index.html" target="_blank">
-        <div>
-        &gt;Scope<br>
-        Silly Lissajous figures in HTML5 canvas
-        </div>
-    </a>
-</div>
-<div id="startMenu" style="bottom: -500px;">
-    <div id="startMenuLeftBanner">
-        Whatever<span style="font-weight: 100;">00</span>
+    <div id="header">
+        <span>Whatever it is that Ashley's up to</span>
+        <span style="white-space: nowrap; font-size: smaller;" id="emoticon"></span>
     </div>
-    <ul id="startMenuList" class=unstyledList>
-        <li class="expandable">
-            🗂 Programs
-            <ul class="submenu">
-                <li onclick="startVm(); tempAddWindowToTaskbar(this.innerText, 6000)">Virtual Machine</li>
-                <li onclick="startScreensaver();">Start screensaver</li>
-                <li onclick="startClock();">Clock</li>
-                <li onclick="startTerm();">Command Prompt</li>
-            </ul>
-        </li>
-        <li id="startMenuDocuments" class="expandable">
-            📂 Documents
-        </li>
-        <li class="expandable">
-            ⚙️ Settings
-            <ul class="submenu">
-                <li>Nothing here</li>
-                <li>but us chickens</li>
-                <li>🐓🐓🐓</li>
-            </ul>
-        </li>
-        <li onclick="document.getElementById('findModal').classList.toggle('hidden'); closeStartMenu(); setTimeout(function(){document.getElementById('findModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">🔍 Find</li>
-        <li onclick="document.getElementById('helpModal').classList.toggle('hidden'); closeStartMenu(); closeStartMenu(); setTimeout(function(){document.getElementById('helpModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">📕 Help</li>
-        <li onclick="document.getElementById('runModal').classList.toggle('hidden'); closeStartMenu(); setTimeout(function(){document.getElementById('runModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">⏳ Run</li>
-        <li onclick="shutDown()">🖥 Shut Down</li>
-    </ul>
-</div>
-<div id="runModal" class="modal hidden cardContainer">
-    <div class="cardHeader">Run</div>
-    <div class="modalSection">Who are you running from? &gt;:3</div>
-</div>
-<div id='helpModal' class='modal hidden cardContainer'>
-    <div class='cardHeader'>Help</div>
-    <div class="modalSection">There's no help for you</div>
-</div>
-<div id='findModal' class='modal hidden cardContainer'>
-    <div class='cardHeader'>Find</div>
-    <div class='modalSection'>I'm sure whatever you're looking for is right here</div>
-</div>
-<div id='vmModal' class='modal hidden cardContainer'>
-    <div class='cardHeader'>Virtual Machine</div>
-</div>
-<div id='clockModal' class='modal hidden cardContainer'>
-    <div class='cardHeader'>Clock</div>
-</div>
-<div id='termModal' class='modal hidden cardContainer' style="width: 60vw">
-    <div class='cardHeader'>Command Prompt</div>
-</div>
-    
-<div id="taskbar"><div id="startButton" onclick="startButtonAction()"><div class="sb-text">&#x2756;</div><div class="sb-text">Start</div></div><div id="windowButtonContainer"></div><div id="taskbarClock">13:37</div></div>
+    <div class="cardContainer">
+        <div class="cardHeader">GitHub Repo</div>
+        <a class="card" href="https://github.com/AshleyShalloe/AshleyShalloe.github.io" target="_blank">
+            <div>
+                &gt;GitHub Repo<br>
+                Just a link to the repo where this GitHub Site is actually stored.
+            </div>
+        </a>
+        <a class="card" href="https://github.com/AshleyShalloe" target="_blank">
+            <div>
+                &gt;GitHub Profile<br>
+                One level above the site repo.
+            </div>
+        </a>
+    </div>
+    <div class="cardContainer">
+        <div class="cardHeader">Bioinformatics stuff</div>
+        <a class="card" href="coding_def.html" target="_blank">
+            <div>
+                &gt;Coding definition<br>
+                The SARS-CoV-2 genome annotated with coding regions, gene names, proteins, amino acids and amplicons.
+            </div>
+        </a>
+        <a class="card" href="undefined.html" target="_blank">
+            <div>
+                &gt;Undefined<br>
+                Compare a SARS-CoV-2 sequence against variant definitions to find out why it does or doesn't meet those definitions.
+            </div>
+        </a>
+        <a class="card" href="stargazer.html" target="_blank">
+            <div>
+                &gt;Stargazer<br>
+                Gaze at (SARS-CoV-2) constellations. Essentially the same thing as Undefined, but with Scorpio constellations.
+            </div>
+        </a>
+        <a class="card" href="mpox-genome/index.html" target="_blank">
+            <div>
+                &gt;Mpox coding definition<br>
+                A fork of the SARS-CoV-2 coding def page, but for mpox instead
+            </div>
+        </a>
+        <a class="card" href="codons.html" target="_blank">
+            <div>
+                &gt;Codons<br>
+                Really simple tool for translating a single codon.
+            </div>
+        </a>
+        <a class="card" href="aliases/index.html" target="_blank">
+            <div>
+                &gt;Aliases<br>
+                Complementary to the lineages list, this gives you the list of aliases for a lineage.
+            </div>
+        </a>
+    </div>
+    <div class="cardContainer">
+        <div class="cardHeader">Other stuff</div>
+        <a class="card" href="colours.html" target="_blank">
+            <div>
+                &gt;Colours<br>
+                A colour palette generator. Random on every page load, see if you get something nice. Used to generate the colourscheme for this page...
+            </div>
+        </a>
+        <a class="card" href="sunrise_sunset/index.html" target="_blank">
+            <div>
+                &gt;Sunrise/Sunset<br>
+                The sun'll come out, tomorrow. But when precisely? This answers that!
+            </div>
+        </a>
+        <a class="card" href="circles.html" target="_blank">
+            <div>
+                &gt;Circles<br>
+                Audio responsive circles. No real rhyme or reason, just for fun.
+            </div>
+        </a>
+        <a class="card" href="playback_speed.html" target="_blank">
+            <div>
+                &gt;YouTube Overclocker<br>
+                Enables playback speeds from 0x up to 16x on YouTube.
+            </div>
+        </a>
+        <a class="card" href="grid/index.html" target="_blank">
+            <div>
+                &gt;Grid<br>
+                A homage to the System 6 desktop background pattern editor.
+            </div>
+        </a>
+        <a class="card" href="img2base64.html" target="_blank">
+            <div>
+                &gt;img2base64<br>
+                Upload an image, get a base64 encoded data URI. Just a plain, straightforward implementation of a basic utility.
+            </div>
+        </a>
+        <a class="card" href="stars.html" target="_blank">
+            <div>
+                &gt;Stars<br>
+                Fly through space like it's 1995.
+            </div>
+        </a>
+        <a class="card" href="dials.html" target="_blank">
+            <div>
+                &gt;dials<br>
+                Analogue clock and stopwatch.
+            </div>
+        </a>
+        <a class="card" href="digits.html" target="_blank">
+            <div>
+                &gt;digits<br>
+                Digital clock and scrolling marquee.
+            </div>
+        </a>
+        <a class="card" href="8025.html" target="_blank">
+            <div>
+                &gt;Eighty-twenty-five<br>
+                A basic 80x25 textarea for notes. Featureless.
+            </div>
+        </a>
+        <a class="card" href="orbit/orbit.html" target="_blank">
+            <div>
+                &gt;Orbit<br>
+                Planetary orbits from an arbitrary syzygy. watchOS inspired!
+            </div>
+        </a>
+        <a class="card" href="sudoku/index.html" target="_blank">
+            <div>
+                &gt;Sudoku [WIP]<br>
+                A work-in-progress Sudoku game. Currently just a grid that you can put numbers in...
+            </div>
+        </a>
+        <a class="card" href="alphanumeric/alphanumeric.html" target="_blank">
+            <div>
+                &gt;Alphanumeric<br>
+                Sort of like a railway station split-flap display, except you're allowed to play with it
+            </div>
+        </a>
+        <a class="card" href="sprinkles/index.html" target="_blank">
+            <div>
+                &gt;Sprinkles [WIP]<br>
+                Recreation of the WatchOS Pride 2023 watchface
+            </div>
+        </a>
+        <a class="card" href="tone/index.html" target="_blank">
+            <div>
+                &gt;Tone<br>
+                Basic sort of musical-y thingy
+            </div>
+        </a>
+        <a class="card" href="scope/index.html" target="_blank">
+            <div>
+                &gt;Scope<br>
+                Silly Lissajous figures in HTML5 canvas
+            </div>
+        </a>
+    </div>
+    <div id="startMenu" style="bottom: -500px;">
+        <div id="startMenuLeftBanner">
+            Whatever<span style="font-weight: 100;">00</span>
+        </div>
+        <ul id="startMenuList" class=unstyledList>
+            <li class="expandable">
+                🗂 Programs
+                <ul class="submenu">
+                    <li onclick="startVm(); tempAddWindowToTaskbar(this.innerText, 6000)">Virtual Machine</li>
+                    <li onclick="startScreensaver();">Start screensaver</li>
+                    <li onclick="startClock();">Clock</li>
+                    <li onclick="startTerm();">Command Prompt</li>
+                </ul>
+            </li>
+            <li id="startMenuDocuments" class="expandable">
+                📂 Documents
+            </li>
+            <li class="expandable">
+                ⚙️ Settings
+                <ul class="submenu">
+                    <li>Nothing here</li>
+                    <li>but us chickens</li>
+                    <li>🐓🐓🐓</li>
+                </ul>
+            </li>
+            <li onclick="document.getElementById('findModal').classList.toggle('hidden'); closeStartMenu(); setTimeout(function(){document.getElementById('findModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">🔍 Find</li>
+            <li onclick="document.getElementById('helpModal').classList.toggle('hidden'); closeStartMenu(); closeStartMenu(); setTimeout(function(){document.getElementById('helpModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">📕 Help</li>
+            <li onclick="document.getElementById('runModal').classList.toggle('hidden'); closeStartMenu(); setTimeout(function(){document.getElementById('runModal').classList.toggle('hidden')}, 4000); tempAddWindowToTaskbar(this.innerText, 4000)">⏳ Run</li>
+            <li onclick="shutDown()">🖥 Shut Down</li>
+        </ul>
+    </div>
+    <div id="runModal" class="modal hidden cardContainer">
+        <div class="cardHeader">Run</div>
+        <div class="modalSection">Who are you running from? &gt;:3</div>
+    </div>
+    <div id='helpModal' class='modal hidden cardContainer'>
+        <div class='cardHeader'>Help</div>
+        <div class="modalSection">There's no help for you</div>
+    </div>
+    <div id='findModal' class='modal hidden cardContainer'>
+        <div class='cardHeader'>Find</div>
+        <div class='modalSection'>I'm sure whatever you're looking for is right here</div>
+    </div>
+    <div id='vmModal' class='modal hidden cardContainer'>
+        <div class='cardHeader'>Virtual Machine</div>
+    </div>
+    <div id='clockModal' class='modal hidden cardContainer'>
+        <div class='cardHeader'>Clock</div>
+    </div>
+    <div id='termModal' class='modal hidden cardContainer' style="width: 60vw">
+        <div class='cardHeader'>Command Prompt</div>
+    </div>
+
+    <div id="taskbar">
+        <div id="startButton" onclick="startButtonAction()">
+            <div class="sb-text">&#x2756;</div>
+            <div class="sb-text">Start</div>
+        </div>
+        <div id="windowButtonContainer"></div>
+        <div id="taskbarClock">13:37</div>
+    </div>
 </body>
 <script>
-'use strict'
-function setRandomEmoticon(){
-    var emoticonArray = [
-                        "¯\\_(ツ)_/¯",
-                        "=^_^=",
-                        "OwO",
-                        "(ﾟ∀ﾟ)",
-                        "☆〜（ゝ。∂）",
-                        "ヽ(^o^)",
-                        "☆彡"
-                    ]
-    document.getElementById("emoticon").innerText = emoticonArray[Math.floor(Math.random()*emoticonArray.length)]
-}
-
-function addTitlebarButtons(){
-    for (var i=0; i<document.getElementsByClassName("cardHeader").length; i++){
-        var buttonspan = "<span><div onclick='buttonPress(this)' class='titlebarButton'>X</div></span>"
-        document.getElementsByClassName("cardHeader")[i].innerHTML += buttonspan
+    'use strict'
+    function setRandomEmoticon() {
+        var emoticonArray = [
+            "¯\\_(ツ)_/¯",
+            "=^_^=",
+            "OwO",
+            "(ﾟ∀ﾟ)",
+            "☆〜（ゝ。∂）",
+            "ヽ(^o^)",
+            "☆彡"
+        ]
+        document.getElementById("emoticon").innerText = emoticonArray[Math.floor(Math.random() * emoticonArray.length)]
     }
-}
 
-function buttonPress(buttonElement){
-    var emojiArray = ["🏳️‍⚧️","🏳️‍🌈","❤️","🧡","💛","💚","💙","💜","💖","🍥","✨","👽","🍑","㊙️","💠"]
-    buttonElement.innerText = emojiArray[Math.floor(Math.random()*emojiArray.length)]
-}
-
-function addWindowsToTaskbar(){
-    var titleText = []
-    for (var i=0; i<document.getElementsByClassName("cardHeader").length; i++){
-        if (!document.getElementsByClassName("cardHeader")[i].parentElement.classList.contains("hidden")){
-            titleText.push(document.getElementsByClassName("cardHeader")[i].innerText)
+    function addTitlebarButtons() {
+        for (var i = 0; i < document.getElementsByClassName("cardHeader").length; i++) {
+            var buttonspan = "<span><div onclick='buttonPress(this)' class='titlebarButton'>X</div></span>"
+            document.getElementsByClassName("cardHeader")[i].innerHTML += buttonspan
         }
     }
-    for (var x in titleText){
-        var tt = titleText[x];
-        var windowButton = `<div class="windowButton">${tt}</div>`
-        document.getElementById("windowButtonContainer").innerHTML += windowButton;
-    }
-}
 
-function tempAddWindowToTaskbar(windowText, timeout){
-    var idString
-    try {
-        idString = self.crypto.randomUUID() // overkill. doesn't work in firefox?
+    function buttonPress(buttonElement) {
+        var emojiArray = ["🏳️‍⚧️", "🏳️‍🌈", "❤️", "🧡", "💛", "💚", "💙", "💜", "💖", "🍥", "✨", "👽", "🍑", "㊙️", "💠"]
+        buttonElement.innerText = emojiArray[Math.floor(Math.random() * emojiArray.length)]
     }
-    catch{
-        idString = Date.now() // unix timestamp
-    }
-    document.getElementById("windowButtonContainer").innerHTML += `<div class="windowButton" id='${idString}'>${windowText}</div>`
-    if (timeout > 0){
-        setTimeout(function(){
-            document.getElementById(idString).outerHTML = ""
-        }, timeout)
-    }
-    return idString
-}
 
-function startButtonAction(){
-    if (document.getElementById("startMenu").style.bottom == '2em'){
-        closeStartMenu()
-    }
-    else{
-        document.getElementById("startMenu").style.bottom = "2em"
-    }
-}
-
-var audio = undefined;
-var audioClockId = undefined
-
-function stopRadio(){
-    if (audio){
-        // try to avoid allowing more than one playback at a time...
-        audio.pause();
-        audio.currentTime = 0;
-    }
-    if (audioClockId){
-        clearInterval(audioClockId);
-    }
-}
-
-function startRadio(station, url){
-    stopRadio();
-    audio = new Audio(url);
-    audio.play();
-    audioClockId = setInterval(function(){
-        document.getElementById("taskbarClock").innerText = station + " " + audio.currentTime.toFixed(1).toString()
-        }, 100)
-    document.getElementById("taskbarClock").style.fontFamily = "monospace"
-}
-
-function generateStartMenuDocumentsList(){
-    // so the documents list is just a bunch of internet radio
-    // populated from the internetRadioStations object below
-    var internetRadioStations = {
-        "Lush": "https://ice4.somafm.com/lush-128-mp3",
-        "The Trip": "https://ice2.somafm.com/thetrip-128-mp3",
-        "SceneSat": "http://oscar.scenesat.com:8000/scenesatmax",
-        "psyradio": "http://streamer.psyradio.org:8010/progressive/",
-        "KCRW": "http://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio",
-        "sf1033": "https://ice2.somafm.com/sf1033-128-mp3"
-    }
-    var list_elements_array = []
-    for (var stationName in internetRadioStations){
-        var stationUrl = internetRadioStations[stationName]
-        list_elements_array.push(`<li onclick='startRadio(this.innerText, "${stationUrl}"); closeStartMenu()'>${stationName}</li>`)
-    }
-    document.getElementById("startMenuDocuments").innerHTML += "<ul class='submenu'>" + list_elements_array.join("") + "</ul>"
-}
-
-function startMenuCloseOnclickInit(){
-    // close the start menu if we click anything else
-    document.addEventListener("click", function(event){
-        if (event.target.closest("#startMenu") || event.target.closest("#startButton")){
-            return
+    function addWindowsToTaskbar() {
+        var titleText = []
+        var cardHeaderElmArray = document.getElementsByClassName("cardHeader")
+        for (var i = 0; i < cardHeaderElmArray.length; i++) {
+            if (!cardHeaderElmArray[i].parentElement.classList.contains("hidden")) {
+                titleText.push(cardHeaderElmArray[i].innerText)
+            }
         }
-        else{
+        for (var x in titleText) {
+            var tt = titleText[x];
+            var windowButton = `<div class="windowButton">${tt}</div>`
+            document.getElementById("windowButtonContainer").innerHTML += windowButton;
+        }
+    }
+
+    function tempAddWindowToTaskbar(windowText, timeout) {
+        var idString
+        try {
+            idString = self.crypto.randomUUID() // overkill. doesn't work in firefox?
+        }
+        catch {
+            idString = Date.now() // unix timestamp
+        }
+        document.getElementById("windowButtonContainer").innerHTML += `<div class="windowButton" id='${idString}'>${windowText}</div>`
+        if (timeout > 0) {
+            setTimeout(function () {
+                document.getElementById(idString).outerHTML = ""
+            }, timeout)
+        }
+        return idString
+    }
+
+    function startButtonAction() {
+        if (document.getElementById("startMenu").style.bottom == '2em') {
             closeStartMenu()
         }
-    })
-    document.addEventListener("scroll", function(event){
-        closeStartMenu()
-    })
-}
+        else {
+            document.getElementById("startMenu").style.bottom = "2em"
+        }
+    }
 
-function closeStartMenu(){
-    document.getElementById("startMenu").style.bottom = "-500px"; // some arbitrarily large number to keep the thing off screen
-    closeAllSubMenus();
-}
+    var audio = undefined;
+    var audioClockId = undefined
 
-function closeAllSubMenus(){
-        for (var i=0; i<document.getElementsByClassName("submenu").length; i++){
+    function stopRadio() {
+        if (audio) {
+            // try to avoid allowing more than one playback at a time...
+            audio.pause();
+            audio.currentTime = 0;
+        }
+        if (audioClockId) {
+            clearInterval(audioClockId);
+        }
+    }
+
+    function startRadio(station, url) {
+        stopRadio();
+        audio = new Audio(url);
+        audio.play();
+        audioClockId = setInterval(function () {
+            document.getElementById("taskbarClock").innerText = station + " " + audio.currentTime.toFixed(1).toString()
+        }, 100)
+        document.getElementById("taskbarClock").style.fontFamily = "monospace"
+    }
+
+    function generateStartMenuDocumentsList() {
+        // so the documents list is just a bunch of internet radio
+        // populated from the internetRadioStations object below
+        const internetRadioStations = {
+            "Lush": "https://ice4.somafm.com/lush-128-mp3",
+            "The Trip": "https://ice2.somafm.com/thetrip-128-mp3",
+            "SceneSat": "http://oscar.scenesat.com:8000/scenesatmax",
+            "psyradio": "http://streamer.psyradio.org:8010/progressive/",
+            "KCRW": "http://kcrw.streamguys1.com/kcrw_192k_mp3_e24_internet_radio",
+            "sf1033": "https://ice2.somafm.com/sf1033-128-mp3"
+        }
+        var list_elements_array = []
+        for (var stationName in internetRadioStations) {
+            var stationUrl = internetRadioStations[stationName]
+            list_elements_array.push(`<li onclick='startRadio(this.innerText, "${stationUrl}"); closeStartMenu()'>${stationName}</li>`)
+        }
+        document.getElementById("startMenuDocuments").innerHTML += "<ul class='submenu'>" + list_elements_array.join("") + "</ul>"
+    }
+
+    function startMenuCloseOnclickInit() {
+        // close the start menu if we click anything else
+        document.addEventListener("click", function (event) {
+            if (event.target.closest("#startMenu") || event.target.closest("#startButton")) {
+                return
+            }
+            else {
+                closeStartMenu()
+            }
+        })
+        document.addEventListener("scroll", function (event) {
+            closeStartMenu()
+        })
+    }
+
+    function closeStartMenu() {
+        document.getElementById("startMenu").style.bottom = "-500px"; // some arbitrarily large number to keep the thing off screen
+        closeAllSubMenus();
+    }
+
+    function closeAllSubMenus() {
+        for (var i = 0; i < document.getElementsByClassName("submenu").length; i++) {
             document.getElementsByClassName("submenu")[i].style.display = "none";
         }
     }
 
-function generateStartMenuExpandModals(){
-    for (var i=0; i<document.getElementById("startMenuList").children.length; i++){
-        document.getElementById("startMenuList").children[i].onmouseover = function(){
-            closeAllSubMenus();
+    function generateStartMenuExpandModals() {
+        for (var i = 0; i < document.getElementById("startMenuList").children.length; i++) {
+            document.getElementById("startMenuList").children[i].onmouseover = function () {
+                closeAllSubMenus();
             }
-    }
-    for (var i=0; i<document.getElementsByClassName("expandable").length; i++){
-        document.getElementsByClassName("expandable")[i].onmouseover = function(){
-            closeAllSubMenus();
-            this.getElementsByClassName("submenu")[0].style.display = "block"
-            }
-    }
-    
-    for (var i=0; i<document.getElementsByClassName("submenu").length; i++){
-        document.getElementsByClassName("submenu")[i].onmouseout = function(){
-            closeAllSubMenus();
-            }
-    }
-}
-
-function startMenuInit(){
-    startMenuCloseOnclickInit();
-    generateStartMenuDocumentsList();
-    generateStartMenuExpandModals();
-}
-
-function shutDown(){
-    document.getElementsByTagName("body")[0].innerHTML = "<div id='itIsNowSafe'>It's now safe to turn off<br>your computer.</div>";
-    document.getElementsByTagName("body")[0].style.background = "black";
-    document.getElementsByTagName("body")[0].style.display = "flex";
-    document.getElementsByTagName("body")[0].style.flexDirection = "row";
-    document.getElementsByTagName("body")[0].style.justifyContent = "center";
-    document.getElementsByTagName("body")[0].style.alignItems = "center";
-    document.getElementsByTagName("body")[0].style.height = "100%"; // specifically for firefox
-    document.getElementsByTagName("body")[0].style.paddingBottom = "0"; // specifically for firefox
-    stopRadio();
-}
-
-function startVm(){
-    closeStartMenu();
-    // only add the iframe if it isn't already there
-    if (!document.getElementById("vmModal").innerHTML.includes("modalSection")){
-        // nice try
-        var url_string = window.location.href
-        var url = new URL(url_string)
-        var nested = url.searchParams.get("nested")
-        if (nested){
-            document.getElementById("vmModal").innerHTML += `<div class='modalSection'>Nice try</div>`
         }
-        else{
-            // probably breaks if you ever add other url params
-            document.getElementById("vmModal").innerHTML += `<iframe class='modalSection' src="${window.location.href}?nested=true"></iframe>`;
+        for (var i = 0; i < document.getElementsByClassName("expandable").length; i++) {
+            document.getElementsByClassName("expandable")[i].onmouseover = function () {
+                closeAllSubMenus();
+                this.getElementsByClassName("submenu")[0].style.display = "block"
+            }
+        }
+
+        for (var i = 0; i < document.getElementsByClassName("submenu").length; i++) {
+            document.getElementsByClassName("submenu")[i].onmouseout = function () {
+                closeAllSubMenus();
+            }
         }
     }
 
-    document.getElementById('vmModal').classList.toggle('hidden');
-
-    setTimeout(function(){document.getElementById('vmModal').classList.toggle('hidden'); document.getElementById('vmModal').getElementsByClassName('modalSection')[0].outerHTML = '';}, 6000)
-}
-
-function startClock(){
-    closeStartMenu();
-
-    // only add the iframe if it isn't already there
-    if (!document.getElementById("clockModal").innerHTML.includes("modalSection")){
-        document.getElementById("clockModal").innerHTML += `<iframe class='modalSection' src="dials.html?mode=chill&hideButtons=true&lights=on" style="height: 310px; width: 310px"></iframe>`;
+    function startMenuInit() {
+        startMenuCloseOnclickInit();
+        generateStartMenuDocumentsList();
+        generateStartMenuExpandModals();
     }
 
-    document.getElementById('clockModal').classList.toggle('hidden');
-
-    if (document.getElementById('clockModal').classList.contains("hidden")){
-        document.getElementById(document.getElementById('clockModal').dataset.taskbarId).remove();
-        document.getElementById('clockModal').dataset.taskbarId = ""
-    }
-    else{
-        document.getElementById('clockModal').dataset.taskbarId = tempAddWindowToTaskbar("Clock", -1)
-    }
-
-    // make the close button actually work instead of using a timeout
-    document.getElementById("clockModal").getElementsByClassName("titlebarButton")[0].onclick = function(){
-        document.getElementById('clockModal').classList.toggle('hidden');
-        document.getElementById('clockModal').getElementsByClassName('modalSection')[0].outerHTML = '';
-        document.getElementById(document.getElementById('clockModal').dataset.taskbarId).remove();
-        document.getElementById('clockModal').dataset.taskbarId = ""
-    }
-}
-
-function startTerm(){
-    closeStartMenu();
-
-    // only add the iframe if it isn't already there
-    if (!document.getElementById("termModal").innerHTML.includes("modalSection")){
-        document.getElementById("termModal").innerHTML += `<iframe class='modalSection' src="8025.html?borderless=1&initText=C:\\>_" style="height: 25vw; overflow-x: hidden"></iframe>`; // overflow-x is a stopgap to make the portait mode look less broken
+    function shutDown() {
+        document.body.innerHTML = "<div id='itIsNowSafe'>It's now safe to turn off<br>your computer.</div>";
+        document.body.style.background = "black";
+        document.body.style.display = "flex";
+        document.body.style.flexDirection = "row";
+        document.body.style.justifyContent = "center";
+        document.body.style.alignItems = "center";
+        document.body.style.height = "100%"; // specifically for firefox
+        document.body.style.paddingBottom = "0"; // specifically for firefox
+        stopRadio();
     }
 
-    document.getElementById('termModal').classList.toggle('hidden');
+    function startVm() {
+        closeStartMenu();
+        var vmModalElm = document.getElementById("vmModal")
+        // only add the iframe if it isn't already there
+        if (!vmModalElm.innerHTML.includes("modalSection")) {
+            // nice try
+            var url_string = window.location.href
+            var url = new URL(url_string)
+            var nested = url.searchParams.get("nested")
+            if (nested) {
+                vmModalElm.innerHTML += `<div class='modalSection'>Nice try</div>`
+            }
+            else {
+                // probably breaks if you ever add other url params
+                vmModalElm.innerHTML += `<iframe class='modalSection' src="${window.location.href}?nested=true"></iframe>`;
+            }
+        }
 
-    if (document.getElementById('termModal').classList.contains("hidden")){
-        document.getElementById(document.getElementById('termModal').dataset.taskbarId).remove();
-        document.getElementById('termModal').dataset.taskbarId = ""
+        vmModalElm.classList.toggle('hidden');
+
+        setTimeout(function () { vmModalElm.classList.toggle('hidden'); vmModalElm.getElementsByClassName('modalSection')[0].outerHTML = ''; }, 6000)
     }
-    else{
-        document.getElementById('termModal').dataset.taskbarId = tempAddWindowToTaskbar("Command Prompt", -1)
+
+    function startClock() {
+        closeStartMenu();
+        var clockModalElm = document.getElementById("clockModal")
+
+        // only add the iframe if it isn't already there
+        if (!clockModalElm.innerHTML.includes("modalSection")) {
+            clockModalElm.innerHTML += `<iframe class='modalSection' src="dials.html?mode=chill&hideButtons=true&lights=on" style="height: 310px; width: 310px"></iframe>`;
+        }
+
+        clockModalElm.classList.toggle('hidden');
+
+        if (clockModalElm.classList.contains("hidden")) {
+            document.getElementById(clockModalElm.dataset.taskbarId).remove();
+            clockModalElm.dataset.taskbarId = ""
+        }
+        else {
+            clockModalElm.dataset.taskbarId = tempAddWindowToTaskbar("Clock", -1)
+        }
+
+        // make the close button actually work instead of using a timeout
+        clockModalElm.getElementsByClassName("titlebarButton")[0].onclick = function () {
+            clockModalElm.classList.toggle('hidden');
+            clockModalElm.getElementsByClassName('modalSection')[0].outerHTML = '';
+            document.getElementById(clockModalElm.dataset.taskbarId).remove();
+            clockModalElm.dataset.taskbarId = ""
+        }
     }
 
-    // make the close button actually work instead of using a timeout
-    document.getElementById("termModal").getElementsByClassName("titlebarButton")[0].onclick = function(){
-        document.getElementById('termModal').classList.toggle('hidden');
-        document.getElementById('termModal').getElementsByClassName('modalSection')[0].outerHTML = '';
-        document.getElementById(document.getElementById('termModal').dataset.taskbarId).remove();
-        document.getElementById('termModal').dataset.taskbarId = ""
+    function startTerm() {
+        closeStartMenu();
+        var termModalElm = document.getElementById("termModal")
+
+        // only add the iframe if it isn't already there
+        if (!termModalElm.innerHTML.includes("modalSection")) {
+            termModalElm.innerHTML += `<iframe class='modalSection' src="8025.html?borderless=1&initText=C:\\>_" style="height: 25vw; overflow-x: hidden"></iframe>`; // overflow-x is a stopgap to make the portait mode look less broken
+        }
+
+        termModalElm.classList.toggle('hidden');
+
+        if (termModalElm.classList.contains("hidden")) {
+            document.getElementById(termModalElm.dataset.taskbarId).remove();
+            termModalElm.dataset.taskbarId = ""
+        }
+        else {
+            termModalElm.dataset.taskbarId = tempAddWindowToTaskbar("Command Prompt", -1)
+        }
+
+        // make the close button actually work instead of using a timeout
+        termModalElm.getElementsByClassName("titlebarButton")[0].onclick = function () {
+            termModalElm.classList.toggle('hidden');
+            termModalElm.getElementsByClassName('modalSection')[0].outerHTML = '';
+            document.getElementById(termModalElm.dataset.taskbarId).remove();
+            termModalElm.dataset.taskbarId = ""
+        }
     }
-}
 
-function startScreensaver(){
-    var ssModal = "<iframe id='ssModal' src='stars.html'></iframe>"
-    var gracePeriod = 1000 // period where mouse movements are ignored
-    document.getElementsByTagName("body")[0].innerHTML += ssModal;
-    setTimeout(function(){document.addEventListener('mousemove', stopScreensaver, {once: true})}, gracePeriod);
-    closeStartMenu();
-}
+    function startScreensaver() {
+        var ssModal = "<iframe id='ssModal' src='stars.html'></iframe>"
+        var gracePeriod = 1000 // period where mouse movements are ignored
+        document.body.innerHTML += ssModal;
+        setTimeout(function () { document.addEventListener('mousemove', stopScreensaver, { once: true }) }, gracePeriod);
+        closeStartMenu();
+    }
 
-function stopScreensaver(){
-    document.getElementById('ssModal').remove()
-    startMenuInit(); // reinit the startmenu to unbreak the listeners
-}
+    function stopScreensaver() {
+        document.getElementById('ssModal').remove()
+        startMenuInit(); // reinit the startmenu to unbreak the listeners
+    }
 
-function init(){
-    setRandomEmoticon();
-    addWindowsToTaskbar(); // run before adding titlebar buttons
-    addTitlebarButtons();
-    startMenuInit();
-}
+    function init() {
+        setRandomEmoticon();
+        addWindowsToTaskbar(); // run before adding titlebar buttons
+        addTitlebarButtons();
+        startMenuInit();
+    }
 
-init();
+    init();
 </script>
+
 </html>
