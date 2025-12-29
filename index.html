@@ -827,8 +827,12 @@
     }
 
     function createCards(inputData) {
-        inputData.forEach(x => {
-            document.body.append(new CardSection(x.section, x.records).elm)
+        var pageHeaderElm = document.getElementById("header")
+        
+        // do it in reverse so the order of the input
+        // json stays the same
+        inputData.reverse().forEach(x => {
+            pageHeaderElm.after(new CardSection(x.section, x.records).elm)
         })
     }
 
