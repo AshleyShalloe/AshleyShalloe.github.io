@@ -1,0 +1,159 @@
+[
+    {
+        "section": "GitHub Repo",
+        "records": [
+            {
+                "url": "https://github.com/AshleyShalloe/AshleyShalloe.github.io",
+                "title": "GitHub Repo",
+                "description": "Just a link to the repo where this GitHub Site is actually stored."
+            },
+            {
+                "url": "https://github.com/AshleyShalloe",
+                "title": "GitHub Profile",
+                "description": "One level above the site repo."
+            }
+        ]
+    },
+    {
+        "section": "Bioinformatics stuff",
+        "records": [
+            {
+                "url": "coding_def.html",
+                "title": "Coding definition",
+                "description": "The SARS-CoV-2 genome annotated with coding regions, gene names, proteins, amino acids and amplicons."
+            },
+            {
+                "url": "undefined.html",
+                "title": "Undefined",
+                "description": "Compare a SARS-CoV-2 sequence against variant definitions to find out why it does or doesn't meet those definitions."
+            },
+            {
+                "url": "stargazer.html",
+                "title": "Stargazer",
+                "description": "Gaze at (SARS-CoV-2) constellations. Essentially the same thing as Undefined, but with Scorpio constellations."
+            },
+            {
+                "url": "mpox-genome/index.html",
+                "title": "Mpox coding definition",
+                "description": "A fork of the SARS-CoV-2 coding def page, but for mpox instead"
+            },
+            {
+                "url": "codons.html",
+                "title": "Codons",
+                "description": "Really simple tool for translating a single codon."
+            },
+            {
+                "url": "aliases/index.html",
+                "title": "Aliases",
+                "description": "Complementary to the lineages list, this gives you the list of aliases for a lineage."
+            }
+        ]
+    },
+
+    {
+        "section": "Amateur Radio",
+        "records": [
+            {
+                "url": "call/index.html",
+                "title": "Call",
+                "description": "Look up the country associated with an amateur radio callsign prefix."
+            }
+        ]
+    },
+
+    {
+        "section": "Other stuff",
+        "records": [
+            {
+                "url": "colours.html",
+                "title": "Colours",
+                "description": "A colour palette generator. Random on every page load, see if you get something nice. Used to generate the colourscheme for this page..."
+            },
+            {
+                "url": "sunrise_sunset/index.html",
+                "title": "Sunrise/Sunset",
+                "description": "The sun'll come out, tomorrow. But when precisely? This answers that!"
+            },
+            {
+                "url": "circles.html",
+                "title": "Circles",
+                "description": "Audio responsive circles. No real rhyme or reason, just for fun."
+            },
+            {
+                "url": "playback_speed.html",
+                "title": "YouTube Overclocker",
+                "description": "Enables playback speeds from 0x up to 16x on YouTube."
+            },
+            {
+                "url": "grid/index.html",
+                "title": "Grid",
+                "description": "A homage to the System 6 desktop background pattern editor."
+            },
+            {
+                "url": "img2base64.html",
+                "title": "img2base64",
+                "description": "Upload an image, get a base64 encoded data URI. Just a plain, straightforward implementation of a basic utility."
+            },
+            {
+                "url": "stars.html",
+                "title": "Stars",
+                "description": "Fly through space like it's 1995."
+            },
+            {
+                "url": "dials.html",
+                "title": "dials",
+                "description": "Analogue clock and stopwatch."
+            },
+            {
+                "url": "digits.html",
+                "title": "digits",
+                "description": "Digital clock and scrolling marquee."
+            },
+            {
+                "url": "8025.html",
+                "title": "Eighty-twenty-five",
+                "description": "A basic 80x25 textarea for notes. Featureless."
+            },
+            {
+                "url": "orbit/orbit.html",
+                "title": "Orbit",
+                "description": "Planetary orbits from an arbitrary syzygy. watchOS inspired!"
+            },
+            {
+                "url": "sudoku/index.html",
+                "title": "Sudoku [WIP]",
+                "description": "A work-in-progress Sudoku game. Currently just a grid that you can put numbers in..."
+            },
+            {
+                "url": "alphanumeric/alphanumeric.html",
+                "title": "Alphanumeric",
+                "description": "Sort of like a railway station split-flap display, except you're allowed to play with it"
+            },
+            {
+                "url": "sprinkles/index.html",
+                "title": "Sprinkles [WIP]",
+                "description": "Recreation of the WatchOS Pride 2023 watchface"
+            },
+            {
+                "url": "tone/index.html",
+                "title": "Tone",
+                "description": "Basic sort of musical-y thingy"
+            },
+            {
+                "url": "scope/index.html",
+                "title": "Scope",
+                "description": "Silly Lissajous figures in HTML5 canvas"
+            },
+            {
+                "url": "ipa/index.html",
+                "title": "ipa",
+                "description": "IPA pronunciation guide"
+            },
+            {
+                "url": "aoc2024/index.html",
+                "title": "aoc2024",
+                "description": "Let's have a go at Advent of Code 2024!"
+            }
+        ]
+    }
+]
